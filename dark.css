@@ -7,7 +7,7 @@ font-family: 'start';
 src: url('fonts/start.ttf') format('truetype');
 }
 
-.header {font-family: start;color:blue;background:rgb(0,255,0);user-select:none;position:fixed;left:0px;right:0px;}
+.header {font-family: start;color:blue;background:rgb(0,255,0);user-select:none;}
 .headline {font-family: start;color:blue;}
 .strong {font-family: start;color:blue;}
 .hiddenlink {color:white;}
