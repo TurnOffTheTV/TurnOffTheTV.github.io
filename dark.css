@@ -2,15 +2,22 @@
 font-family: 'Tahoma';
 src: url('fonts/tahoma.ttf') format('truetype');
 }
+
 @font-face {
 font-family: 'start';
 src: url('fonts/start.ttf') format('truetype');
 }
 
 .header {font-family: start;color:blue;background:rgb(0,255,0);user-select:none;}
+
 .headline {font-family: start;color:blue;}
+
 .strong {font-family: start;color:blue;}
+
 .hiddenlink {color:white;}
+
 head {background:rgb(0,200,0);}
+
 body {font-family: Tahoma;color:white;background:rgb(0,0,100);}
+
 a {color:rgb(0,200,200);}
