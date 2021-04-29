@@ -16,6 +16,10 @@ src: url('fonts/start.ttf') format('truetype');
 
 .hiddenlink {color:black;}
 
+.404 {color:blue; font-family:start;}
+
+#message-box {border:dotted;}
+
 head {background:rgb(0,255,0);}
 body {font-family: Tahoma;background:rgb(200,200,255);}
 a {color:rgb(0,200,200);}
