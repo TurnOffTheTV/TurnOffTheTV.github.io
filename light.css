@@ -16,7 +16,7 @@ src: url('fonts/start.ttf') format('truetype');
 
 .hiddenlink {color:black;}
 
-.404 {color:blue; font-family:start;}
+.error {color:blue; font-family:start;}
 
 #message-box {border:dotted;}
 
