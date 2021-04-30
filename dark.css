@@ -16,8 +16,14 @@ src: url('fonts/start.ttf') format('truetype');
 
 .hiddenlink {color:white;}
 
+#name {background:black;}
+
+#output {background:black;}
+
 head {background:rgb(0,200,0);}
 
 body {font-family: Tahoma;color:white;background:rgb(0,0,100);}
 
 a {color:rgb(0,200,200);}
+
+button {font-family: Tahoma;}
