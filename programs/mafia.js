@@ -8,7 +8,7 @@ function deathGen() {
   var thing0num = Math.round(Math.random()*10);
   var thing1num = Math.round(Math.random()*10);
   var thing2num = Math.round(Math.random()*10);
-  console.log("set random variables: "+scene+", "+thing0num+", "+thing1num+", "+thing2num);
+  console.log("set random variables: scene "+scene+", thing0 "+thing0num+", thing1 "+thing1num+", thing2 "+thing2num);
 
   //set thing0 strings
   if(thing0num===0){var thing0="a fire truck"}
