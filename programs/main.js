@@ -1,10 +1,11 @@
-var isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-var style = document.getElementsByTagName("p");
+var isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-if(isDark){
-	console.log("Currently in dark mode");
-}else{
+if(isDark){console.log("Dark");}
+else{console.log("Light");}
 
-	console.log("Currently not in dark mode");
+function tick() {
+if (document.hasFocus()){console.log("Document in focus");}
+else{console.log("Document NOT in focus");}
 }
-console.log(style);
+
+setInterval("tick()", 1);
