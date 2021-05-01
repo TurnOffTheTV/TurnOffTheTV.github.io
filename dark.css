@@ -21,9 +21,7 @@ src: url('fonts/start.ttf') format('truetype');
 #output {background:black;}
 
 head {background:rgb(0,200,0);}
-
 body {font-family: Tahoma;color:white;background:rgb(0,0,100);}
-
 a {color:rgb(0,200,200);}
-
+a:visited {color:rgb(50,175,175);}
 button {font-family: Tahoma;}
