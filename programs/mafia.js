@@ -21,6 +21,7 @@ function deathGen() {
   if(thing0num===7){var thing0="a speck of dust"}
   if(thing0num===8){var thing0="a scrap of food"}
   if(thing0num===9){var thing0="a thermos"}
+  if(thing0num===10){var thing0="a chair"}
   console.log("set thing0 string: "+thing0);
 
   //set thing1 string
@@ -34,6 +35,7 @@ function deathGen() {
   if(thing1num===7){var thing1="a speck of dust"}
   if(thing1num===8){var thing1="a scrap of food"}
   if(thing1num===9){var thing1="a thermos"}
+  if(thing1num===10){var thing1="a chair"}
   console.log("set thing1 string: "+thing1);
 
   //set thing2 string
@@ -47,6 +49,7 @@ function deathGen() {
   if(thing2num===7){var thing2="a speck of dust"}
   if(thing2num===8){var thing2="a scrap of food"}
   if(thing2num===9){var thing2="a thermos"}
+  if(thing2num===10){var thing2="a chair"}
   console.log("set thing2 string: "+thing2);
 
   //final result
