@@ -9,3 +9,9 @@ else{console.log("Document NOT in focus");}
 }
 
 setInterval("tick()", 1);
+
+var unavaliableEls = document.getElementsByClassName("unavaliable");
+
+for (var i = 0; i < unavaliableEls.length; i++) {
+                unavaliableEls[i].innerHTML += " (<span>Unavaliable</span>)";
+            }
