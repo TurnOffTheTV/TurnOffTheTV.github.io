@@ -23,4 +23,5 @@ src: url('fonts/start.ttf') format('truetype');
 head {background:rgb(0,255,0);}
 body {font-family: Tahoma;background:rgb(200,200,255);}
 a {color:rgb(0,200,200);}
+a:visited {color:rgb(50,175,175);}
 footer {background:rgb(0,255,0);}
