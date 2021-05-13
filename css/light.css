@@ -1,11 +1,11 @@
 @font-face {
 font-family: 'Tahoma';
-src: url('fonts/tahoma.ttf') format('truetype');
+src: url('https://turnoffthetv.github.io/fonts/tahoma.ttf') format('truetype');
 }
 
 @font-face {
 font-family: 'start';
-src: url('fonts/start.ttf') format('truetype');
+src: url('https://turnoffthetv.github.io/fonts/start.ttf') format('truetype');
 }
 
 .tooltip {
