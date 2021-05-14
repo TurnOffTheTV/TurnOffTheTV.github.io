@@ -1,0 +1,51 @@
+@font-face {
+font-family: 'Tahoma';
+src: url('fonts/tahoma.ttf') format('truetype');
+}
+
+@font-face {
+font-family: 'start';
+src: url('fonts/start.ttf') format('truetype');
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  /* Position the tooltip */
+  position: absolute;
+
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.header {font-family: start;color:blue;background:rgb(0,255,0);user-select:none;}
+
+.headline {font-family: start;color:blue;}
+
+.strong {font-family: start;color:blue;}
+
+.hiddenlink {color:black;}
+
+.error {color:blue; font-family:start;}
+
+.unavaliable {color:rgb(100,100,100);text-decoration:underline;cursor:default;}
+
+#message-box {border:dotted;}
+
+head {background:rgb(0,255,0);}
+body {font-family: Tahoma;background:rgb(200,200,255);}
+a {color:rgb(0,200,200);}
+a:visited {color:rgb(50,175,175);}
+footer {background:rgb(0,255,0);}
