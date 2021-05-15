@@ -1,11 +1,13 @@
-canvas = document.getElementById("canvas");
-    canvas.width = document.body.clientWidth;
-    canvas.height = document.body.clientHeight;
-    canvasW = canvas.width;
-    canvasH = canvas.height;
+    var sketchProc =function(processingInstance) {
+     with (processingInstance) {
+        size(document.body.clientWidth;, document.body.clientHeight;);
+        frameRate(60);
 
-    if( canvas.getContext )
-    {
-        setup();
-        setInterval( run , 33 );
-    }
+draw =function(){
+  var o=o+1;
+  ellipse(o,width/2,30,30);};
+
+
+    }};
+    var canvas = document.getElementById("plat");
+    var processingInstance = new Processing(canvas, sketchProc);
