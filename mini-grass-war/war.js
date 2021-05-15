@@ -4,12 +4,16 @@ canvas.height = document.body.clientHeight;
 canvasW = canvas.width;
 canvasH = canvas.height;
 logo = new Image;
-logo.src = "favicon.png";
-var v = Math.random()*100;
-var f = Math.random()*100;
+logo.src = "logo.png";
+function draw(){}
+setInterval(draw, 25/1000);
+var f = 0;
 function drawLogo (x,y){
   logo.onload = function() {
-    canvas.drawImage(this, x, y);
+    canvas.drawImage(this,x,y);
   };
 }
-drawLogo(f,v);
+function draw(){
+f+=1;
+drawLogo(f,0);
+}
