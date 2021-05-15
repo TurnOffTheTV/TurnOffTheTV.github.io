@@ -1,6 +1,8 @@
     var sketchProc =function(processingInstance) {
      with (processingInstance) {
-        size(document.body.clientWidth;, document.body.clientHeight;);
+       var canW = document.body.clientWidth;
+       var canH = document.body.clientHeight;
+        size(canW, canH);
         frameRate(60);
 
 draw =function(){
