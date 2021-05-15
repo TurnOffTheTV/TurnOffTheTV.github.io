@@ -1,15 +1,15 @@
-    var sketchProc =function(processingInstance) {
-     with (processingInstance) {
-       var canW = document.body.clientWidth;
-       var canH = document.body.clientHeight;
-        size(canW, canH);
-        frameRate(60);
-
-draw =function(){
-  var o=o+1;
-  ellipse(o,width/2,30,30);};
-
-
-    }};
-    var canvas = document.getElementById("plat");
-    var processingInstance = new Processing(canvas, sketchProc);
+canvas = document.getElementById("canvas").getContext("2d");
+canvas.width = document.body.clientWidth;
+canvas.height = document.body.clientHeight;
+canvasW = canvas.width;
+canvasH = canvas.height;
+logo = new Image;
+logo.src = "favicon.png";
+var v = Math.random()*100;
+var f = Math.random()*100;
+function drawLogo (x,y){
+  logo.onload = function() {
+    canvas.drawImage(this, x, y);
+  };
+}
+drawLogo(f,v);
