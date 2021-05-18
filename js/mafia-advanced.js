@@ -1,8 +1,18 @@
+var isMale;
+function male() {
+var fcheck = document.getElementById("female");
+fcheck.innerHTML = "<input type="checkbox" id="female" onclick="female()">";
+isMale=true;
+}
+function female() {
+  var mcheck = document.getElementById("female");
+  mcheck.innerHTML = "<input type="checkbox" id="female" onclick="male()">";
+  isMale=false;
+}
 function deathGen() {
   //get name
   var name = document.getElementById("name").textContent;
   console.log("got name var: "+name);
-  setCookie("mafia-name",name,31);
 
   //set random variables
   var scene = Math.round(Math.random()*10);

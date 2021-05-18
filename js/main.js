@@ -49,3 +49,10 @@ if(getCookie("useCookies")!=="true" && getCookie("useCookies")!=="false"){
     setCookie("useCookies","false",31);}
 
 }
+
+if(getCookie("useCookies")==="true"){setCookie("visited","true",31);}
+var welcome = document.getElementById("home-welcome");
+if(getCookie("visited")==="true"){welcome.innerText="Welcome back!"}
+
+var name = document.getElementById("name");
+name.innerText = getCookie("mafia-name");
