@@ -1,21 +1,21 @@
 @font-face {
 font-family: 'tahoma';
-src: url('fonts/tahoma.ttf') format('truetype');
+src: url('https://turnoffthetv.github.io/fonts/tahoma.ttf') format('truetype');
 }
 
 @font-face {
 font-family: 'arbutus';
-src: url('fonts/arbutus.ttf') format('truetype');
+src: url('https://turnoffthetv.github.io/fonts/arbutus.ttf') format('truetype');
 }
 
 @font-face {
 font-family: 'delius';
-src: url('fonts/delius.ttf') format('truetype');
+src: url('https://turnoffthetv.github.io/fonts/delius.ttf') format('truetype');
 }
 
 @font-face {
 font-family: 'audiowide';
-src: url('fonts/audiowide.ttf') format('truetype');
+src: url('https://turnoffthetv.github.io/fonts/audiowide.ttf') format('truetype');
 }
 
 #food {font-family:"arbutus";}
