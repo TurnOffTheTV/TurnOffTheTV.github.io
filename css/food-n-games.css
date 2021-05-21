@@ -18,8 +18,11 @@ font-family: 'audiowide';
 src: url('https://turnoffthetv.github.io/fonts/audiowide.ttf') format('truetype');
 }
 
-#food {font-family:"arbutus";}
-#n {font-family:delius;}
-#games {font-family:audiowide;}
+/*these probably should be classes*/
+#food {font-family:arbutus; color:rgb(132, 100, 0);}
+#n {font-family:delius; color:rgb(96, 176, 244);}
+#games {font-family:audiowide; color:rgb(217, 0, 142);}
 
-body {background:blue;}
+.logo {}
+
+body {background:rgb(66, 133, 244);}
