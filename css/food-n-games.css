@@ -28,6 +28,6 @@ src: url('https://turnoffthetv.github.io/fonts/arvo.ttf') format('truetype');
 #games {font-family:audiowide; color:rgb(217, 0, 142); font-size:28px;}
 #tagline {font-family:arvo;color:rgb(89, 89, 89); font-size:20px;}
 
-.logo {background:rgb(89,89,89); float:center;}
+.logo {background:rgb(89,89,89);}
 
 body {background:rgb(66, 133, 244);}
