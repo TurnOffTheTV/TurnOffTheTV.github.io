@@ -2,7 +2,7 @@ var sketchProc = function(processingInstance) {
      with (processingInstance) {
         size(600, 600);
         frameRate(30);
-        //vars {
+        {
         var px = 83;
         var py = 91;
         var cx = 0;
@@ -44,7 +44,7 @@ var sketchProc = function(processingInstance) {
         };
         var enemyCount = 0;
         var enemies = [];
-        //}
+        }
 
         function drawLogo(type,x,y){
         if(type==="boot" || type===0){
@@ -301,7 +301,8 @@ var sketchProc = function(processingInstance) {
         if(scene===0){drawLogo(0);}
         if(scene===1){menu();}
         if(scene===2){level0();}
-        }    }};
+        }
+      }};
 
     // Get the canvas that Processing-js will use
     var canvas = document.getElementById("snooty");
