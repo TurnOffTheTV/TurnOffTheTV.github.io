@@ -200,6 +200,21 @@ var sketchProc = function(processingInstance) {
         }
         }
 
+        function sound(src) {
+    this.sound = document.createElement("audio");
+    this.sound.src = src;
+    this.sound.setAttribute("preload", "auto");
+    this.sound.setAttribute("controls", "none");
+    this.sound.style.display = "none";
+    document.body.appendChild(this.sound);
+    this.play = function(){
+        this.sound.play();
+    }
+    this.stop = function(){
+        this.sound.pause();
+    }
+}
+
         function door(x,y){
         fill(99, 36, 36);
         rect(x-15,y+40,30,40);

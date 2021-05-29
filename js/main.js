@@ -10,13 +10,6 @@ for (var i = 0; i < unavaliableEls.length; i++) {
                 unavaliableEls[i].innerHTML += " (<span>Unavaliable</span>)";
             }
 
-//for the about-program.html
-var game = "nswitch";
-var nameEls = document.getElementsByClassName("game");
-
-if(game==="plat"){nameEls.innerHTML = "2D Platformer";}
-if(game==="nswitch"){nameEls.innerHTML = "Nintendo Switch";}
-
 //cookies
 function setCookie(cname,cvalue,exdays) {
   var d = new Date();
@@ -49,10 +42,3 @@ if(getCookie("useCookies")!=="true" && getCookie("useCookies")!=="false"){
     setCookie("useCookies","false",31);}
 
 }
-
-if(getCookie("useCookies")==="true"){setCookie("visited","true",31);}
-var welcome = document.getElementById("home-welcome");
-if(getCookie("visited")==="true"){welcome.innerText="Welcome back!"}
-
-var name = document.getElementById("name");
-name.innerText = getCookie("mafia-name");
