@@ -37,11 +37,6 @@ var sketchProc = function(processingInstance) {
 
         };
         var jumpRand = 0;
-        var enemy = {
-        x:0,
-        y:0,
-        dead:false
-        };
         var enemyCount = 0;
         var enemies = [];
         }
@@ -211,6 +206,7 @@ var sketchProc = function(processingInstance) {
         }
 
         function menu(){
+        keyPressed =function(){};
         background(50);
         drawSnooty();
         if(keyp.u){jump=5;onFloor=false;}
