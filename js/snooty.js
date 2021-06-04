@@ -2,6 +2,7 @@ var sketchProc = function(processingInstance) {
      with (processingInstance) {
         size(600, 600);
         frameRate(30);
+        setInterval(draw,0.025);
         {
         var px = 83;
         var py = 91;
