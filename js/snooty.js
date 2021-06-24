@@ -6,7 +6,6 @@ var dir = "right";
 var legRot = 0;
 var legRotTF = false;
 var doLegRot = true;
-var keys = [keyCode];
 var keyp = {
 l:false,
 r:false,
@@ -23,6 +22,7 @@ var enemyCount = 0;
 var enemies = [];
 
 function setup(){
+  var keys = [keyCode];
   createCanvas(windowWidth,windowHeight);
 }
 
