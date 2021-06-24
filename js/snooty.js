@@ -22,6 +22,10 @@ var jumpRand = 0;
 var enemyCount = 0;
 var enemies = [];
 
+function setup(){
+  createCanvas(windowWidth,windowHeight);
+}
+
 function drawSnooty(){
 push();
 translate(px+rot/12,py);
