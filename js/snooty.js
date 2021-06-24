@@ -16,7 +16,7 @@ var onFloorTF = false;
 var jump = 0;
 var fall = 0;
 var blink = 0;
-var scene = 0;
+var scene = 1;
 var jumpRand = 0;
 var enemyCount = 0;
 var enemies = [];
@@ -218,7 +218,7 @@ if(py>height+100){scene=-1;}
 
 function draw(){
 if(scene===-1){dead();}
-if(scene===0){drawLogo(0);}
+
 if(scene===1){menu();}
 if(scene===2){level0();}
 }
