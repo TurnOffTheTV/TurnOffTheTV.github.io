@@ -74,8 +74,8 @@ if(keyCode===RIGHT || keyCode===68){keyp.r=false;}
 if(keyCode===38 || keyCode===87){keyp.u=false;}
 };
 
-if(keyp.l){dir="left";px-=2;}
-if(keyp.r){dir="right";px+=2;}
+if(keyp.l){dir="left";px-=2;console.log("keyp.l");}
+if(keyp.r){dir="right";px+=2;console.log("keyp.r");}
 
 if(dir==="left"){rot-=5;}
 if(dir==="right"){rot+=5;}
@@ -99,7 +99,7 @@ if(rot>0){rot+=5;}
 doLegRot=false;
 }else{doLegRot=true;}
 
-if(keyp.u){jump=5;onFloor=false;}
+if(keyp.u){jump=5;onFloor=false;console.log("keyp.u");}
 
 if(onFloor){fall=0;jump=0;}else{fall+=0.1;}
 
