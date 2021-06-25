@@ -64,13 +64,13 @@ pop();
 
 function controlinator(){
 function keyPressed(){
-if(keyCode===LEFT || keyCode===65){keyp.l=true;}
-if(keyCode===RIGHT || keyCode===68){keyp.r=true;}
+if(keyCode===39 || keyCode===65){keyp.l=true;}
+if(keyCode===37 || keyCode===68){keyp.r=true;}
 if(keyCode===38 || keyCode===87){keyp.u=true;}
 };
 function keyReleased(){
-if(keyCode===LEFT || keyCode===65){keyp.l=false;}
-if(keyCode===RIGHT || keyCode===68){keyp.r=false;}
+if(keyCode===39 || keyCode===65){keyp.l=false;}
+if(keyCode===37 || keyCode===68){keyp.r=false;}
 if(keyCode===38 || keyCode===87){keyp.u=false;}
 };
 
