@@ -63,15 +63,15 @@ pop();
 }
 
 function controlinator(){
-keyPressed =function(){
-if(keyCode===LEFT || keyCode===65){keyp.l=true;}
-if(keyCode===RIGHT || keyCode===68){keyp.r=true;}
-if(keyCode===UP || keyCode===SPACE){keyp.u=true;}
+function keyPressed(){
+if(keyCode===LEFT || key===65){keyp.l=true;}
+if(keyCode===RIGHT || key===68){keyp.r=true;}
+if(keyCode===UP || key===87){keyp.u=true;}
 };
-keyReleased =function(){
-if(keyCode===LEFT || keyCode===65){keyp.l=false;}
-if(keyCode===RIGHT || keyCode===68){keyp.r=false;}
-if(keyCode===UP || keyCode===SPACE){keyp.u=false;}
+function keyReleased(){
+if(keyCode===LEFT || key===65){keyp.l=false;}
+if(keyCode===RIGHT || key===68){keyp.r=false;}
+if(keyCode===UP || key===87){keyp.u=false;}
 };
 
 if(keyp.l){dir="left";px-=2;}
