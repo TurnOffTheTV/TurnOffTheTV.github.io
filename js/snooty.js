@@ -52,7 +52,7 @@ blink+=random(0.3,0.7);
 if(blink>110){blink=0;}
 point(0-rot/30,-10);
 stroke(0);
-rotate(rot+(rot*2));
+rotate(radians(rot+(rot*2)));
 pop();
 push();
 translate(px-rot/12,py);
@@ -101,15 +101,13 @@ doLegRot=false;
 
 if(keyp.u){jump=5;onFloor=false;}
 
-if(onFloor){fall=0;jump=0;onFloorTF=false;}else{fall+=0.1;}
-
-if(onFloorTF){onFloor=false;}
+if(onFloor){fall=0;jump=0;}else{fall+=0.1;}
 
 py+=fall;
 py-=jump;
 
-if(px>width-50){cx-=2;px-=2;}
-if(px<50){cx+=2;px+=2;}
+if(px>width-width/3){cx-=2;px-=2;}
+if(px<width/3){cx+=2;px+=2;}
 }
 
 function platform(x,y,w){
@@ -196,7 +194,7 @@ function level0(){
   controlinator();
   noStroke();
   fill(0, 200, 0);
-  rect(-100+cx,0,100,600);
+  rect(-10000+cx,0,10000,600);
   if(px<10+cx){px=10+cx;}
   platform(0,500,150);
   platform(0,205,200);
