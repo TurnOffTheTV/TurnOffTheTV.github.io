@@ -22,6 +22,7 @@ var enemyCount = 0;
 var enemies = [];
 
 function setup(){
+  createCanvas(windowWidth,windowHeight);
   var keys = [keyCode];
 }
 
@@ -242,7 +243,6 @@ if(py>height+100){scene=-1;}
 }
 
 function draw(){
-  createCanvas(windowWidth,windowHeight);
   if(scene===-1){dead();}
   if(scene===1){menu();}
   if(scene===2){level0();}
