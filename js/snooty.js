@@ -122,8 +122,13 @@ if(px<x+cx || px>x+w+cx){onFloor=false;}
 }
 
 function door(x,y){
+fill(255);
+rect(x+cx-5,y-5,70,85);
 fill(99, 36, 36);
-rect(x-15,y+40,30,40);
+rect(x+cx,y,60,80);
+fill(255, 255, 0);
+ellipse(x+cx+50,y+40,15,15);
+if(px>x+cx && py>y && px<x+cx+60 && py<y+80){scene+=1;cx=0;onFloor=false;}
 }
 
 function menu(){
@@ -178,39 +183,62 @@ function enemy(x,y,dead){
 }
 
 function level0(){
-  background(0, 219, 255);
-  fill(0, 215, 0);
-  rect((cx/3)-75,300,600,200);
-  rect((cx/3)+500,400,600,100);
-  fill(0, 230, 0);
-  rect((cx/2)-100,400,600,200);
-  rect((cx/2)+500,500,600,100);
-  rect((cx/2)+1000,300,400,300);
-  if(py<0){
+background(0, 219, 255);
+fill(0, 215, 0);
+rect((cx/3)-75,300,600,200);
+rect((cx/3)+500,400,600,100);
+fill(0, 230, 0);
+rect((cx/2)-100,400,600,200);
+rect((cx/2)+500,500,600,100);
+rect((cx/2)+1000,300,400,300);
+if(py<0){
     fill(255,255,255,(py-py*2)*2);
     rect(0,0,width,height);
-  }
-  drawSnooty();
-  controlinator();
-  noStroke();
-  fill(0, 200, 0);
-  rect(-10000+cx,0,10000,600);
-  if(px<10+cx){px=10+cx;}
-  platform(0,500,150);
-  platform(0,205,200);
-  platform(300,300,200);
-  platform(300,400,200);
-  platform(500,350,200);
-  platform(500,100,200);
-  platform(150,450,100);
-  platform(700,250,200);
-  platform(900,550,300);
-  platform(900,350,300);
-  platform(1400,550,300);
-  platform(1200,475,200);
-  platform(1700,485,200);
-  platform(1900,430,200);
-  if(py>height+100){scene=-1;}
+}
+
+door(1975,350);
+drawSnooty();
+controlinator();
+noStroke();
+fill(0, 200, 0);
+rect(-200+cx,0,200,600);
+if(px<10+cx){px=10+cx;}
+platform(0,500,150);
+platform(0,205,200);
+platform(300,300,200);
+platform(300,400,200);
+platform(500,350,200);
+platform(500,100,200);
+platform(150,450,100);
+platform(700,250,200);
+platform(900,550,300);
+platform(900,350,300);
+platform(1400,550,300);
+platform(1200,475,200);
+platform(1700,485,200);
+platform(1900,430,200);
+if(py>height+100){scene=-1;}
+}
+
+function level1(){
+noStroke();
+background(60, 85, 89);
+fill(59);
+rect(cx/3,400,300,200);
+rect(300+(cx/3),300,400,300);
+fill(70);
+rect(cx/2,500,300,100);
+rect(300+(cx/2),400,350,150);
+drawSnooty();
+controlinator();
+platform(400,500,200);
+platform(-200,400,200);
+platform(50,500,200);
+if(py<0){
+    fill(0,0,0,(py-py*2)*2);
+    rect(0,0,width,height);
+}
+if(py>height+100){scene=-1;}
 }
 
 function draw(){
@@ -218,4 +246,5 @@ function draw(){
   if(scene===-1){dead();}
   if(scene===1){menu();}
   if(scene===2){level0();}
+  if(scene===3){level0();}
 }
