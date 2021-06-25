@@ -23,13 +23,12 @@ var enemies = [];
 
 function setup(){
   var keys = [keyCode];
-  createCanvas(windowWidth,windowHeight);
 }
 
 function drawSnooty(){
 push();
 translate(px+rot/12,py);
-rotate(legRot);
+rotate(radians(legRot));
 stroke(0);
 strokeWeight(3);
 line(0,0,0,35);
@@ -39,7 +38,7 @@ noStroke();
 fill(235, 255, 84);
 push();
 translate(px,py);
-rotate(rot);
+rotate(radians(rot));
 scale(2);
 triangle(0,-40,-10,10,10,10);
 triangle(-10,10,-5,20,0,10);
@@ -57,7 +56,7 @@ rotate(rot+(rot*2));
 pop();
 push();
 translate(px-rot/12,py);
-rotate(legRot-legRot*2);
+rotate(radians(legRot-legRot*2));
 line(0,0,0,35);
 line(0,35,rot/12,35);
 pop();
@@ -67,12 +66,12 @@ function controlinator(){
 keyPressed =function(){
 if(keyCode===LEFT || keyCode===65){keyp.l=true;}
 if(keyCode===RIGHT || keyCode===68){keyp.r=true;}
-if(keyCode===UP || keyCode===87){keyp.u=true;}
+if(keyCode===UP || keyCode===SPACE){keyp.u=true;}
 };
 keyReleased =function(){
 if(keyCode===LEFT || keyCode===65){keyp.l=false;}
 if(keyCode===RIGHT || keyCode===68){keyp.r=false;}
-if(keyCode===UP || keyCode===87){keyp.u=false;}
+if(keyCode===UP || keyCode===SPACE){keyp.u=false;}
 };
 
 if(keyp.l){dir="left";px-=2;}
@@ -181,44 +180,44 @@ function enemy(x,y,dead){
 }
 
 function level0(){
-background(0, 219, 255);
-fill(0, 215, 0);
-rect((cx/3)-75,300,600,200);
-rect((cx/3)+500,400,600,100);
-fill(0, 230, 0);
-rect((cx/2)-100,400,600,200);
-rect((cx/2)+500,500,600,100);
-rect((cx/2)+1000,300,400,300);
-if(py<0){
+  background(0, 219, 255);
+  fill(0, 215, 0);
+  rect((cx/3)-75,300,600,200);
+  rect((cx/3)+500,400,600,100);
+  fill(0, 230, 0);
+  rect((cx/2)-100,400,600,200);
+  rect((cx/2)+500,500,600,100);
+  rect((cx/2)+1000,300,400,300);
+  if(py<0){
     fill(255,255,255,(py-py*2)*2);
     rect(0,0,width,height);
-}
-drawSnooty();
-controlinator();
-noStroke();
-fill(0, 200, 0);
-rect(-100+cx,0,100,600);
-if(px<10+cx){px=10+cx;}
-platform(0,500,150);
-platform(0,205,200);
-platform(300,300,200);
-platform(300,400,200);
-platform(500,350,200);
-platform(500,100,200);
-platform(150,450,100);
-platform(700,250,200);
-platform(900,550,300);
-platform(900,350,300);
-platform(1400,550,300);
-platform(1200,475,200);
-platform(1700,485,200);
-platform(1900,430,200);
-if(py>height+100){scene=-1;}
+  }
+  drawSnooty();
+  controlinator();
+  noStroke();
+  fill(0, 200, 0);
+  rect(-100+cx,0,100,600);
+  if(px<10+cx){px=10+cx;}
+  platform(0,500,150);
+  platform(0,205,200);
+  platform(300,300,200);
+  platform(300,400,200);
+  platform(500,350,200);
+  platform(500,100,200);
+  platform(150,450,100);
+  platform(700,250,200);
+  platform(900,550,300);
+  platform(900,350,300);
+  platform(1400,550,300);
+  platform(1200,475,200);
+  platform(1700,485,200);
+  platform(1900,430,200);
+  if(py>height+100){scene=-1;}
 }
 
 function draw(){
-if(scene===-1){dead();}
-
-if(scene===1){menu();}
-if(scene===2){level0();}
+  createCanvas(windowWidth,windowHeight);
+  if(scene===-1){dead();}
+  if(scene===1){menu();}
+  if(scene===2){level0();}
 }
