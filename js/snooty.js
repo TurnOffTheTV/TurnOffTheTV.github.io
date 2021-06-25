@@ -201,7 +201,7 @@ drawSnooty();
 controlinator();
 noStroke();
 fill(0, 200, 0);
-rect(-200+cx,0,200,600);
+rect(-1000+cx,0,1000,600);
 if(px<10+cx){px=10+cx;}
 platform(0,500,150);
 platform(0,205,200);
