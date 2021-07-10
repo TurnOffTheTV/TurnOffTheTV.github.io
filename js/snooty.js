@@ -64,9 +64,9 @@ pop();
 }
 
 function controlinator(){
-if(keyIsPressed && keyCode===65){keyp.l=true;}
-if(keyIsPressed && keyCode===68){keyp.r=true;}
-if(keyIsPressed && keyCode===87){keyp.u=true;}
+if(keyPressed && key===65){keyp.l=true;}
+if(keyPressed && key===68){keyp.r=true;}
+if(keyPressed && key===87){keyp.u=true;}
 
 if(keyp.l){dir="left";px-=2;console.log("keyp.l");}
 if(keyp.r){dir="right";px+=2;console.log("keyp.r");}
