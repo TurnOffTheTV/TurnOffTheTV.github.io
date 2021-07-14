@@ -64,9 +64,16 @@ pop();
 }
 
 function controlinator(){
-if(keyPressed && key===65){keyp.l=true;}
-if(keyPressed && key===68){keyp.r=true;}
-if(keyPressed && key===87){keyp.u=true;}
+  function mousePressed(){
+    if(keyPressed && keyCode===65){keyp.l=true;}
+    if(keyPressed && keyCode===68){keyp.r=true;}
+    if(keyPressed && keyCode===87){keyp.u=true;}
+  }
+  function mouseReleased(){
+    if(keyPressed && keyCode===65){keyp.l=false;}
+    if(keyPressed && keyCode===68){keyp.r=false;}
+    if(keyPressed && keyCode===87){keyp.u=false;}
+  }
 
 if(keyp.l){dir="left";px-=2;console.log("keyp.l");}
 if(keyp.r){dir="right";px+=2;console.log("keyp.r");}
