@@ -64,15 +64,15 @@ pop();
 }
 
 function controlinator(){
-  function keyPressed(){
-    if(keyPressed && keyCode===65){keyp.l=true;}
-    if(keyPressed && keyCode===68){keyp.r=true;}
-    if(keyPressed && keyCode===87){keyp.u=true;}
+  function keyPressed() {
+    if(keyIsPressed && keyCode===87){keyp.u=true;}
+    if(keyIsPressed && keyCode===65){keyp.l=true;}
+    if(keyIsPressed && keyCode===68){keyp.r=true;}
   }
-  function keyReleased(){
-    if(keyPressed && keyCode===65){keyp.l=false;}
-    if(keyPressed && keyCode===68){keyp.r=false;}
-    if(keyPressed && keyCode===87){keyp.u=false;}
+  function keyReleased() {
+    if(keyIsPressed && keyCode===87){keyp.u=false;}
+    if(keyIsPressed && keyCode===65){keyp.l=false;}
+    if(keyIsPressed && keyCode===68){keyp.r=false;}
   }
 
 if(keyp.l){dir="left";px-=2;console.log("keyp.l");}
