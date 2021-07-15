@@ -64,12 +64,12 @@ pop();
 }
 
 function controlinator(){
-  function mousePressed(){
+  function keyPressed(){
     if(keyPressed && keyCode===65){keyp.l=true;}
     if(keyPressed && keyCode===68){keyp.r=true;}
     if(keyPressed && keyCode===87){keyp.u=true;}
   }
-  function mouseReleased(){
+  function keyReleased(){
     if(keyPressed && keyCode===65){keyp.l=false;}
     if(keyPressed && keyCode===68){keyp.r=false;}
     if(keyPressed && keyCode===87){keyp.u=false;}
