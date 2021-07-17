@@ -24,7 +24,7 @@ var level = 0;
 
 function setup(){
   createCanvas(windowWidth,windowHeight);
-  textAlign(CENTER);
+  textFont("Tahoma");
 }
 
 function drawSnooty(){
@@ -73,9 +73,9 @@ function controlinator(){
   keyp.l=false;
   keyp.r=false;
 
-  if(keyIsDown(87)){keyp.u=true; console.log("keyp.u");}
-  if(keyIsDown(65)){keyp.l=true; console.log("keyp.l");}
-  if(keyIsDown(68)){keyp.r=true; console.log("keyp.r");}
+  if(keyIsDown(87)){keyp.u=true;}
+  if(keyIsDown(65)){keyp.l=true;}
+  if(keyIsDown(68)){keyp.r=true;}
 
   if(keyp.l){dir="left";px-=2;}
   if(keyp.r){dir="right";px+=2;}
@@ -98,11 +98,6 @@ function controlinator(){
 
   if(keyp.l&&keyp.r){
   if(rot<0){rot-=5;}
-  if(rot=0){
-    var stopRotDir = floor(random(0,2));
-    if(stopRotDir===0){rot-=5;}
-    if(stopRotDir===1){rot+=5;}
-  }
   if(rot>0){rot+=5;}
   doLegRot=false;
   }else{doLegRot=true;}
@@ -140,31 +135,38 @@ if(px>x+cx && py>y && px<x+cx+60 && py<y+80){scene+=1;cx=0;onFloor=false;}
 }
 
 function menu(){
-background(50);
-drawSnooty();
-if(keyp.u){jump=5;onFloor=false;}
+  background(50);
+  drawSnooty();
+  if(keyp.u){jump=5;onFloor=false;}
 
-if(onFloor){fall=0;jump=0;onFloorTF=false;}else{fall+=0.1;}
+  if(onFloor){fall=0;jump=0;onFloorTF=false;}else{fall+=0.1;}
 
-if(onFloorTF){onFloor=false;}
+  if(onFloorTF){onFloor=false;}
 
-py+=fall;
-py-=jump;
+  py+=fall;
+  py-=jump;
 
-platform(0,100,width);
+  platform(0,100,width);
 
-jumpRand+=random(0.25,1)/2;
-if(jumpRand>10 && jumpRand<50){keyp.u=false;}
-if(jumpRand>150){keyp.u = true;jumpRand=0;}
+  jumpRand+=random(0.25,1)/2;
+  if(jumpRand>10 && jumpRand<50){keyp.u=false;}
+  if(jumpRand>150){keyp.u = true;jumpRand=0;}
 
-fill(50);
-stroke(0);
-rectMode(CENTER,CENTER);
-rect(width/2,height/2,200,100,5);
-fill(255);
-text("Play!",width/2,height/2);
+  fill(50);
+  stroke(0);
+  rectMode(CENTER);
+  rect(width/3,height/2,200,100,5);
+  rect(width*2/3,height/2,200,100,5);
+  textAlign(CENTER,CENTER);
+  fill(255);
+  textSize(40);
+  text("Play!",width/3,height/2);
+  text("Back",width*2/3,height/2);
 
-function mousePressed(){if(mouseX>(width/2)-100 && mouseY>300 && mouseX<400 && mouseY<400){scene=2;onFloor=false;}}
+  if(mouseX>(width/3)-100 && mouseY>(width/2)-50){
+    scene=2;
+    onFloor=false;
+  }
 }
 
 function dead(){
@@ -172,7 +174,7 @@ background(0);
 fill(255, 0, 0);
 textSize(40);
 text("You died.",width/2,height/2);
-function mouseClicked(){
+function mouseClicked() {
 onFloor=true;
 scene=1;
 px=83;
@@ -185,42 +187,43 @@ legRot=0;
 }
 }
 function level0(){
-if(level<1){level=1;}
-background(0, 219, 255);
-fill(0, 215, 0);
-rect((cx/3)-75,300,600,200);
-rect((cx/3)+500,400,600,100);
-fill(0, 230, 0);
-rect((cx/2)-100,400,600,200);
-rect((cx/2)+500,500,600,100);
-rect((cx/2)+1000,300,400,300);
-if(py<0){
-    fill(255,255,255,(py-py*2)*2);
-    rect(0,0,width,height);
-}
+  rectMode(CORNER);
+  if(level<1){level=1;}
+  background(0, 219, 255);
+  fill(0, 215, 0);
+  rect((cx/3)-75,300,600,200);
+  rect((cx/3)+500,400,600,100);
+  fill(0, 230, 0);
+  rect((cx/2)-100,400,600,200);
+  rect((cx/2)+500,500,600,100);
+  rect((cx/2)+1000,300,400,300);
+  if(py<0){
+      fill(255,255,255,(py-py*2)*2);
+      rect(0,0,width,height);
+  }
 
-door(1975,350);
-drawSnooty();
-controlinator();
-noStroke();
-fill(0, 200, 0);
-rect(-1000+cx,0,1000,600);
-if(px<10+cx){px=10+cx;}
-platform(0,500,150);
-platform(0,205,200);
-platform(300,300,200);
-platform(300,400,200);
-platform(500,350,200);
-platform(500,100,200);
-platform(150,450,100);
-platform(700,250,200);
-platform(900,550,300);
-platform(900,350,300);
-platform(1400,550,300);
-platform(1200,475,200);
-platform(1700,485,200);
-platform(1900,430,200);
-if(py>height+100){scene=-1;}
+  door(1975,350);
+  drawSnooty();
+  controlinator();
+  noStroke();
+  fill(0, 200, 0);
+  rect(-1000+cx,0,1000,600);
+  if(px<10+cx){px=10+cx;}
+  platform(0,500,150);
+  platform(0,205,200);
+  platform(300,300,200);
+  platform(300,400,200);
+  platform(500,350,200);
+  platform(500,100,200);
+  platform(150,450,100);
+  platform(700,250,200);
+  platform(900,550,300);
+  platform(900,350,300);
+  platform(1400,550,300);
+  platform(1200,475,200);
+  platform(1700,485,200);
+  platform(1900,430,200);
+  if(py>height+100){scene=-1;}
 }
 
 function level1(){
@@ -235,7 +238,7 @@ rect(cx/2,500,300,100);
 rect(300+(cx/2),400,350,150);
 drawSnooty();
 controlinator();
-platform(400,500,200);
+platform(900,500,200);
 platform(-200,400,200);
 platform(50,500,200);
 if(py<0){
