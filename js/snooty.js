@@ -20,13 +20,15 @@ var scene = 1;
 var jumpRand = 0;
 var enemyCount = 0;
 var enemies = [];
+var level = 0;
 
 function setup(){
   createCanvas(windowWidth,windowHeight);
-  var keys = [keyCode];
+  textAlign(CENTER);
 }
 
 function drawSnooty(){
+//leg
 push();
 translate(px+rot/12,py);
 rotate(radians(legRot));
@@ -35,6 +37,7 @@ strokeWeight(3);
 line(0,0,0,35);
 line(0,35,rot/12,35);
 pop();
+
 noStroke();
 fill(235, 255, 84);
 push();
@@ -55,7 +58,9 @@ point(0-rot/30,-10);
 stroke(0);
 rotate(radians(rot+(rot*2)));
 pop();
+
 push();
+stroke(0);
 translate(px-rot/12,py);
 rotate(radians(legRot-legRot*2));
 line(0,0,0,35);
@@ -64,51 +69,53 @@ pop();
 }
 
 function controlinator(){
-  function keyPressed() {
-    if(keyIsPressed && keyCode===87){keyp.u=true;}
-    if(keyIsPressed && keyCode===65){keyp.l=true;}
-    if(keyIsPressed && keyCode===68){keyp.r=true;}
+  keyp.u=false;
+  keyp.l=false;
+  keyp.r=false;
+
+  if(keyIsDown(87)){keyp.u=true; console.log("keyp.u");}
+  if(keyIsDown(65)){keyp.l=true; console.log("keyp.l");}
+  if(keyIsDown(68)){keyp.r=true; console.log("keyp.r");}
+
+  if(keyp.l){dir="left";px-=2;}
+  if(keyp.r){dir="right";px+=2;}
+
+  if(dir==="left"){rot-=5;}
+  if(dir==="right"){rot+=5;}
+
+  if(rot>60){rot=60;}
+  if(rot<-60){rot=-60;}
+
+  if(keyp.l&& doLegRot || keyp.r && doLegRot){
+  if(legRot>30){legRotTF=false;}
+  if(legRot<-30){legRotTF=true;}
+  if(legRotTF){legRot+=2;}
+  if(legRotTF===false){legRot-=2;}
+  }else{
+  if(legRot>0){legRot-=2;}
+  if(legRot<0){legRot+=2;}
   }
-  function keyReleased() {
-    if(keyIsPressed && keyCode===87){keyp.u=false;}
-    if(keyIsPressed && keyCode===65){keyp.l=false;}
-    if(keyIsPressed && keyCode===68){keyp.r=false;}
+
+  if(keyp.l&&keyp.r){
+  if(rot<0){rot-=5;}
+  if(rot=0){
+    var stopRotDir = floor(random(0,2));
+    if(stopRotDir===0){rot-=5;}
+    if(stopRotDir===1){rot+=5;}
   }
+  if(rot>0){rot+=5;}
+  doLegRot=false;
+  }else{doLegRot=true;}
 
-if(keyp.l){dir="left";px-=2;console.log("keyp.l");}
-if(keyp.r){dir="right";px+=2;console.log("keyp.r");}
+  if(keyp.u){jump=5;onFloor=false;console.log("keyp.u");}
 
-if(dir==="left"){rot-=5;}
-if(dir==="right"){rot+=5;}
+  if(onFloor){fall=0;jump=0;}else{fall+=0.1;}
 
-if(rot>60){rot=60;}
-if(rot<-60){rot=-60;}
+  py+=fall;
+  py-=jump;
 
-if(keyp.l&& doLegRot || keyp.r && doLegRot){
-if(legRot>30){legRotTF=false;}
-if(legRot<-30){legRotTF=true;}
-if(legRotTF){legRot+=2;}
-if(legRotTF===false){legRot-=2;}
-}else{
-if(legRot>0){legRot-=2;}
-if(legRot<0){legRot+=2;}
-}
-
-if(keyp.l&&keyp.r){
-if(rot<0){rot-=5;}
-if(rot>0){rot+=5;}
-doLegRot=false;
-}else{doLegRot=true;}
-
-if(keyp.u){jump=5;onFloor=false;console.log("keyp.u");}
-
-if(onFloor){fall=0;jump=0;}else{fall+=0.1;}
-
-py+=fall;
-py-=jump;
-
-if(px>width-width/3){cx-=2;px-=2;}
-if(px<width/3){cx+=2;px+=2;}
+  if(px>width-width/3){cx-=2;px-=2;}
+  if(px<width/3){cx+=2;px+=2;}
 }
 
 function platform(x,y,w){
@@ -133,7 +140,6 @@ if(px>x+cx && py>y && px<x+cx+60 && py<y+80){scene+=1;cx=0;onFloor=false;}
 }
 
 function menu(){
-keyPressed =function(){};
 background(50);
 drawSnooty();
 if(keyp.u){jump=5;onFloor=false;}
@@ -145,7 +151,7 @@ if(onFloorTF){onFloor=false;}
 py+=fall;
 py-=jump;
 
-platform(0,100,600);
+platform(0,100,width);
 
 jumpRand+=random(0.25,1)/2;
 if(jumpRand>10 && jumpRand<50){keyp.u=false;}
@@ -153,11 +159,12 @@ if(jumpRand>150){keyp.u = true;jumpRand=0;}
 
 fill(50);
 stroke(0);
-rect(200,300,200,100,5);
+rectMode(CENTER,CENTER);
+rect(width/2,height/2,200,100,5);
 fill(255);
-text("Play!",300,350);
+text("Play!",width/2,height/2);
 
-mousePressed =function(){if(mouseX>200 && mouseY>300 && mouseX<400 && mouseY<400){scene=2;onFloor=false;}};
+function mousePressed(){if(mouseX>(width/2)-100 && mouseY>300 && mouseX<400 && mouseY<400){scene=2;onFloor=false;}}
 }
 
 function dead(){
@@ -165,7 +172,8 @@ background(0);
 fill(255, 0, 0);
 textSize(40);
 text("You died.",width/2,height/2);
-mousePressed =function(){onFloor=true;
+function mouseClicked(){
+onFloor=true;
 scene=1;
 px=83;
 py=91;
@@ -174,16 +182,10 @@ dir="right";
 fall=0;
 rot=60;
 legRot=0;
-};
 }
-
-function enemy(x,y,dead){
-    this.x=x;
-    this.y=y;
-    this.dead=dead;
 }
-
 function level0(){
+if(level<1){level=1;}
 background(0, 219, 255);
 fill(0, 215, 0);
 rect((cx/3)-75,300,600,200);
@@ -222,6 +224,7 @@ if(py>height+100){scene=-1;}
 }
 
 function level1(){
+if(level<2){level=2;}
 noStroke();
 background(60, 85, 89);
 fill(59);
@@ -243,8 +246,10 @@ if(py>height+100){scene=-1;}
 }
 
 function draw(){
+  storeItem("level", level)
+  if(width !== windowWidth || height !== windowHeight){resizeCanvas(windowWidth, windowHeight);}
   if(scene===-1){dead();}
   if(scene===1){menu();}
   if(scene===2){level0();}
-  if(scene===3){level0();}
+  if(scene===3){level1();}
 }
