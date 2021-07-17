@@ -261,11 +261,4 @@ function draw(){
   if(scene===1){menu();}
   if(scene===2){level0();}
   if(scene===3){level1();}
-  fill(255);
-  rectMode(CENTER);
-  rect(100,100,50,20);
-  fill(0);
-  textSize(20);
-  textAlign(CORNER,CORNER);
-  text(level+", "+scene,100,100);
 }
