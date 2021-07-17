@@ -163,9 +163,12 @@ function menu(){
   text("Play!",width/3,height/2);
   text("Back",width*2/3,height/2);
 
-  if(mouseX>(width/3)-100 && mouseY>(width/2)-50){
+  if(mouseX>(width/3)-100 && mouseY>(height/2)-50 && mouseX<(width/3)+100 && mouseY<(height/2)+50 && mouseIsPressed){
     scene=2;
     onFloor=false;
+  }
+  if(mouseX>(width/3)*2-100 && mouseY>(height/2)-50 && mouseX<(width/3)*2+100 && mouseY<(height/2)+50 && mouseIsPressed){
+    window.location.href="https://turnoffthetv.github.io/programs/";
   }
 }
 
@@ -174,9 +177,11 @@ background(0);
 fill(255, 0, 0);
 textSize(40);
 text("You died.",width/2,height/2);
-function mouseClicked() {
+textSize(20);
+text("Click to continue",width/2,(height/2)+40);
+if(mouseIsPressed){
 onFloor=true;
-scene=1;
+scene=level+1;
 px=83;
 py=91;
 cx=0;
@@ -186,17 +191,18 @@ rot=60;
 legRot=0;
 }
 }
+
 function level0(){
   rectMode(CORNER);
   if(level<1){level=1;}
   background(0, 219, 255);
   fill(0, 215, 0);
-  rect((cx/3)-75,300,600,200);
-  rect((cx/3)+500,400,600,100);
+  rect((cx/3)-75,300,600,height);
+  rect((cx/3)+500,400,600,height);
   fill(0, 230, 0);
-  rect((cx/2)-100,400,600,200);
-  rect((cx/2)+500,500,600,100);
-  rect((cx/2)+1000,300,400,300);
+  rect((cx/2)-100,400,600,height);
+  rect((cx/2)+500,500,600,height);
+  rect((cx/2)+1000,300,400,height);
   if(py<0){
       fill(255,255,255,(py-py*2)*2);
       rect(0,0,width,height);
@@ -207,7 +213,7 @@ function level0(){
   controlinator();
   noStroke();
   fill(0, 200, 0);
-  rect(-1000+cx,0,1000,600);
+  rect(-1000+cx,0,1000,height);
   if(px<10+cx){px=10+cx;}
   platform(0,500,150);
   platform(0,205,200);
@@ -239,8 +245,8 @@ rect(300+(cx/2),400,350,150);
 drawSnooty();
 controlinator();
 platform(900,500,200);
-platform(-200,400,200);
-platform(50,500,200);
+platform(700,400,200);
+platform(400,500,200);
 if(py<0){
     fill(0,0,0,(py-py*2)*2);
     rect(0,0,width,height);
@@ -255,4 +261,11 @@ function draw(){
   if(scene===1){menu();}
   if(scene===2){level0();}
   if(scene===3){level1();}
+  fill(255);
+  rectMode(CENTER);
+  rect(100,100,50,20);
+  fill(0);
+  textSize(20);
+  textAlign(CORNER,CORNER);
+  text(level+", "+scene,100,100);
 }
