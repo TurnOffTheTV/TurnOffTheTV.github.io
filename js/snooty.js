@@ -16,7 +16,7 @@ var onFloorTF = false;
 var jump = 0;
 var fall = 0;
 var blink = 0;
-var scene = 1;
+var scene = -1;
 var jumpRand = 0;
 var enemyCount = 0;
 var enemies = [];
@@ -164,7 +164,7 @@ function menu(){
   text("Back",width*2/3,height/2);
 
   if(mouseX>(width/3)-100 && mouseY>(height/2)-50 && mouseX<(width/3)+100 && mouseY<(height/2)+50 && mouseIsPressed){
-    scene=2;
+    scene=1;
     onFloor=false;
   }
   if(mouseX>(width/3)*2-100 && mouseY>(height/2)-50 && mouseX<(width/3)*2+100 && mouseY<(height/2)+50 && mouseIsPressed){
@@ -173,23 +173,36 @@ function menu(){
 }
 
 function dead(){
-background(0);
-fill(255, 0, 0);
-textSize(40);
-text("You died.",width/2,height/2);
-textSize(20);
-text("Click to continue",width/2,(height/2)+40);
-if(mouseIsPressed){
-onFloor=true;
-scene=level+1;
-px=83;
-py=91;
-cx=0;
-dir="right";
-fall=0;
-rot=60;
-legRot=0;
-}
+  textAlign(CENTER,CENTER);
+  background(0);
+  fill(255, 0, 0);
+  textSize(40);
+  text("You died.",width/2,height/3);
+  noFill();
+  stroke(255,0,0);
+  strokeWeight(1);
+  rectMode(CENTER);
+  rect(width/3,height/2,200,25);
+  rect(2*width/3,height/2,255,25);
+  noStroke();
+  fill(255,0,0);
+  textSize(20);
+  text("Click here to continue",width/3,height/2);
+  text("Click here to return to menu",2*width/3,height/2);
+  if(mouseIsPressed && mouseX>(width/3)-100 && mouseY>(height/2)-12.5 && mouseX<(width/3)+100 && mouseY<(height/2)+12.5){
+    onFloor=false;
+    scene=level;
+    px=83;
+    py=91;
+    cx=0;
+    dir="right";
+    fall=0;
+    rot=60;
+    legRot=0;
+  }
+  if(mouseIsPressed && mouseX>2*(width/3)-127.5 && mouseY>(height/2)-12.5 && mouseX<2*(width/3)+127.5 && mouseY<(height/2)+12.5){
+    scene=0;
+  }
 }
 
 function level0(){
@@ -254,18 +267,24 @@ if(py<0){
 if(py>height+100){scene=-1;}
 }
 
-function draw(){
-  storeItem("level", level)
-  if(width !== windowWidth || height !== windowHeight){resizeCanvas(windowWidth, windowHeight);}
-  if(scene===-1){dead();}
-  if(scene===1){menu();}
-  if(scene===2){level0();}
-  if(scene===3){level1();}
+function debug(){
+  noStroke();
   fill(255);
   rectMode(CENTER);
-  rect(100,100,50,20);
+  rect(100,100,50,60);
   fill(0);
   textSize(20);
   textAlign(CORNER,CORNER);
   text(level+", "+scene,100,100);
+  text(mouseX+", "+mouseY,100,120);
+  text(px+", "+py,100,140);
+}
+
+function draw(){
+  storeItem("level", level)
+  if(width !== windowWidth || height !== windowHeight){resizeCanvas(windowWidth, windowHeight);}
+  if(scene===-1){dead();}
+  if(scene===0){menu();}
+  if(scene===1){level0();}
+  if(scene===2){level1();}
 }
