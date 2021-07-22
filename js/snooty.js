@@ -18,9 +18,13 @@ var fall = 0;
 var blink = 0;
 var scene = 0;
 var jumpRand = 0;
-var enemyCount = 0;
 var enemies = [];
 var level = 0;
+var controlMode = 0; //0=keyboad 1=touch 2=gamepad
+var deadzone = {
+  inner:0.2,
+  outer:0
+}
 
 function setup(){
   createCanvas(windowWidth,windowHeight);
@@ -69,16 +73,33 @@ pop();
 }
 
 function controlinator(){
-  keyp.u=false;
-  keyp.l=false;
-  keyp.r=false;
+  if(keyIsPressed){controlMode=0;}
+  if(touches>0){controlMode=1;}
+  if(gamepadIsPressed){controlMode=2;}
 
-  if(keyIsDown(87)){keyp.u=true;}
-  if(keyIsDown(65)){keyp.l=true;}
-  if(keyIsDown(68)){keyp.r=true;}
+  if(controlMode===0){
+    doLegRot=false;
+    keyp.u=false;
+    keyp.l=false;
+    keyp.r=false;
 
-  if(keyp.l){dir="left";px-=2;}
-  if(keyp.r){dir="right";px+=2;}
+    if(keyIsDown(87)){keyp.u=true;}
+    if(keyIsDown(65)){keyp.l=true; doLegRot=true;}
+    if(keyIsDown(68)){keyp.r=true; doLegRot=true;}
+
+    if(keyp.l){dir="left";px-=2;}
+    if(keyp.r){dir="right";px+=2;}
+  }
+
+  if(controlMode===2){
+    keyp.l=false;
+    keyp.r=false;
+    px+=stick.lx*2;
+    if(stick.lx>deadzone.inner){dir="right";}
+    if(stick.lx<deadzone.inner-(deadzone.inner*2)){dir="left";}
+    if(stick.lx>0.2 || stick.lx<-0.2){doLegRot=true;} else {doLegRot=false;}
+    if(button.cross){keyp.u=true;} else {keyp.u=false;}
+  }
 
   if(dir==="left"){rot-=5;}
   if(dir==="right"){rot+=5;}
@@ -86,14 +107,14 @@ function controlinator(){
   if(rot>60){rot=60;}
   if(rot<-60){rot=-60;}
 
-  if(keyp.l&& doLegRot || keyp.r && doLegRot){
-  if(legRot>30){legRotTF=false;}
-  if(legRot<-30){legRotTF=true;}
-  if(legRotTF){legRot+=2;}
-  if(legRotTF===false){legRot-=2;}
-  }else{
-  if(legRot>0){legRot-=2;}
-  if(legRot<0){legRot+=2;}
+  if(doLegRot){
+    if(legRot>30){legRotTF=false;}
+    if(legRot<-30){legRotTF=true;}
+    if(legRotTF){legRot+=2;}
+    if(legRotTF===false){legRot-=2;}
+    }else{
+    if(legRot>0){legRot-=2;}
+    if(legRot<0){legRot+=2;}
   }
 
   if(keyp.l&&keyp.r){
@@ -102,7 +123,7 @@ function controlinator(){
   doLegRot=false;
   }else{doLegRot=true;}
 
-  if(keyp.u){jump=5;onFloor=false;console.log("keyp.u");}
+  if(keyp.u){jump=5;onFloor=false;}
 
   if(onFloor){fall=0;jump=0;}else{fall+=0.1;}
 
@@ -270,14 +291,16 @@ if(py>height+100){scene=-1;}
 function debug(){
   noStroke();
   fill(255);
-  rectMode(CENTER);
-  rect(100,100,50,60);
+  rectMode(CORNER);
+  rect(100,100,250,100);
   fill(0);
   textSize(20);
-  textAlign(CORNER,CORNER);
-  text(level+", "+scene,100,100);
-  text(mouseX+", "+mouseY,100,120);
-  text(px+", "+py,100,140);
+  textAlign(LEFT,TOP);
+  text("level="+level+", scene="+scene,100,100);
+  text("mouseX="+mouseX+", mouseY="+mouseY,100,120);
+  text("px="+px+", py="+py,100,140);
+  text("controlMode="+controlMode,100,160);
+  text("stick.lx="+stick.lx,100,180);
 }
 
 function draw(){
