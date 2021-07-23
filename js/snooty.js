@@ -21,6 +21,7 @@ var jumpRand = 0;
 var enemies = [];
 var level = 0;
 var controlMode = 0; //0=keyboad 1=touch 2=gamepad
+var selectedButton = 0;
 var deadzone = {
   inner:0.2,
   outer:0
@@ -73,10 +74,6 @@ pop();
 }
 
 function controlinator(){
-  if(keyIsPressed){controlMode=0;}
-  if(touches>0){controlMode=1;}
-  if(gamepadIsPressed){controlMode=2;}
-
   if(controlMode===0){
     doLegRot=false;
     keyp.u=false;
@@ -174,26 +171,61 @@ function menu(){
   if(jumpRand>150){keyp.u = true;jumpRand=0;}
 
   fill(50);
-  stroke(0);
   rectMode(CENTER);
+  stroke(0);
+  if(selectedButton===1){
+    stroke(255);
+  }
   rect(width/3,height/2,200,100,5);
+  stroke(0);
+  if(selectedButton===2){
+    stroke(255);
+  }
   rect(width*2/3,height/2,200,100,5);
   textAlign(CENTER,CENTER);
   fill(255);
   textSize(40);
+  noStroke();
   text("Play!",width/3,height/2);
   text("Back",width*2/3,height/2);
 
-  if(mouseX>(width/3)-100 && mouseY>(height/2)-50 && mouseX<(width/3)+100 && mouseY<(height/2)+50 && mouseIsPressed){
-    scene=1;
-    onFloor=false;
+  if(controlMode!==2){selectedButton=0;
+
+    if(mouseX>(width/3)-100 && mouseY>(height/2)-50 && mouseX<(width/3)+100 && mouseY<(height/2)+50){
+      selectedButton=1;
+    }
+    if(mouseX>(width/3)*2-100 && mouseY>(height/2)-50 && mouseX<(width/3)*2+100 && mouseY<(height/2)+50){
+      selectedButton=2;
+    }
+
+    if(mouseX>(width/3)-100 && mouseY>(height/2)-50 && mouseX<(width/3)+100 && mouseY<(height/2)+50 && mouseIsPressed){
+      scene=1;
+      onFloor=false;
+      selectedButton=0;
+    }
+    if(mouseX>(width/3)*2-100 && mouseY>(height/2)-50 && mouseX<(width/3)*2+100 && mouseY<(height/2)+50 && mouseIsPressed){
+      window.location.href="https://turnoffthetv.github.io/programs/";
+      selectedButton=0;
+    }
   }
-  if(mouseX>(width/3)*2-100 && mouseY>(height/2)-50 && mouseX<(width/3)*2+100 && mouseY<(height/2)+50 && mouseIsPressed){
-    window.location.href="https://turnoffthetv.github.io/programs/";
+  else {
+    if(stick.lx<deadzone.inner-(deadzone.inner*2) || button.left){selectedButton=1;}
+    if(stick.lx>deadzone.inner || button.right){selectedButton=2;}
+
+    if(button.cross && selectedButton===1){
+      scene=1;
+      onFloor=false;
+      selectedButton=0;
+    }
+    if(button.cross && selectedButton===2){
+      window.location.href="https://turnoffthetv.github.io/programs/";
+      selectedButton=0;
+    }
   }
 }
 
 function dead(){
+  onFloor=false;
   textAlign(CENTER,CENTER);
   background(0);
   fill(255, 0, 0);
@@ -201,28 +233,63 @@ function dead(){
   text("You died.",width/2,height/3);
   noFill();
   stroke(255,0,0);
-  strokeWeight(1);
   rectMode(CENTER);
+  strokeWeight(1);
+  if(selectedButton===1){strokeWeight(3);}
   rect(width/3,height/2,200,25);
+  strokeWeight(1);
+  if(selectedButton===2){strokeWeight(3);}
   rect(2*width/3,height/2,255,25);
   noStroke();
   fill(255,0,0);
   textSize(20);
   text("Click here to continue",width/3,height/2);
   text("Click here to return to menu",2*width/3,height/2);
-  if(mouseIsPressed && mouseX>(width/3)-100 && mouseY>(height/2)-12.5 && mouseX<(width/3)+100 && mouseY<(height/2)+12.5){
-    onFloor=false;
-    scene=level;
-    px=83;
-    py=91;
-    cx=0;
-    dir="right";
-    fall=0;
-    rot=60;
-    legRot=0;
+  if(controlMode!==2){
+    selectedButton=0;
+    if(mouseX>(width/3)-100 && mouseY>(height/2)-12.5 && mouseX<(width/3)+100 && mouseY<(height/2)+12.5){
+      selectedButton=1;
+    }
+    if(mouseX>2*(width/3)-127.5 && mouseY>(height/2)-12.5 && mouseX<2*(width/3)+127.5 && mouseY<(height/2)+12.5){
+      selectedButton=2;
+    }
+
+    if(mouseIsPressed && mouseX>(width/3)-100 && mouseY>(height/2)-12.5 && mouseX<(width/3)+100 && mouseY<(height/2)+12.5){
+      onFloor=false;
+      scene=level;
+      px=83;
+      py=91;
+      cx=0;
+      dir="right";
+      fall=0;
+      rot=60;
+      legRot=0;
+      jump=0;
+    }
+    if(mouseIsPressed && mouseX>2*(width/3)-127.5 && mouseY>(height/2)-12.5 && mouseX<2*(width/3)+127.5 && mouseY<(height/2)+12.5){
+      scene=0;
+    }
   }
-  if(mouseIsPressed && mouseX>2*(width/3)-127.5 && mouseY>(height/2)-12.5 && mouseX<2*(width/3)+127.5 && mouseY<(height/2)+12.5){
-    scene=0;
+  else{
+    if(stick.lx<deadzone.inner-(deadzone.inner*2) || button.left){selectedButton=1;}
+    if(stick.lx>deadzone.inner || button.right){selectedButton=2;}
+
+    if(button.cross && selectedButton===1){
+      onFloor=false;
+      scene=level;
+      px=83;
+      py=91;
+      cx=0;
+      dir="right";
+      fall=0;
+      rot=60;
+      legRot=0;
+      selectedButton=0;
+    }
+    if(button.cross && selectedButton===2){
+      scene=0;
+      selectedButton=0;
+    }
   }
 }
 
@@ -304,10 +371,13 @@ function debug(){
 }
 
 function draw(){
-  storeItem("level", level)
+  if(keyIsPressed || mouseX !==pmouseX || mouseY!==pmouseY){controlMode=0;}
+  if(touches>0){controlMode=1;}
+  if(gamepadIsPressed){controlMode=2;}
   if(width !== windowWidth || height !== windowHeight){resizeCanvas(windowWidth, windowHeight);}
   if(scene===-1){dead();}
   if(scene===0){menu();}
   if(scene===1){level0();}
   if(scene===2){level1();}
+  debug();
 }
