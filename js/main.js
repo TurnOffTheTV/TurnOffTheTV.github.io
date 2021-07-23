@@ -42,3 +42,23 @@ if(getCookie("useCookies")!=="true" && getCookie("useCookies")!=="false"){
     setCookie("useCookies","false",31);}
 
 }
+
+var useGamepad = false;
+var links = document.getElementsByTagName("A");
+var gamepadSelected = 0;
+
+setInterval(() => {
+if(gamepadIsPressed){useGamepad=true;}
+if(useGamepad){
+  if(gamepadSelected<0){gamepadSelected=0;}
+  if(gamepadSelected>links.length){gamepadSelected=links.length;}
+  if(button.circle){window.location.href="../";}
+  if(button.logo){window.location.href="https://turnoffthetv.github.io";}
+  for(var i;i>links.length;i++){
+    links[i].style.outline = "0px dashed #0000FF";
+    if(i===gamepadSelected){links[i].style.outline = "medium dashed #0000FF";}
+  }
+
+
+}
+}, 50);
