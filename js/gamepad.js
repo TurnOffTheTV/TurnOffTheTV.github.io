@@ -15,9 +15,11 @@ var button = {
   right:false,
   l1:false,
   l2:false,
+  l2Value:0,
   l3:false,
   r1:false,
   r2:false,
+  r2Value:0,
   r3:false,
   share:false,
   options:false,
@@ -41,7 +43,9 @@ setInterval(() => {
   button.l1=gamepad.buttons[4].pressed;
   button.r1=gamepad.buttons[5].pressed;
   button.l2=gamepad.buttons[6].pressed;
+  button.l2Value=gamepad.buttons[6].value;
   button.r2=gamepad.buttons[7].pressed;
+  button.r2Value=gamepad.buttons[7].value;
   button.share=gamepad.buttons[8].pressed;
   button.options=gamepad.buttons[9].pressed;
   button.l3=gamepad.buttons[10].pressed;
@@ -56,5 +60,4 @@ setInterval(() => {
   if(button.cross || button.circle || button.square || button.triangle || button.l1 || button.r1 || button.l2 || button.r2 || button.l3 || button.r3 ||button.up || button.down || button.left || button.right || button.options || button.share || button.logo || stick.lx>0.2 || stick.lx<-0.2 || stick.ly>0.2 || stick.ly<-0.2 || stick.rx>0.2 || stick.rx<-0.2 || stick.ry>0.2 || stick.ry<-0.2){gamepadIsPressed=true;}
   if(button.cross===false && button.circle===false && button.square===false && button.triangle===false && button.l1===false && button.r1===false && button.l2===false && button.r2===false && button.l3===false && button.r3===false &&button.up===false && button.down===false && button.left===false && button.right===false && button.options===false && button.share===false && button.logo===false && stick.lx<0.2 && stick.lx>-0.2 && stick.ly<0.2 && stick.ly>-0.2 && stick.rx<0.2 && stick.rx>-0.2 && stick.ry<0.2 && stick.ry>-0.2){gamepadIsPressed=false;}
   //gamepad.vibrationActuator.playEffect("dual-rumble", {startDelay: 0, duration: 1, weakMagnitude: 1.0, strongMagnitude: 3.0});
-
 }, 10);

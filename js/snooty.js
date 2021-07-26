@@ -26,6 +26,15 @@ var deadzone = {
   inner:0.2,
   outer:0
 }
+var paused = false;
+
+function preload(){
+  var sounds = {
+    menu:loadSound("https://turnoffthetv.github.io/audio/ssatf-menu.mp3"),
+    overworld:loadSound("https://turnoffthetv.github.io/audio/ssatf-overworld.mp3"),
+    cave:loadSound("https://turnoffthetv.github.io/audio/ssatf-cave.mp3")
+  }
+}
 
 function setup(){
   createCanvas(windowWidth,windowHeight);
@@ -73,6 +82,10 @@ line(0,35,rot/12,35);
 pop();
 }
 
+function positive(posVictim){
+  if(posVictim>0){return(posVictim);}else{return(posVictim-(posVictim*2));}
+}
+
 function controlinator(){
   if(controlMode===0){
     doLegRot=false;
@@ -86,6 +99,8 @@ function controlinator(){
 
     if(keyp.l){dir="left";px-=2;}
     if(keyp.r){dir="right";px+=2;}
+
+    if(keyIsDown(27)){paused=true;}
   }
 
   if(controlMode===2){
@@ -96,6 +111,7 @@ function controlinator(){
     if(stick.lx<deadzone.inner-(deadzone.inner*2)){dir="left";}
     if(stick.lx>0.2 || stick.lx<-0.2){doLegRot=true;} else {doLegRot=false;}
     if(button.cross){keyp.u=true;} else {keyp.u=false;}
+    if(button.options){paused=true;}
   }
 
   if(dir==="left"){rot-=5;}
@@ -293,6 +309,17 @@ function dead(){
   }
 }
 
+function pause(){
+  fill(0,0,0,127.5);
+  rect(0,0,width,height);
+  fill(255);
+  textSize(40);
+  text("PAUSED",width/2,height/3);
+  textSize(20);
+  if(button.circle){paused=false;}
+  if(keyIsDown(27) && keyIsDown(16)){paused=false;}
+}
+
 function level0(){
   rectMode(CORNER);
   if(level<1){level=1;}
@@ -311,7 +338,7 @@ function level0(){
 
   door(1975,350);
   drawSnooty();
-  controlinator();
+  if(paused===false){controlinator();}
   noStroke();
   fill(0, 200, 0);
   rect(-1000+cx,0,1000,height);
@@ -334,25 +361,25 @@ function level0(){
 }
 
 function level1(){
-if(level<2){level=2;}
-noStroke();
-background(60, 85, 89);
-fill(59);
-rect(cx/3,400,300,200);
-rect(300+(cx/3),300,400,300);
-fill(70);
-rect(cx/2,500,300,100);
-rect(300+(cx/2),400,350,150);
-drawSnooty();
-controlinator();
-platform(900,500,200);
-platform(700,400,200);
-platform(400,500,200);
-if(py<0){
-    fill(0,0,0,(py-py*2)*2);
-    rect(0,0,width,height);
-}
-if(py>height+100){scene=-1;}
+  if(level<2){level=2;}
+  noStroke();
+  background(60, 85, 89);
+  fill(59);
+  rect(cx/3,400,300,200);
+  rect(300+(cx/3),300,400,300);
+  fill(70);
+  rect(cx/2,500,300,100);
+  rect(300+(cx/2),400,350,150);
+  drawSnooty();
+  if(paused===false){controlinator();}
+  platform(900,500,200);
+  platform(700,400,200);
+  platform(400,500,200);
+  if(py<0){
+      fill(0,0,0,(py-py*2)*2);
+      rect(0,0,width,height);
+  }
+  if(py>height+100){scene=-1;}
 }
 
 function debug(){
@@ -379,4 +406,6 @@ function draw(){
   if(scene===0){menu();}
   if(scene===1){level0();}
   if(scene===2){level1();}
+  if(paused){pause();}
+  debug();
 }
