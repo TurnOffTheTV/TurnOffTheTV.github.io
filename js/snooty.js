@@ -1,6 +1,7 @@
 var px = 83;
 var py = 91;
 var cx = 0;
+var cy = 0;
 var rot = 60;
 var dir = "right";
 var legRot = 0;
@@ -29,6 +30,10 @@ var deadzone = {
 var paused = false;
 var sounds;
 var init = true;
+var levelStart = {
+  x:83,
+  y:91
+};
 
 function preload(){
   sounds = {
@@ -149,22 +154,25 @@ function controlinator(){
 
   if(px>width-width/3){cx-=2;px-=2;}
   if(px<width/3){cx+=2;px+=2;}
+
+  if(py>height-height/3){cy-=2;py-=2;}
+  if(py<height/3){cy+=2;py+=2;}
 }
 
 function platform(x,y,w){
 stroke(0);
 strokeWeight(3);
-line(x+cx,y,x+w+cx,y);
+line(x+cx,y+cy,x+w+cx,y+cy);
 noStroke();
-if(px>x-5+cx && px<x+w+5+cx && py>y-37 && py<y+2){
-if(px>x+cx && px<x+w+cx){py=y-35;onFloor=true;}
+if(px>x-5+cx && px<x+w+5+cx && py>y-37+cy && py<y+2+cy){
+if(px>x+cx && px<x+w+cx){py=cy+y-35;onFloor=true;}
 if(px<x+cx || px>x+w+cx){onFloor=false;}
 }
 }
 
 function wall(x,y,h){
   stroke(0);
-  line(x+cx,y,x+cx,y+h);
+  line(x+cx,y+cy,x+cx,y+h+cy);
   noStroke();
   if(px>(x-5)+cx && py>y+cx && px<x+5+cx && py<y+h+cx){
     fill(0,0,0);
@@ -174,15 +182,18 @@ function wall(x,y,h){
 
 function door(x,y){
   fill(255);
-  rect(x+cx-5,y-5,70,85);
+  rect(x+cx-5,y+cy-5,70,85);
   fill(99, 36, 36);
-  rect(x+cx,y,60,80);
+  rect(x+cx,y+cy,60,80);
   fill(255, 255, 0);
-  ellipse(x+cx+50,y+40,15,15);
-  if(px>x+cx && py>y && px<x+cx+60 && py<y+80){
+  ellipse(x+cx+50,y+40+cy,15,15);
+  if(px>x+cx && py>y+cy && px<x+cx+60 && py<y+80+cy){
     init=true;
     scene+=1;
     cx=0;
+    cy=0;
+    levelStart.x=px;
+    levelStart.y=py;
   }
 }
 
@@ -303,9 +314,10 @@ function dead(){
     if(mouseIsPressed && mouseX>(width/3)-100 && mouseY>(height/2)-12.5 && mouseX<(width/3)+100 && mouseY<(height/2)+12.5){
       onFloor=false;
       scene=level;
-      px=83;
-      py=91;
+      px=levelStart.x;
+      py=levelStart.y;
       cx=0;
+      cy=0;
       dir="right";
       fall=0;
       rot=60;
@@ -365,12 +377,12 @@ function level0(){
   if(level<1){level=1;}
   background(0, 219, 255);
   fill(0, 215, 0);
-  rect((cx/3)-75,300,600,height);
-  rect((cx/3)+500,400,600,height);
+  rect((cx/3)-75,(cy/3)+300,600,height);
+  rect((cx/3)+500,(cy/3)+400,600,height);
   fill(0, 230, 0);
-  rect((cx/2)-100,400,600,height);
-  rect((cx/2)+500,500,600,height);
-  rect((cx/2)+1000,300,400,height);
+  rect((cx/2)-100,(cy/2)+400,600,height);
+  rect((cx/2)+500,(cy/2)+500,600,height);
+  rect((cx/2)+1000,(cy/2)+300,400,height);
   if(py<0){
       fill(255,255,255,(py-py*2)*2);
       rect(0,0,width,height);
