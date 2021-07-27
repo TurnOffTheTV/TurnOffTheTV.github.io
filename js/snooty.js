@@ -202,11 +202,14 @@ function menu(){
     sounds.menu.play();
     sounds.menu.loop();
     init=false;
+    levelStart.x = 83;
+    levelStart.y = 91;
     px=levelStart.x;
     py=levelStart.y;
     cx=0;
     cy=0;
     fall=0;
+    facing="right";
   }
   if(sounds.menu.isPlaying===false){init=true;}
   background(50);
@@ -429,11 +432,11 @@ function level1(){
   noStroke();
   background(60, 85, 89);
   fill(59);
-  rect(cx/3,400,300,200);
-  rect(300+(cx/3),300,400,300);
+  rect(cx/3,400+(cy/3),300,200);
+  rect(300+(cx/3),300+(cy/3),400,300);
   fill(70);
-  rect(cx/2,500,300,100);
-  rect(300+(cx/2),400,350,150);
+  rect(cx/2,500+(cy/2),300,100);
+  rect(300+(cx/2),400+(cy/2),350,150);
   drawSnooty();
   if(paused===false){controlinator();}
   platform(900,500,200);
