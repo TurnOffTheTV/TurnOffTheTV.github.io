@@ -27,9 +27,11 @@ var deadzone = {
   outer:0
 }
 var paused = false;
+var sounds;
+var init = true;
 
 function preload(){
-  var sounds = {
+  sounds = {
     menu:loadSound("https://turnoffthetv.github.io/audio/ssatf-menu.mp3"),
     overworld:loadSound("https://turnoffthetv.github.io/audio/ssatf-overworld.mp3"),
     cave:loadSound("https://turnoffthetv.github.io/audio/ssatf-cave.mp3")
@@ -136,9 +138,11 @@ function controlinator(){
   doLegRot=false;
   }else{doLegRot=true;}
 
-  if(keyp.u){jump=5;onFloor=false;}
+  if(keyp.u && onFloor){jump=5;onFloor=false;fall=0;}
 
-  if(onFloor){fall=0;jump=0;}else{fall+=0.1;}
+  if(onFloor && keyp.u===false){fall=0;jump=0;}
+
+  if(onFloor===false){fall+=0.1}
 
   py+=fall;
   py-=jump;
@@ -158,17 +162,37 @@ if(px<x+cx || px>x+w+cx){onFloor=false;}
 }
 }
 
+function wall(x,y,h){
+  stroke(0);
+  line(x+cx,y,x+cx,y+h);
+  noStroke();
+  if(px>(x-5)+cx && py>y+cx && px<x+5+cx && py<y+h+cx){
+    fill(0,0,0);
+    ellipse(px,py,50,50);
+  }
+}
+
 function door(x,y){
-fill(255);
-rect(x+cx-5,y-5,70,85);
-fill(99, 36, 36);
-rect(x+cx,y,60,80);
-fill(255, 255, 0);
-ellipse(x+cx+50,y+40,15,15);
-if(px>x+cx && py>y && px<x+cx+60 && py<y+80){scene+=1;cx=0;onFloor=false;}
+  fill(255);
+  rect(x+cx-5,y-5,70,85);
+  fill(99, 36, 36);
+  rect(x+cx,y,60,80);
+  fill(255, 255, 0);
+  ellipse(x+cx+50,y+40,15,15);
+  if(px>x+cx && py>y && px<x+cx+60 && py<y+80){
+    init=true;
+    scene+=1;
+    cx=0;
+  }
 }
 
 function menu(){
+  if(init){
+    sounds.menu.play();
+    sounds.menu.loop();
+    init=false;
+  }
+  if(sounds.menu.isPlaying===false){init=true;}
   background(50);
   drawSnooty();
   if(keyp.u){jump=5;onFloor=false;}
@@ -218,6 +242,7 @@ function menu(){
       scene=1;
       onFloor=false;
       selectedButton=0;
+      init=true;
     }
     if(mouseX>(width/3)*2-100 && mouseY>(height/2)-50 && mouseX<(width/3)*2+100 && mouseY<(height/2)+50 && mouseIsPressed){
       window.location.href="https://turnoffthetv.github.io/programs/";
@@ -232,15 +257,20 @@ function menu(){
       scene=1;
       onFloor=false;
       selectedButton=0;
+      init=true;
     }
     if(button.cross && selectedButton===2){
       window.location.href="https://turnoffthetv.github.io/programs/";
       selectedButton=0;
     }
   }
+  if(mouseIsPressed && sounds.menu.isPlaying()===false || gamepadIsPressed && sounds.menu.isPlaying()===false){sounds.menu.play();}
 }
 
 function dead(){
+  sounds.overworld.stop();
+  sounds.cave.stop();
+  init=true;
   onFloor=false;
   textAlign(CENTER,CENTER);
   background(0);
@@ -303,6 +333,8 @@ function dead(){
       selectedButton=0;
     }
     if(button.cross && selectedButton===2){
+      px=83;
+      py=91;
       scene=0;
       selectedButton=0;
     }
@@ -310,6 +342,8 @@ function dead(){
 }
 
 function pause(){
+  sounds.overworld.pause();
+  sounds.cave.pause();
   fill(0,0,0,127.5);
   rect(0,0,width,height);
   fill(255);
@@ -317,10 +351,16 @@ function pause(){
   text("PAUSED",width/2,height/3);
   textSize(20);
   if(button.circle){paused=false;}
-  if(keyIsDown(27) && keyIsDown(16)){paused=false;}
+  if(keyIsDown(27) && keyIsDown(16)){paused=false;init=true;}
 }
 
 function level0(){
+  if(init){
+    sounds.menu.stop();
+    sounds.overworld.play();
+    sounds.overworld.loop();
+    init=false;
+  }
   rectMode(CORNER);
   if(level<1){level=1;}
   background(0, 219, 255);
@@ -345,6 +385,7 @@ function level0(){
   if(px<10+cx){px=10+cx;}
   platform(0,500,150);
   platform(0,205,200);
+  wall(200,205,150);
   platform(300,300,200);
   platform(300,400,200);
   platform(500,350,200);
@@ -361,6 +402,12 @@ function level0(){
 }
 
 function level1(){
+  if(init){
+    sounds.overworld.stop();
+    sounds.cave.play();
+    sounds.cave.loop();
+    init=false;
+  }
   if(level<2){level=2;}
   noStroke();
   background(60, 85, 89);
@@ -386,7 +433,7 @@ function debug(){
   noStroke();
   fill(255);
   rectMode(CORNER);
-  rect(100,100,250,100);
+  rect(100,100,250,120);
   fill(0);
   textSize(20);
   textAlign(LEFT,TOP);
@@ -395,6 +442,7 @@ function debug(){
   text("px="+px+", py="+py,100,140);
   text("controlMode="+controlMode,100,160);
   text("stick.lx="+stick.lx,100,180);
+  text("onFloor="+onFloor+", keyp.u="+keyp.u,100,200);
 }
 
 function draw(){
