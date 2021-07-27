@@ -202,6 +202,11 @@ function menu(){
     sounds.menu.play();
     sounds.menu.loop();
     init=false;
+    px=levelStart.x;
+    py=levelStart.y;
+    cx=0;
+    cy=0;
+    fall=0;
   }
   if(sounds.menu.isPlaying===false){init=true;}
   background(50);
@@ -345,8 +350,8 @@ function dead(){
       selectedButton=0;
     }
     if(button.cross && selectedButton===2){
-      px=83;
-      py=91;
+      levelStart.x=83;
+      levelStart.y=91;
       scene=0;
       selectedButton=0;
     }
