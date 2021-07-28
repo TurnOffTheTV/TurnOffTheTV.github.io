@@ -117,8 +117,8 @@ function controlinator(){
     keyp.l=false;
     keyp.r=false;
     px+=stick.lx*2;
-    if(stick.lx>deadzone.inner){dir="right";}
-    if(stick.lx<deadzone.inner-(deadzone.inner*2)){dir="left";}
+    if(stick.lx>deadzone.inner && onFloor){dir="right";}
+    if(stick.lx<deadzone.inner-(deadzone.inner*2) && onFloor){dir="left";}
     if(stick.lx>0.2 || stick.lx<-0.2){doLegRot=true;} else {doLegRot=false;}
     if(button.cross){keyp.u=true;} else {keyp.u=false;}
     if(button.options){paused=true;}
@@ -409,7 +409,7 @@ function level0(){
   if(px<10+cx){px=10+cx;}
   platform(0,500,150);
   platform(0,205,200);
-  wall(200,205,150);
+  
   platform(300,300,200);
   platform(300,400,200);
   platform(500,350,200);
