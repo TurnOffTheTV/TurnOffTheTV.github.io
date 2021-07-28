@@ -104,8 +104,11 @@ function controlinator(){
     if(keyIsDown(65)){keyp.l=true; doLegRot=true;}
     if(keyIsDown(68)){keyp.r=true; doLegRot=true;}
 
-    if(keyp.l){dir="left";px-=2;}
-    if(keyp.r){dir="right";px+=2;}
+    if(keyp.l){px-=2;}
+    if(keyp.r){px+=2;}
+
+    if(keyp.l && onFloor){dir="left";}
+    if(keyp.r && onFloor){dir="right";}
 
     if(keyIsDown(27)){paused=true;}
   }
@@ -177,6 +180,7 @@ function wall(x,y,h){
   if(px>(x-5)+cx && py>y+cx && px<x+5+cx && py<y+h+cx){
     fill(0,0,0);
     ellipse(px,py,50,50);
+    onFloor=true;
   }
 }
 
@@ -432,16 +436,22 @@ function level1(){
   noStroke();
   background(60, 85, 89);
   fill(59);
-  rect(cx/3,400+(cy/3),300,200);
-  rect(300+(cx/3),300+(cy/3),400,300);
+  rect(cx/3,400+(cy/3),300,height);
+  rect(300+(cx/3),300+(cy/3),400,height);
   fill(70);
-  rect(cx/2,500+(cy/2),300,100);
-  rect(300+(cx/2),400+(cy/2),350,150);
+  rect(cx/2,500+(cy/2),300,height);
+  rect(300+(cx/2),400+(cy/2),350,height);
+  rectMode(CORNER);
+  fill(0,0,0);
+  rect(175+cx,500+cy,50,100);
+  triangle(150+cx,600+cy,250+cx,600+cy,200+cx,700+cy);
   drawSnooty();
   if(paused===false){controlinator();}
   platform(900,500,200);
   platform(700,400,200);
   platform(400,500,200);
+  platform(600,600,100);
+  platform(0,1000,400);
   if(py<0){
       fill(0,0,0,(py-py*2)*2);
       rect(0,0,width,height);
