@@ -563,7 +563,7 @@ function draw(){
   if(touches>0){controlMode=1;}
   if(stick.lx>deadzone.inner || stick.lx<deadzone.inner-(2*deadzone.inner) || stick.ly>deadzone.inner || stick.ly<deadzone.inner-(2*deadzone.inner)){controlMode=2;}
   if(button.left || button.right || button.up || button.down){controlMode=3;}
-  if(controlMode===2 && button.logo || controlMode===3 && button.logo){window.location.href="https://turnoffthetv.github.io/programs/snooty-scooty-and-the-frowns/";}
+  if(controlMode===2 && button.logo || controlMode===3 && button.logo){window.location.href="https://turnoffthetv.github.io/programs/snooty-scooty-and-the-frowns/reload/";}
   if(width !== windowWidth || height !== windowHeight){resizeCanvas(windowWidth, windowHeight);}
   if(scene===-1){dead();}
   if(scene===0){menu();}
