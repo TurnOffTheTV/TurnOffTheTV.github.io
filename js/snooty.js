@@ -569,5 +569,4 @@ function draw(){
   if(scene===1){level0();}
   if(scene===2){level1();}
   if(paused){pause();}
-  debug();
 }
