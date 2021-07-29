@@ -22,7 +22,7 @@ var scene = 0;
 var jumpRand = 0;
 var enemies = [];
 var level = 0;
-var controlMode = 0; //0=keyboad 1=touch 2=gamepad
+var controlMode = 0; //0=keyboad 1=touch 2=stick gamepad 3=button gamepad
 var selectedButton = 0;
 var deadzone = {
   inner:0.2,
@@ -112,6 +112,8 @@ function controlinator(){
     if(keyIsDown(83)){keyp.d=true;}
     if(keyIsDown(65)){keyp.l=true; doLegRot=true;}
     if(keyIsDown(68)){keyp.r=true; doLegRot=true;}
+    if(keyIsDown(27)){paused=true;}
+    }
 
     if(keyp.l){px-=2;}
     if(keyp.r){px+=2;}
@@ -119,8 +121,8 @@ function controlinator(){
     if(keyp.l && onFloor){dir="left";}
     if(keyp.r && onFloor){dir="right";}
 
-    if(keyIsDown(27)){paused=true;}
-  }
+
+
 
   if(controlMode===2){
     keyp.l=false;
@@ -128,6 +130,18 @@ function controlinator(){
     if(stick.lx>deadzone.inner && onFloor){dir="right";}
     if(stick.lx<deadzone.inner-(deadzone.inner*2) && onFloor){dir="left";}
     if(stick.lx>0.2 || stick.lx<deadzone.inner-(deadzone.inner*2)){doLegRot=true; px+=stick.lx*2;} else {doLegRot=false;}
+    if(button.cross){keyp.u=true;} else {keyp.u=false;}
+    if(button.options){paused=true;}
+  }
+
+  if(controlMode===3){
+    keyp.l=false;
+    keyp.r=false;
+    if(button.left){keyp.l=true;}
+    if(button.right){keyp.r=true;}
+    if(button.right && onFloor){dir="right";}
+    if(button.left && onFloor){dir="left";}
+    if(button.right || button.left){doLegRot=true;} else {doLegRot=false;}
     if(button.cross){keyp.u=true;} else {keyp.u=false;}
     if(button.options){paused=true;}
   }
@@ -142,17 +156,15 @@ function controlinator(){
     if(legRot>30){legRotTF=false;}
     if(legRot<-30){legRotTF=true;}
     if(legRotTF){legRot+=2;}
-    if(legRotTF===false){legRot-=2;}
-    }else{
+    if(legRotTF===false){legRot-=2;}}else{
     if(legRot>0){legRot-=2;}
     if(legRot<0){legRot+=2;}
   }
 
   if(keyp.l&&keyp.r){
-  if(rot<0){rot-=5;}
-  if(rot>0){rot+=5;}
-  doLegRot=false;
-  }else{doLegRot=true;}
+    if(rot<0){rot-=5;}
+    if(rot>0){rot+=5;}
+    doLegRot=false;}else{doLegRot=true;}
 
   if(keyp.u && onFloor){jump=5;onFloor=false;fall=0;}
 
@@ -186,11 +198,11 @@ function wall(x,y,h){
   line(x+cx,y+cy,x+cx,y+h+cy);
   noStroke();
   if(py>y+cy && py<y+h+cy){
-    if(px>x-15 && px<x){
-      if(controlMode===0){
-        if(keyp.u===false && keyp.d===false || keyp.u && keyp.d){fall=1.5;}
-        if(keyp.u && keyp.d===false){fall=1;}
-        if(keyp.d && keyp.u===false){fall=2;}
+    if(px>x-15+cx && px<x+cx){
+      if(controlMode===0 || controlMode===3){
+        if(keyp.u===false && keyp.d===false || keyp.u && keyp.d || button.up && button.down || button.up===false || button.down===false){fall=1.5;}
+        if(keyp.u && keyp.d===false || button.up && button.down===false){fall=1;}
+        if(keyp.d && keyp.u===false || button.down && button.up===false){fall=2;}
         if(keyp.u===false){px=x-10+cx;jump=0;fall=1.5;}
         if(keyp.l && keyp.u || keyp.r && keyp.u){jump=5;}
       }
@@ -198,14 +210,14 @@ function wall(x,y,h){
         if(keyp.u===false){px=x-10+cx;jump=0;fall=1.5+(stick.ly/2);}
         if(stick.lx<deadzone.inner-(deadzone.inner*2) && keyp.u || stick.lx>deadzone.inner && keyp.u){jump=5;}
       }
-      dir="right";
+      dir="left";
       doLegRot=false;
     }
     if(px>x+cx && px<x+15+cx){
-      if(controlMode===0){
-        if(keyp.u===false && keyp.d===false || keyp.u && keyp.d){fall=1.5;}
-        if(keyp.u && keyp.d===false){fall=1;}
-        if(keyp.d && keyp.u===false){fall=2;}
+      if(controlMode===0 || controlMode===3){
+        if(keyp.u===false && keyp.d===false || keyp.u && keyp.d || button.up && button.down || button.up===false || button.down===false){fall=1.5;}
+        if(keyp.u && keyp.d===false || button.up && button.down===false){fall=1;}
+        if(keyp.d && keyp.u===false|| button.down && button.up===false){fall=2;}
         if(keyp.u===false){px=x+10+cx;jump=0;fall=1.5;}
         if(keyp.l && keyp.u || keyp.r && keyp.u){jump=5;}
       }
@@ -251,7 +263,7 @@ function menu(){
     facing="right";
   }
   if(sounds.menu.isPlaying===false){init=true;}
-    style.innerHTML="body {margin:0px;border:0px;background:rgb(50,50,50);}";
+  style.innerHTML="body {margin:0px;border:0px;background:rgb(50,50,50);}";
   background(50);
   drawSnooty();
   if(keyp.u){jump=5;onFloor=false;}
@@ -288,7 +300,7 @@ function menu(){
   text("Play!",width/3,height/2);
   text("Back",width*2/3,height/2);
 
-  if(controlMode!==2){selectedButton=0;
+  if(controlMode===0){selectedButton=0;
 
     if(mouseX>(width/3)-100 && mouseY>(height/2)-50 && mouseX<(width/3)+100 && mouseY<(height/2)+50){
       selectedButton=1;
@@ -310,9 +322,24 @@ function menu(){
       selectedButton=0;
     }
   }
-  else {
-    if(stick.lx<deadzone.inner-(deadzone.inner*2) || button.left){selectedButton=1;}
-    if(stick.lx>deadzone.inner || button.right){selectedButton=2;}
+  if(controlMode===2){
+    if(stick.lx<deadzone.inner-(deadzone.inner*2)){selectedButton=1;}
+    if(stick.lx>deadzone.inner){selectedButton=2;}
+
+    if(button.cross && selectedButton===1){
+      scene=1;
+      onFloor=false;
+      selectedButton=0;
+      init=true;
+    }
+    if(button.cross && selectedButton===2){
+      window.location.href="https://turnoffthetv.github.io/programs/";
+      selectedButton=0;
+    }
+  }
+  if(controlMode===3){
+    if(button.left){selectedButton=1;}
+    if(button.right){selectedButton=2;}
 
     if(button.cross && selectedButton===1){
       scene=1;
@@ -329,7 +356,7 @@ function menu(){
 }
 
 function dead(){
-  if(controlMode===2){deathRumbleTimer+=1;
+  if(controlMode===2 || controlMode===3){deathRumbleTimer+=1;
     if(deathRumbleTimer<25){rumble=true;}else{rumble=false;}
   }
   sounds.overworld.stop();
@@ -356,7 +383,7 @@ function dead(){
   textSize(20);
   text("Click here to continue",width/3,2*height/3);
   text("Click here to return to menu",2*width/3,2*height/3);
-  if(controlMode!==2){
+  if(controlMode===0){
     selectedButton=0;
     if(mouseX>(width/3)-100 && mouseY>(2*height/3)-12.5 && mouseX<(width/3)+100 && mouseY<(2*height/3)+12.5){
       selectedButton=1;
@@ -386,7 +413,7 @@ function dead(){
       deathRumbleTimer=0;
     }
   }
-  else{
+  if(controlMode===2 || controlMode===3){
     if(stick.lx<deadzone.inner-(deadzone.inner*2) || button.left){selectedButton=1;}
     if(stick.lx>deadzone.inner || button.right){selectedButton=2;}
 
@@ -517,7 +544,7 @@ function debug(){
   noStroke();
   fill(255);
   rectMode(CORNER);
-  rect(100,100,250,120);
+  rect(100,100,250,140);
   fill(0);
   textSize(20);
   textAlign(LEFT,TOP);
@@ -527,17 +554,20 @@ function debug(){
   text("controlMode="+controlMode,100,160);
   text("stick.lx="+stick.lx,100,180);
   text("onFloor="+onFloor+", keyp.u="+keyp.u,100,200);
+  text("selectedButton="+selectedButton,100,220);
 }
 
 function draw(){
   cursor();
   if(keyIsPressed || mouseX !==pmouseX || mouseY!==pmouseY){controlMode=0;}
   if(touches>0){controlMode=1;}
-  if(gamepadIsPressed){controlMode=2;}
+  if(stick.lx>deadzone.inner || stick.lx<deadzone.inner-(2*deadzone.inner) || stick.ly>deadzone.inner || stick.ly<deadzone.inner-(2*deadzone.inner)){controlMode=2;}
+  if(button.left || button.right || button.up || button.down){controlMode=3;}
   if(width !== windowWidth || height !== windowHeight){resizeCanvas(windowWidth, windowHeight);}
   if(scene===-1){dead();}
   if(scene===0){menu();}
   if(scene===1){level0();}
   if(scene===2){level1();}
   if(paused){pause();}
+  debug();
 }
