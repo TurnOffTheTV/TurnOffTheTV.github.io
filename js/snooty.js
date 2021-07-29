@@ -11,6 +11,7 @@ var keyp = {
 l:false,
 r:false,
 u:false,
+d:false
 };
 var onFloor = false;
 var onFloorTF = false;
@@ -34,6 +35,7 @@ var levelStart = {
   x:83,
   y:91
 };
+var deathRumbleTimer = 0;
 
 function preload(){
   sounds = {
@@ -99,8 +101,10 @@ function controlinator(){
     keyp.u=false;
     keyp.l=false;
     keyp.r=false;
+    keyp.d=false;
 
     if(keyIsDown(87)){keyp.u=true;}
+    if(keyIsDown(83)){keyp.d=true;}
     if(keyIsDown(65)){keyp.l=true; doLegRot=true;}
     if(keyIsDown(68)){keyp.r=true; doLegRot=true;}
 
@@ -116,10 +120,9 @@ function controlinator(){
   if(controlMode===2){
     keyp.l=false;
     keyp.r=false;
-    px+=stick.lx*2;
     if(stick.lx>deadzone.inner && onFloor){dir="right";}
     if(stick.lx<deadzone.inner-(deadzone.inner*2) && onFloor){dir="left";}
-    if(stick.lx>0.2 || stick.lx<-0.2){doLegRot=true;} else {doLegRot=false;}
+    if(stick.lx>0.2 || stick.lx<deadzone.inner-(deadzone.inner*2)){doLegRot=true; px+=stick.lx*2;} else {doLegRot=false;}
     if(button.cross){keyp.u=true;} else {keyp.u=false;}
     if(button.options){paused=true;}
   }
@@ -177,10 +180,37 @@ function wall(x,y,h){
   stroke(0);
   line(x+cx,y+cy,x+cx,y+h+cy);
   noStroke();
-  if(px>(x-5)+cx && py>y+cx && px<x+5+cx && py<y+h+cx){
-    fill(0,0,0);
-    ellipse(px,py,50,50);
-    onFloor=true;
+  if(py>y+cy && py<y+h+cy){
+    if(px>x-15 && px<x){
+      if(controlMode===0){
+        if(keyp.u===false && keyp.d===false || keyp.u && keyp.d){fall=1.5;}
+        if(keyp.u && keyp.d===false){fall=1;}
+        if(keyp.d && keyp.u===false){fall=2;}
+        if(keyp.u===false){px=x-10+cx;jump=0;fall=1.5;}
+        if(keyp.l && keyp.u || keyp.r && keyp.u){jump=5;}
+      }
+      if(controlMode===2){
+        if(keyp.u===false){px=x-10+cx;jump=0;fall=1.5+(stick.ly/2);}
+        if(stick.lx<deadzone.inner-(deadzone.inner*2) && keyp.u || stick.lx>deadzone.inner && keyp.u){jump=5;}
+      }
+      dir="right";
+      doLegRot=false;
+    }
+    if(px>x+cx && px<x+15+cx){
+      if(controlMode===0){
+        if(keyp.u===false && keyp.d===false || keyp.u && keyp.d){fall=1.5;}
+        if(keyp.u && keyp.d===false){fall=1;}
+        if(keyp.d && keyp.u===false){fall=2;}
+        if(keyp.u===false){px=x+10+cx;jump=0;fall=1.5;}
+        if(keyp.l && keyp.u || keyp.r && keyp.u){jump=5;}
+      }
+      if(controlMode===2){
+        if(keyp.u===false){px=x+10+cx;jump=0;fall=1.5+(stick.ly/2);}
+        if(stick.lx<deadzone.inner-(deadzone.inner*2) && keyp.u || stick.lx>deadzone.inner && keyp.u){jump=5;}
+      }
+      dir="right";
+      doLegRot=false;
+    }
   }
 }
 
@@ -291,6 +321,9 @@ function menu(){
 }
 
 function dead(){
+  if(controlMode===2){deathRumbleTimer+=1;
+    if(deathRumbleTimer<25){rumble=true;}else{rumble=false;}
+  }
   sounds.overworld.stop();
   sounds.cave.stop();
   init=true;
@@ -335,9 +368,11 @@ function dead(){
       rot=60;
       legRot=0;
       jump=0;
+      deathRumbleTimer=0;
     }
     if(mouseIsPressed && mouseX>2*(width/3)-127.5 && mouseY>(height/2)-12.5 && mouseX<2*(width/3)+127.5 && mouseY<(height/2)+12.5){
       scene=0;
+      deathRumbleTimer=0;
     }
   }
   else{
@@ -355,12 +390,14 @@ function dead(){
       rot=60;
       legRot=0;
       selectedButton=0;
+      deathRumbleTimer=0;
     }
     if(button.cross && selectedButton===2){
       levelStart.x=83;
       levelStart.y=91;
       scene=0;
       selectedButton=0;
+      deathRumbleTimer=0;
     }
   }
 }
@@ -409,7 +446,7 @@ function level0(){
   if(px<10+cx){px=10+cx;}
   platform(0,500,150);
   platform(0,205,200);
-  
+  wall(200,205,150);
   platform(300,300,200);
   platform(300,400,200);
   platform(500,350,200);
