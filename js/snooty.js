@@ -245,6 +245,7 @@ function door(x,y){
     cy=0;
     levelStart.x=px;
     levelStart.y=py;
+    onFloor=false;
   }
 }
 
@@ -534,6 +535,7 @@ function level1(){
   platform(400,500,200);
   platform(600,600,100);
   platform(0,1000,400);
+  platform(900,600,600);
   if(py<0){
       fill(0,0,0,(py-py*2)*2);
       rect(0,0,width,height);
