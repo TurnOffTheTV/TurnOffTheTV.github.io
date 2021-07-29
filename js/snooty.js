@@ -30,6 +30,7 @@ var deadzone = {
 }
 var paused = false;
 var sounds;
+var images;
 var init = true;
 var levelStart = {
   x:83,
@@ -42,6 +43,9 @@ function preload(){
     menu:loadSound("https://turnoffthetv.github.io/audio/ssatf-menu.mp3"),
     overworld:loadSound("https://turnoffthetv.github.io/audio/ssatf-overworld.mp3"),
     cave:loadSound("https://turnoffthetv.github.io/audio/ssatf-cave.mp3")
+  }
+  images = {
+    sky:loadImage("https://turnoffthetv.github.io/images/snooty-sky.png")
   }
 }
 
@@ -286,9 +290,11 @@ function menu(){
 
     if(mouseX>(width/3)-100 && mouseY>(height/2)-50 && mouseX<(width/3)+100 && mouseY<(height/2)+50){
       selectedButton=1;
+      cursor(HAND);
     }
     if(mouseX>(width/3)*2-100 && mouseY>(height/2)-50 && mouseX<(width/3)*2+100 && mouseY<(height/2)+50){
       selectedButton=2;
+      cursor(HAND);
     }
 
     if(mouseX>(width/3)-100 && mouseY>(height/2)-50 && mouseX<(width/3)+100 && mouseY<(height/2)+50 && mouseIsPressed){
@@ -338,25 +344,27 @@ function dead(){
   rectMode(CENTER);
   strokeWeight(1);
   if(selectedButton===1){strokeWeight(3);}
-  rect(width/3,height/2,200,25);
+  rect(width/3,2*height/3,200,25);
   strokeWeight(1);
   if(selectedButton===2){strokeWeight(3);}
-  rect(2*width/3,height/2,255,25);
+  rect(2*width/3,2*height/3,255,25);
   noStroke();
   fill(255,0,0);
   textSize(20);
-  text("Click here to continue",width/3,height/2);
-  text("Click here to return to menu",2*width/3,height/2);
+  text("Click here to continue",width/3,2*height/3);
+  text("Click here to return to menu",2*width/3,2*height/3);
   if(controlMode!==2){
     selectedButton=0;
-    if(mouseX>(width/3)-100 && mouseY>(height/2)-12.5 && mouseX<(width/3)+100 && mouseY<(height/2)+12.5){
+    if(mouseX>(width/3)-100 && mouseY>(2*height/3)-12.5 && mouseX<(width/3)+100 && mouseY<(2*height/3)+12.5){
       selectedButton=1;
+      cursor(HAND);
     }
-    if(mouseX>2*(width/3)-127.5 && mouseY>(height/2)-12.5 && mouseX<2*(width/3)+127.5 && mouseY<(height/2)+12.5){
+    if(mouseX>2*(width/3)-127.5 && mouseY>(2*height/3)-12.5 && mouseX<2*(width/3)+127.5 && mouseY<(2*height/3)+12.5){
       selectedButton=2;
+      cursor(HAND);
     }
 
-    if(mouseIsPressed && mouseX>(width/3)-100 && mouseY>(height/2)-12.5 && mouseX<(width/3)+100 && mouseY<(height/2)+12.5){
+    if(mouseIsPressed && mouseX>(width/3)-100 && mouseY>(2*height/3)-12.5 && mouseX<(width/3)+100 && mouseY<(2*height/3)+12.5){
       onFloor=false;
       scene=level;
       px=levelStart.x;
@@ -370,7 +378,7 @@ function dead(){
       jump=0;
       deathRumbleTimer=0;
     }
-    if(mouseIsPressed && mouseX>2*(width/3)-127.5 && mouseY>(height/2)-12.5 && mouseX<2*(width/3)+127.5 && mouseY<(height/2)+12.5){
+    if(mouseIsPressed && mouseX>2*(width/3)-127.5 && mouseY>(2*height/3)-12.5 && mouseX<2*(width/3)+127.5 && mouseY<(2*height/2)+12.5){
       scene=0;
       deathRumbleTimer=0;
     }
@@ -425,13 +433,18 @@ function level0(){
   rectMode(CORNER);
   if(level<1){level=1;}
   background(0, 219, 255);
+  //image(images.sky,0,0,width,height);
   fill(0, 215, 0);
   rect((cx/3)-75,(cy/3)+300,600,height);
   rect((cx/3)+500,(cy/3)+400,600,height);
+  rect((cx/3)+1000,(cy/3)+300,800,height);
+    rect((cx/3)+1500,(cy/3)+250,600,height);
   fill(0, 230, 0);
   rect((cx/2)-100,(cy/2)+400,600,height);
   rect((cx/2)+500,(cy/2)+500,600,height);
   rect((cx/2)+1000,(cy/2)+300,400,height);
+  rect((cx/2)+1000,(cy/2)+600,1000,height);
+  rect((cx/2)+2000,(cy/2)+200,500,height);
   if(py<0){
       fill(255,255,255,(py-py*2)*2);
       rect(0,0,width,height);
@@ -493,7 +506,6 @@ function level1(){
       fill(0,0,0,(py-py*2)*2);
       rect(0,0,width,height);
   }
-  if(py>height+100){scene=-1;}
 }
 
 function debug(){
@@ -513,6 +525,7 @@ function debug(){
 }
 
 function draw(){
+  cursor();
   if(keyIsPressed || mouseX !==pmouseX || mouseY!==pmouseY){controlMode=0;}
   if(touches>0){controlMode=1;}
   if(gamepadIsPressed){controlMode=2;}
