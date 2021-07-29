@@ -37,6 +37,7 @@ var levelStart = {
   y:91
 };
 var deathRumbleTimer = 0;
+var style = document.getElementById("style");
 
 function preload(){
   sounds = {
@@ -250,6 +251,7 @@ function menu(){
     facing="right";
   }
   if(sounds.menu.isPlaying===false){init=true;}
+    style.innerHTML="body {margin:0px;border:0px;background:rgb(50,50,50);}";
   background(50);
   drawSnooty();
   if(keyp.u){jump=5;onFloor=false;}
@@ -335,6 +337,7 @@ function dead(){
   init=true;
   onFloor=false;
   textAlign(CENTER,CENTER);
+  style.innerHTML="body {margin:0px;border:0px;background:rgb(0,0,0);}";
   background(0);
   fill(255, 0, 0);
   textSize(40);
@@ -432,6 +435,7 @@ function level0(){
   }
   rectMode(CORNER);
   if(level<1){level=1;}
+  style.innerHTML="body {margin:0px;border:0px;background:rgb(0,219,255);}";
   background(0, 219, 255);
   //image(images.sky,0,0,width,height);
   fill(0, 215, 0);
@@ -484,6 +488,7 @@ function level1(){
   }
   if(level<2){level=2;}
   noStroke();
+  style.innerHTML="body {margin:0px;border:0px;background:rgb(60,85,89);}";
   background(60, 85, 89);
   fill(59);
   rect(cx/3,400+(cy/3),300,height);
