@@ -835,20 +835,66 @@ function menu(){
 	if(controlMode2!==-1){drawSnooty(1);}
 	if(controlMode3!==-1){drawSnooty(2);}
 	if(controlMode4!==-1){drawSnooty(3);}
+
   if(keyp1.u){jump1=5;onFloor1=false;}
+	if(keyp2.u){jump2=5;onFloor2=false;}
+	if(keyp3.u){jump3=5;onFloor3=false;}
+	if(keyp4.u){jump4=5;onFloor4=false;}
 
   if(onFloor1){fall1=0;jump1=0;onFloorTF1=false;}else{fall1+=0.1;}
-
   if(onFloorTF1){onFloor1=false;}
+
+	if(onFloor2){fall2=0;jump2=0;onFloorTF2=false;}else{fall2+=0.1;}
+  if(onFloorTF2){onFloor2=false;}
+
+	if(onFloor3){fall3=0;jump3=0;onFloorTF3=false;}else{fall3+=0.1;}
+  if(onFloorTF3){onFloor3=false;}
+
+	if(onFloor4){fall4=0;jump4=0;onFloorTF4=false;}else{fall4+=0.1;}
+  if(onFloorTF4){onFloor4=false;}
 
   py1+=fall1;
   py1-=jump1;
 
+	py2+=fall2;
+	py2-=jump2;
+
+	py3+=fall3;
+	py3-=jump3;
+
+	py4+=fall4;
+	py4-=jump4;
+
   platform(0,100,width);
 
   jumpRand1+=random(0.25,1)/2;
+	jumpRand2+=random(0.25,1)/4;
+	jumpRand3+=random(0.5,1)/2;
+	jumpRand4+=random(0.25,1)/3;
+
   if(jumpRand1>10 && jumpRand1<50){keyp1.u=false;}
   if(jumpRand1>150){keyp1.u = true;jumpRand1=0;}
+
+	if(jumpRand2>10 && jumpRand2<50){keyp2.u=false;}
+  if(jumpRand2>150){keyp2.u = true;jumpRand2=0;}
+
+	if(jumpRand3>10 && jumpRand3<50){keyp3.u=false;}
+  if(jumpRand3>150){keyp3.u = true;jumpRand3=0;}
+
+	if(jumpRand4>10 && jumpRand4<50){keyp4.u=false;}
+  if(jumpRand4>150){keyp4.u = true;jumpRand4=0;}
+
+	rot1=60;
+	dir1="right";
+
+	rot2=60;
+	dir2="right";
+
+	rot3=60;
+	dir3="right";
+
+	rot4=60;
+	dir4="right";
 
   fill(50);
   rectMode(CENTER);
