@@ -1,10 +1,10 @@
 var px1 = 83;
 var py1 = 91;
-var px2 = 123;
+var px2 = 223;
 var py2 = 91;
-var px3 = 143;
+var px3 = 363;
 var py3 = 91;
-var px4 = 163;
+var px4 = 503;
 var py4 = 91;
 var cx = 0;
 var cy = 0;
@@ -28,7 +28,25 @@ var doLegRot1 = true;
 var doLegRot2 = true;
 var doLegRot3 = true;
 var doLegRot4 = true;
-var keyp = {
+var keyp1 = {
+l:false,
+r:false,
+u:false,
+d:false
+};
+var keyp2 = {
+l:false,
+r:false,
+u:false,
+d:false
+};
+var keyp3 = {
+l:false,
+r:false,
+u:false,
+d:false
+};
+var keyp4 = {
 l:false,
 r:false,
 u:false,
@@ -38,6 +56,10 @@ var onFloor1 = false;
 var onFloor2 = false;
 var onFloor3 = false;
 var onFloor4 = false;
+var onWall1 = false;
+var onWall2 = false;
+var onWall3 = false;
+var onWall4 = false;
 var onFloorTF1 = false;
 var onFloorTF2 = false;
 var onFloorTF3 = false;
@@ -61,10 +83,10 @@ var jumpRand3 = 0;
 var jumpRand4 = 0;
 var enemies = [];
 var level = 0;
-var controlMode1 = 0; //0=keyboad 1=touch 2=stick gamepad 3=button gamepad
-var controlMode2 = 0; //0=keyboad 1=touch 2=stick gamepad 3=button gamepad
-var controlMode3 = 0; //0=keyboad 1=touch 2=stick gamepad 3=button gamepad
-var controlMode4 = 0; //0=keyboad 1=touch 2=stick gamepad 3=button gamepad
+var controlMode1 = -1; //0=keyboad 1=touch 2=stick gamepad 3=button gamepad
+var controlMode2 = -1; //0=keyboad 1=touch 2=stick gamepad 3=button gamepad
+var controlMode3 = -1; //0=keyboad 1=touch 2=stick gamepad 3=button gamepad
+var controlMode4 = -1; //0=keyboad 1=touch 2=stick gamepad 3=button gamepad
 var selectedButton = 0;
 var deadzone = {
   inner:0.2,
@@ -269,46 +291,43 @@ function controlinator(player){
   if(player===0){
   if(controlMode1===0){
     doLegRot1=false;
-    keyp.u=false;
-    keyp.l=false;
-    keyp.r=false;
-    keyp.d=false;
+    keyp1.u=false;
+    keyp1.l=false;
+    keyp1.r=false;
+    keyp1.d=false;
 
-    if(keyIsDown(87)){keyp.u=true;}
-    if(keyIsDown(83)){keyp.d=true;}
-    if(keyIsDown(65)){keyp.l=true; doLegRot1=true;}
-    if(keyIsDown(68)){keyp.r=true; doLegRot1=true;}
-    if(keyIsDown(27)){paused=true;}
+    if(keyIsDown(87)){keyp1.u=true;}
+    if(keyIsDown(83)){keyp1.d=true;}
+    if(keyIsDown(65)){keyp1.l=true; doLegRot1=true;}
+    if(keyIsDown(68)){keyp1.r=true; doLegRot1=true;}
+    if(keyIsDown(27) && keyIsDown(16)===false){paused=true;}
     }
 
-    if(keyp.l){px1-=2;}
-    if(keyp.r){px1+=2;}
+    if(keyp1.l){px1-=2;}
+    if(keyp1.r){px1+=2;}
 
-    if(keyp.l && onFloor1){dir1="left";}
-    if(keyp.r && onFloor1){dir1="right";}
-
-
-
+    if(keyp1.l && onFloor1){dir1="left";}
+    if(keyp1.r && onFloor1){dir1="right";}
 
   if(controlMode1===2){
-    keyp.l=false;
-    keyp.r=false;
+    keyp1.l=false;
+    keyp1.r=false;
     if(p1.stick.lx>deadzone.inner && onFloor1){dir1="right";}
     if(p1.stick.lx<deadzone.inner-(deadzone.inner*2) && onFloor1){dir1="left";}
     if(p1.stick.lx>0.2 || p1.stick.lx<deadzone.inner-(deadzone.inner*2)){doLegRot1=true; px1+=p1.stick.lx*2;} else {doLegRot1=false;}
-    if(p1.button.cross){keyp.u=true;} else {keyp.u=false;}
+    if(p1.button.cross){keyp1.u=true;} else {keyp1.u=false;}
     if(p1.button.options){paused=true;}
   }
 
   if(controlMode1===3){
-    keyp.l=false;
-    keyp.r=false;
-    if(p1.button.left){keyp.l=true;}
-    if(p1.button.right){keyp.r=true;}
+    keyp1.l=false;
+    keyp1.r=false;
+    if(p1.button.left){keyp1.l=true;}
+    if(p1.button.right){keyp1.r=true;}
     if(p1.button.right && onFloor1){dir1="right";}
     if(p1.button.left && onFloor1){dir1="left";}
     if(p1.button.right || p1.button.left){doLegRot1=true;} else {doLegRot1=false;}
-    if(p1.button.cross){keyp.u=true;} else {keyp.u=false;}
+    if(p1.button.cross){keyp1.u=true;} else {keyp1.u=false;}
     if(p1.button.options){paused=true;}
   }
 
@@ -327,71 +346,74 @@ function controlinator(player){
     if(legRot1<0){legRot1+=2;}
   }
 
-  if(keyp.l&&keyp.r){
+  if(keyp1.l&&keyp1.r){
     if(rot1<0){rot1-=5;}
     if(rot1>0){rot1+=5;}
     doLegRot1=false;
 	}else{doLegRot1=true;}
 
-  if(keyp.u && onFloor1){jump1=5;onFloor1=false;fall1=0;}
+  if(keyp1.u && onFloor1){jump1=5;onFloor1=false;fall1=0;}
 
-  if(onFloor1 && keyp.u===false){fall1=0;jump1=0;}
+  if(onFloor1 && keyp1.u===false){fall1=0;jump1=0;}
 
   if(onFloor1===false){fall1+=0.1}
 
   py1+=fall1;
   py1-=jump1;
 
-  if(px1>width-width/3){cx-=2;px1-=2;}
-  if(px1<width/3){cx+=2;px1+=2;}
+	if(px1>width-width/3){cx-=2;px1-=2;px2-=2;px3-=2;px4-=2;}
+  if(px1<width/3){cx+=2;px1+=2;px2+=2;px3+=2;px4+=2;}
 
-  if(py1>height-height/3){cy-=2;py1-=2;}
-  if(py1<height/3){cy+=2;py1+=2;}
+  if(py1>height-height/3){cy-=2;py1-=2;py2-=2;py3-=2;py4-=2;}
+  if(py1<height/3){cy+=2;py1+=2;py2+=2;py3+=2;py4+=2;}
+
   }
+
   //player 2
   if(player===1){
-  if(controlMode2===0){
+		if(controlMode2===-1){
+	    px2=px1;
+			py2=py1;
+	  }
+
+	if(controlMode2===0){
     doLegRot2=false;
-    keyp.u=false;
-    keyp.l=false;
-    keyp.r=false;
-    keyp.d=false;
+    keyp2.u=false;
+    keyp2.l=false;
+    keyp2.r=false;
+    keyp2.d=false;
 
-    if(keyIsDown(87)){keyp.u=true;}
-    if(keyIsDown(83)){keyp.d=true;}
-    if(keyIsDown(65)){keyp.l=true; doLegRot2=true;}
-    if(keyIsDown(68)){keyp.r=true; doLegRot2=true;}
-    if(keyIsDown(27)){paused=true;}
-    }
+    if(keyIsDown(73)){keyp2.u=true;}
+    if(keyIsDown(75)){keyp2.d=true;}
+    if(keyIsDown(74)){keyp2.l=true; doLegRot2=true;}
+    if(keyIsDown(76)){keyp2.r=true; doLegRot2=true;}
+    if(keyIsDown(49)){paused=true;}
+  }
 
-    if(keyp.l){px2-=2;}
-    if(keyp.r){px2+=2;}
+    if(keyp2.l){px2-=2;}
+    if(keyp2.r){px2+=2;}
 
-    if(keyp.l && onFloor2){rot2="left";}
-    if(keyp.r && onFloor2){rot2="right";}
-
-
-
+    if(keyp2.l && onFloor2){dir2="left";}
+    if(keyp2.r && onFloor2){dir2="right";}
 
   if(controlMode2===2){
-    keyp.l=false;
-    keyp.r=false;
-    if(p2.stick.lx>deadzone.inner && onFloor2){rot2="right";}
-    if(p2.stick.lx<deadzone.inner-(deadzone.inner*2) && onFloor2){rot2="left";}
-    if(p2.stick.lx>0.2 || p2.stick.lx<deadzone.inner-(deadzone.inner*2)){doLegRot2=true; px2+=p2.stick.lx*2;} else {doLegRot1=false;}
-    if(p2.button.cross){keyp.u=true;} else {keyp.u=false;}
-    if(p2.button.options){paused=true;}
+    keyp1.l=false;
+    keyp1.r=false;
+    if(p2.stick.lx>deadzone.inner && onFloor2){dir2="right";}
+    if(p2.stick.lx<deadzone.inner-(deadzone.inner*2) && onFloor2){dir2="left";}
+    if(p2.stick.lx>0.2 || p2.stick.lx<deadzone.inner-(deadzone.inner*2)){doLegRot2=true; px2+=p2.stick.lx*2;} else {doLegRot2=false;}
+    if(p2.button.cross){keyp2.u=true;} else {keyp2.u=false;}
   }
 
   if(controlMode2===3){
-    keyp.l=false;
-    keyp.r=false;
-    if(p2.button.left){keyp.l=true;}
-    if(p2.button.right){keyp.r=true;}
-    if(p2.button.right && onFloor2){rot2="right";}
-    if(p2.button.left && onFloor2){rot2="left";}
+    keyp2.l=false;
+    keyp2.r=false;
+    if(p2.button.left){keyp2.l=true;}
+    if(p2.button.right){keyp2.r=true;}
+    if(p2.button.right && onFloor2){dir2="right";}
+    if(p2.button.left && onFloor2){dir2="left";}
     if(p2.button.right || p2.button.left){doLegRot2=true;} else {doLegRot2=false;}
-    if(p2.button.cross){keyp.u=true;} else {keyp.u=false;}
+    if(p2.button.cross){keyp2.u=true;} else {keyp2.u=false;}
     if(p2.button.options){paused=true;}
   }
 
@@ -410,237 +432,357 @@ function controlinator(player){
     if(legRot2<0){legRot2+=2;}
   }
 
-  if(keyp.l&&keyp.r){
+  if(keyp2.l&&keyp2.r){
     if(rot2<0){rot2-=5;}
     if(rot2>0){rot2+=5;}
     doLegRot2=false;}else{doLegRot2=true;}
 
-  if(keyp.u && onFloor2){jump2=5;onFloor2=false;fall2=0;}
+  if(keyp2.u && onFloor2){jump2=5;onFloor2=false;fall2=0;}
 
-  if(onFloor2 && keyp.u===false){fall2=0;jump2=0;}
+  if(onFloor2 && keyp1.u===false){fall2=0;jump2=0;}
 
   if(onFloor2===false){fall2+=0.1}
 
   py2+=fall2;
   py2-=jump2;
 
-  if(px2>width-width/3){cx-=2;px2-=2;}
-  if(px2<width/3){cx+=2;px2+=2;}
-
-  if(py2>height-height/3){cy-=2;py2-=2;}
-  if(py2<height/3){cy+=2;py2+=2;}
+	if(py2<-50){px2=px1;py2=py1;onFloor2=false;}
+	if(py2>height+100){px2=px1;py2=py1;onFloor2=false;}
+	if(px2>width+50){px4=px2;py2=py1;onFloor2=false;}
+	if(px2<-50){px2=px1;py2=py1;onFloor2=false;}
   }
+
   //player 3
   if(player===2){
-  if(controlMode2===0){
-    doLegRot2=false;
-    keyp.u=false;
-    keyp.l=false;
-    keyp.r=false;
-    keyp.d=false;
+		if(controlMode3===-1){
+	    px3=px1;
+			py3=py1;
+	  }
 
-    if(keyIsDown(87)){keyp.u=true;}
-    if(keyIsDown(83)){keyp.d=true;}
-    if(keyIsDown(65)){keyp.l=true; doLegRot2=true;}
-    if(keyIsDown(68)){keyp.r=true; doLegRot2=true;}
-    if(keyIsDown(27)){paused=true;}
+  if(controlMode3===0){
+    doLegRot3=false;
+    keyp3.u=false;
+    keyp3.l=false;
+    keyp3.r=false;
+    keyp3.d=false;
+
+    if(keyIsDown(38)){keyp3.u=true;}
+    if(keyIsDown(40)){keyp3.d=true;}
+    if(keyIsDown(37)){keyp3.l=true; doLegRot3=true;}
+    if(keyIsDown(39)){keyp3.r=true; doLegRot3=true;}
+    if(keyIsDown(50)){paused=true;}
     }
 
-    if(keyp.l){px2-=2;}
-    if(keyp.r){px2+=2;}
+    if(keyp3.l){px3-=2;}
+    if(keyp3.r){px3+=2;}
 
-    if(keyp.l && onFloor2){dir2="left";}
-    if(keyp.r && onFloor2){dir2="right";}
+    if(keyp3.l && onFloor3){dir3="left";}
+    if(keyp3.r && onFloor3){dir3="right";}
 
-
-
-
-  if(controlMode1===2){
-    keyp.l=false;
-    keyp.r=false;
-    if(p3.stick.lx>deadzone.inner && onFloor2){dir2="right";}
-    if(p3.stick.lx<deadzone.inner-(deadzone.inner*2) && onFloor2){dir1="left";}
-    if(p1.stick.lx>0.2 || p1.stick.lx<deadzone.inner-(deadzone.inner*2)){doLegRot1=true; px1+=p1.stick.lx*2;} else {doLegRot1=false;}
-    if(p1.button.cross){keyp.u=true;} else {keyp.u=false;}
-    if(p1.button.options){paused=true;}
+  if(controlMode3===2){
+    keyp3.l=false;
+    keyp3.r=false;
+    if(p3.stick.lx>deadzone.inner && onFloor3){dir3="right";}
+    if(p3.stick.lx<deadzone.inner-(deadzone.inner*2) && onFloor3){dir3="left";}
+    if(p3.stick.lx>0.2 || p3.stick.lx<deadzone.inner-(deadzone.inner*2)){doLegRot3=true; px3+=p3.stick.lx*2;} else {doLegRot3=false;}
+    if(p3.button.cross){keyp3.u=true;} else {keyp3.u=false;}
+    if(p3.button.options){paused=true;}
   }
 
   if(controlMode1===3){
-    keyp.l=false;
-    keyp.r=false;
-    if(p1.button.left){keyp.l=true;}
-    if(p1.button.right){keyp.r=true;}
-    if(p1.button.right && onFloor1){rot1="right";}
-    if(p1.button.left && onFloor1){rot1="left";}
-    if(p1.button.right || p1.button.left){doLegRot1=true;} else {doLegRot1=false;}
-    if(p1.button.cross){keyp.u=true;} else {keyp.u=false;}
-    if(p1.button.options){paused=true;}
+    keyp3.l=false;
+    keyp3.r=false;
+    if(p3.button.left){keyp3.l=true;}
+    if(p3.button.right){keyp3.r=true;}
+    if(p3.button.right && onFloor3){dir3="right";}
+    if(p3.button.left && onFloor3){dir3="left";}
+    if(p3.button.right || p3.button.left){doLegRot3=true;} else {doLegRot3=false;}
+    if(p3.button.cross){keyp3.u=true;} else {keyp3.u=false;}
+    if(p3.button.options){paused=true;}
   }
 
-  if(rot1==="left"){rot1-=5;}
-  if(rot1==="right"){rot1+=5;}
+  if(dir3==="left"){rot3-=5;}
+  if(dir3==="right"){rot3+=5;}
 
-  if(rot1>60){rot1=60;}
-  if(rot1<-60){rot1=-60;}
+  if(rot3>60){rot3=60;}
+  if(rot3<-60){rot3=-60;}
 
-  if(doLegRot1){
-    if(legRot1>30){legRotTF1=false;}
-    if(legRot1<-30){legRotTF1=true;}
-    if(legRotTF1){legRot1+=2;}
-    if(legRotTF1===false){legRot1-=2;}}else{
-    if(legRot1>0){legRot1-=2;}
-    if(legRot1<0){legRot1+=2;}
+  if(doLegRot3){
+    if(legRot3>30){legRotTF3=false;}
+    if(legRot3<-30){legRotTF3=true;}
+    if(legRotTF3){legRot3+=2;}
+    if(legRotTF3===false){legRot3-=2;}}else{
+    if(legRot3>0){legRot3-=2;}
+    if(legRot3<0){legRot3+=2;}
   }
 
-  if(keyp.l&&keyp.r){
-    if(rot1<0){rot1-=5;}
-    if(rot1>0){rot1+=5;}
-    doLegRot1=false;}else{doLegRot1=true;}
+  if(keyp3.l&&keyp3.r){
+    if(rot3<0){rot3-=5;}
+    if(rot3>0){rot3+=5;}
+    doLegRot3=false;}else{doLegRot3=true;}
 
-  if(keyp.u && onFloor1){jump1=5;onFloor1=false;fall1=0;}
+  if(keyp3.u && onFloor3){jump3=5;onFloor3=false;fall3=0;}
 
-  if(onFloor1 && keyp.u===false){fall1=0;jump1=0;}
+  if(onFloor3 && keyp3.u===false){fall3=0;jump3=0;}
 
-  if(onFloor1===false){fall1+=0.1}
+  if(onFloor3===false){fall3+=0.1}
 
-  py1+=fall1;
-  py1-=jump1;
+  py3+=fall3;
+  py3-=jump3;
 
-  if(px1>width-width/3){cx-=2;px1-=2;}
-  if(px1<width/3){cx+=2;px1+=2;}
-
-  if(py1>height-height/3){cy-=2;py1-=2;}
-  if(py1<height/3){cy+=2;py1+=2;}
+	if(py3>height+100){px3=px1;py3=py1;}
+	if(px3>width+50){px4=px3;py3=py1;}
+	if(px3<-50){px3=px1;py3=py1;}
   }
+
   //player 4
   if(player===3){
-  if(controlMode1===0){
-    doLegRot1=false;
-    keyp.u=false;
-    keyp.l=false;
-    keyp.r=false;
-    keyp.d=false;
+		if(controlMode3===-1){
+	    px3=px1;
+			py3=py1;
+	  }
 
-    if(keyIsDown(87)){keyp.u=true;}
-    if(keyIsDown(83)){keyp.d=true;}
-    if(keyIsDown(65)){keyp.l=true; doLegRot1=true;}
-    if(keyIsDown(68)){keyp.r=true; doLegRot1=true;}
-    if(keyIsDown(27)){paused=true;}
+  if(controlMode4===0){
+    doLegRot4=false;
+    keyp4.u=false;
+    keyp4.l=false;
+    keyp4.r=false;
+    keyp4.d=false;
+
+    if(keyIsDown(84)){keyp4.u=true;}
+    if(keyIsDown(71)){keyp4.d=true;}
+    if(keyIsDown(70)){keyp4.l=true; doLegRot4=true;}
+    if(keyIsDown(72)){keyp4.r=true; doLegRot4=true;}
+    if(keyIsDown(51)){paused=true;}
     }
 
-    if(keyp.l){px1-=2;}
-    if(keyp.r){px1+=2;}
+    if(keyp4.l){px4-=2;}
+    if(keyp4.r){px4+=2;}
 
-    if(keyp.l && onFloor1){rot1="left";}
-    if(keyp.r && onFloor1){rot1="right";}
-
-
+    if(keyp4.l && onFloor4){dir4="left";}
+    if(keyp4.r && onFloor4){dir4="right";}
 
 
-  if(controlMode1===2){
-    keyp.l=false;
-    keyp.r=false;
-    if(p1.stick.lx>deadzone.inner && onFloor1){rot1="right";}
-    if(p1.stick.lx<deadzone.inner-(deadzone.inner*2) && onFloor1){rot1="left";}
-    if(p1.stick.lx>0.2 || p1.stick.lx<deadzone.inner-(deadzone.inner*2)){doLegRot1=true; px1+=p1.stick.lx*2;} else {doLegRot1=false;}
-    if(p1.button.cross){keyp.u=true;} else {keyp.u=false;}
-    if(p1.button.options){paused=true;}
+
+
+  if(controlMode4===2){
+    keyp4.l=false;
+    keyp4.r=false;
+    if(p4.stick.lx>deadzone.inner && onFloor4){dir4="right";}
+    if(p4.stick.lx<deadzone.inner-(deadzone.inner*2) && onFloor4){dir4="left";}
+    if(p4.stick.lx>0.2 || p4.stick.lx<deadzone.inner-(deadzone.inner*2)){doLegRot4=true; px4+=p4.stick.lx*2;} else {doLegRot4=false;}
+    if(p4.button.cross){keyp4.u=true;} else {keyp4.u=false;}
+    if(p4.button.options){paused=true;}
   }
 
-  if(controlMode1===3){
-    keyp.l=false;
-    keyp.r=false;
-    if(p1.button.left){keyp.l=true;}
-    if(p1.button.right){keyp.r=true;}
-    if(p1.button.right && onFloor1){rot1="right";}
-    if(p1.button.left && onFloor1){rot1="left";}
-    if(p1.button.right || p1.button.left){doLegRot1=true;} else {doLegRot1=false;}
-    if(p1.button.cross){keyp.u=true;} else {keyp.u=false;}
-    if(p1.button.options){paused=true;}
+  if(controlMode4===3){
+    keyp4.l=false;
+    keyp4.r=false;
+    if(p4.button.left){keyp4.l=true;}
+    if(p4.button.right){keyp4.r=true;}
+    if(p4.button.right && onFloor4){dir4="right";}
+    if(p4.button.left && onFloor4){dir4="left";}
+    if(p4.button.right || p4.button.left){doLegRot4=true;} else {doLegRot4=false;}
+    if(p4.button.cross){keyp4.u=true;} else {keyp4.u=false;}
+    if(p4.button.options){paused=true;}
   }
 
-  if(rot1==="left"){rot1-=5;}
-  if(rot1==="right"){rot1+=5;}
+  if(dir4==="left"){rot4-=5;}
+  if(dir4==="right"){rot4+=5;}
 
-  if(rot1>60){rot1=60;}
-  if(rot1<-60){rot1=-60;}
+  if(rot4>60){rot4=60;}
+  if(rot4<-60){rot4=-60;}
 
-  if(doLegRot1){
-    if(legRot1>30){legRotTF1=false;}
-    if(legRot1<-30){legRotTF1=true;}
-    if(legRotTF1){legRot1+=2;}
-    if(legRotTF1===false){legRot1-=2;}}else{
-    if(legRot1>0){legRot1-=2;}
-    if(legRot1<0){legRot1+=2;}
+  if(doLegRot4){
+    if(legRot4>30){legRotTF4=false;}
+    if(legRot4<-30){legRotTF4=true;}
+    if(legRotTF4){legRot4+=2;}
+    if(legRotTF4===false){legRot4-=2;}}else{
+    if(legRot4>0){legRot4-=2;}
+    if(legRot4<0){legRot4+=2;}
   }
 
-  if(keyp.l&&keyp.r){
-    if(rot1<0){rot1-=5;}
-    if(rot1>0){rot1+=5;}
-    doLegRot1=false;}else{doLegRot1=true;}
+  if(keyp4.l&&keyp4.r){
+    if(rot4<0){rot4-=5;}
+    if(rot4>0){rot4+=5;}
+    doLegRot4=false;}else{doLegRot4=true;}
 
-  if(keyp.u && onFloor1){jump1=5;onFloor1=false;fall1=0;}
+  if(keyp4.u && onFloor4){jump4=5;onFloor4=false;fall4=0;}
 
-  if(onFloor1 && keyp.u===false){fall1=0;jump1=0;}
+  if(onFloor4 && keyp4.u===false){fall4=0;jump4=0;}
 
-  if(onFloor1===false){fall1+=0.1}
+  if(onFloor4===false){fall4+=0.1}
 
-  py1+=fall1;
-  py1-=jump1;
+  py4+=fall4;
+  py4-=jump4;
 
-  if(px1>width-width/3){cx-=2;px1-=2;}
-  if(px1<width/3){cx+=2;px1+=2;}
-
-  if(py1>height-height/3){cy-=2;py1-=2;}
-  if(py1<height/3){cy+=2;py1+=2;}
+	if(py4>height+100){px4=px1;py4=py1;}
+	if(px4>width+50){px4=px1;py4=py1;}
+	if(px4<-50){px4=px1;py4=py1;}
   }
 }
 
 function platform(x,y,w){
-stroke(0);
-strokeWeight(3);
-line(x+cx,y+cy,x+w+cx,y+cy);
-noStroke();
-if(px1>x-5+cx && px1<x+w+5+cx && py1>y-37+cy && py1<y+2+cy){
-if(px1>x+cx && px1<x+w+cx){py1=cy+y-35;onFloor1=true;}
-if(px1<x+cx || px1>x+w+cx){onFloor1=false;}
-}
+	stroke(0);
+	strokeWeight(3);
+	line(x+cx,y+cy,x+w+cx,y+cy);
+	noStroke();
+	if(px1>x-5+cx && px1<x+w+5+cx && py1>y-37+cy && py1<y+2+cy){
+		if(px1>x+cx && px1<x+w+cx){py1=cy+y-35;onFloor1=true;}
+		if(px1<x+cx || px1>x+w+cx){onFloor1=false;}
+	}
+	if(px2>x-5+cx && px2<x+w+5+cx && py2>y-37+cy && py2<y+2+cy){
+		if(px2>x+cx && px2<x+w+cx){py2=cy+y-35;onFloor2=true;}
+		if(px2<x+cx || px2>x+w+cx){onFloor2=false;}
+	}
+	if(px3>x-5+cx && px3<x+w+5+cx && py3>y-37+cy && py3<y+2+cy){
+		if(px3>x+cx && px3<x+w+cx){py3=cy+y-35;onFloor3=true;}
+		if(px3<x+cx || px3>x+w+cx){onFloor3=false;}
+	}
+	if(px4>x-5+cx && px4<x+w+5+cx && py4>y-37+cy && py4<y+2+cy){
+		if(px4>x+cx && px4<x+w+cx){py4=cy+y-35;onFloor4=true;}
+		if(px4<x+cx || px4>x+w+cx){onFloor4=false;}
+	}
 }
 
 function wall(x,y,h){
   stroke(0);
   line(x+cx,y+cy,x+cx,y+h+cy);
   noStroke();
+	//player 1
   if(py1>y+cy && py1<y+h+cy){
     if(px1>x-15+cx && px1<x+cx){
       if(controlMode1===0 || controlMode1===3){
-        if(keyp.u===false && keyp.d===false || keyp.u && keyp.d || p1.button.up && p1.button.down || p1.button.up===false || p1.button.down===false){fall1=1.5;}
-        if(keyp.u && keyp.d===false || p1.button.up && p1.button.down===false){fall1=1;}
-        if(keyp.d && keyp.u===false || p1.button.down && p1.button.up===false){fall1=2;}
-        if(keyp.u===false){px1=x-10+cx;jump1=0;fall1=1.5;}
-        if(keyp.l && keyp.u || keyp.r && keyp.u){jump1=5;}
+        if(keyp1.u===false && keyp1.d===false || keyp1.u && keyp1.d || p1.button.up && p1.button.down || p1.button.up===false || p1.button.down===false){fall1=1.5;}
+        if(keyp1.u && keyp1.d===false || p1.button.up && p1.button.down===false){fall1=1;}
+        if(keyp1.d && keyp1.u===false || p1.button.down && p1.button.up===false){fall1=2;}
+        if(keyp1.u===false){px1=x-10+cx;jump1=0;fall1=1.5;}
+        if(keyp1.l && keyp1.u || keyp1.r && keyp1.u){jump1=5;}
       }
       if(controlMode1===2){
-        if(keyp.u===false){px1=x-10+cx;jump1=0;fall1=1.5+(p1.stick.ly/2);}
-        if(p1.stick.lx<deadzone.inner-(deadzone.inner*2) && keyp.u || p1.stick.lx>deadzone.inner && keyp.u){jump1=5;}
+        if(keyp1.u===false){px1=x-10+cx;jump1=0;fall1=1.5+(p1.stick.ly/2);}
+        if(p1.stick.lx<deadzone.inner-(deadzone.inner*2) && keyp1.u || p1.stick.lx>deadzone.inner && keyp1.u){jump1=5;}
       }
       dir1="left";
       doLegRot1=false;
     }
     if(px1>x+cx && px1<x+15+cx){
       if(controlMode1===0 || controlMode1===3){
-        if(keyp.u===false && keyp.d===false || keyp.u && keyp.d || p1.button.up && p1.button.down || p1.button.up===false || p1.button.down===false){fall1=1.5;}
-        if(keyp.u && keyp.d===false || p1.button.up && p1.button.down===false){fall1=1;}
-        if(keyp.d && keyp.u===false|| p1.button.down && p1.button.up===false){fall1=2;}
-        if(keyp.u===false){px1=x+10+cx;jump1=0;fall1=1.5;}
-        if(keyp.l && keyp.u || keyp.r && keyp.u){jump1=5;}
+        if(keyp1.u===false && keyp1.d===false || keyp1.u && keyp1.d || p1.button.up && p1.button.down || p1.button.up===false || p1.button.down===false){fall1=1.5;}
+        if(keyp1.u && keyp1.d===false || p1.button.up && p1.button.down===false){fall1=1;}
+        if(keyp1.d && keyp1.u===false|| p1.button.down && p1.button.up===false){fall1=2;}
+        if(keyp1.u===false){px1=x+10+cx;jump1=0;fall1=1.5;}
+        if(keyp1.l && keyp1.u || keyp1.r && keyp1.u){jump1=5;}
       }
       if(controlMode1===2){
-        if(keyp.u===false){px1=x+10+cx;jump1=0;fall1=1.5+(p1.stick.ly/2);}
-        if(p1.stick.lx<deadzone.inner-(deadzone.inner*2) && keyp.u || p1.stick.lx>deadzone.inner && keyp.u){jump1=5;}
+        if(keyp1.u===false){px1=x+10+cx;jump1=0;fall1=1.5+(p1.stick.ly/2);}
+        if(p1.stick.lx<deadzone.inner-(deadzone.inner*2) && keyp1.u || p1.stick.lx>deadzone.inner && keyp1.u){jump1=5;}
       }
       dir1="right";
       doLegRot1=false;
+    }
+  }
+
+	//player 2
+  if(py2>y+cy && py2<y+h+cy){
+    if(px2>x-15+cx && px2<x+cx){
+      if(controlMode2===0 || controlMode2===3){
+        if(keyp2.u===false && keyp2.d===false || keyp2.u && keyp2.d || p2.button.up && p2.button.down || p2.button.up===false || p2.button.down===false){fall2=1.5;}
+        if(keyp2.u && keyp2.d===false || p2.button.up && p2.button.down===false){fall2=1;}
+        if(keyp2.d && keyp2.u===false || p2.button.down && p2.button.up===false){fall2=2;}
+        if(keyp2.u===false){px2=x-10+cx;jump2=0;fall2=1.5;}
+        if(keyp2.l && keyp2.u || keyp2.r && keyp2.u){jump2=5;}
+      }
+      if(controlMode2===2){
+        if(keyp2.u===false){px2=x-10+cx;jump2=0;fall2=1.5+(p2.stick.ly/2);}
+        if(p2.stick.lx<deadzone.inner-(deadzone.inner*2) && keyp2.u || p2.stick.lx>deadzone.inner && keyp2.u){jump2=5;}
+      }
+      dir2="left";
+      doLegRot2=false;
+    }
+
+    if(px2>x+cx && px2<x+15+cx){
+      if(controlMode2===0 || controlMode2===3){
+        if(keyp2.u===false && keyp2.d===false || keyp2.u && keyp2.d || p2.button.up && p2.button.down || p2.button.up===false || p2.button.down===false){fall2=1.5;}
+        if(keyp2.u && keyp2.d===false || p2.button.up && p2.button.down===false){fall2=1;}
+        if(keyp2.d && keyp2.u===false|| p2.button.down && p2.button.up===false){fall2=2;}
+        if(keyp2.u===false){px2=x+10+cx;jump2=0;fall2=1.5;}
+        if(keyp2.l && keyp2.u || keyp2.r && keyp2.u){jump2=5;}
+      }
+      if(controlMode2===2){
+        if(keyp2.u===false){px2=x+10+cx;jump2=0;fall2=1.5+(p2.stick.ly/2);}
+        if(p2.stick.lx<deadzone.inner-(deadzone.inner*2) && keyp2.u || p2.stick.lx>deadzone.inner && keyp2.u){jump2=5;}
+      }
+      dir2="right";
+      doLegRot2=false;
+    }
+  }
+
+	//player 3
+  if(py3>y+cy && py3<y+h+cy){
+    if(px3>x-15+cx && px3<x+cx){
+      if(controlMode3===0 || controlMode3===3){
+        if(keyp3.u===false && keyp3.d===false || keyp3.u && keyp3.d || p3.button.up && p3.button.down || p3.button.up===false && p3.button.down===false){fall3=1.5;}
+        if(keyp3.u && keyp3.d===false || p3.button.up && p3.button.down===false){fall3=1;}
+        if(keyp3.d && keyp3.u===false || p3.button.down && p3.button.up===false){fall3=2;}
+        if(keyp3.u===false){px3=x-10+cx;jump3=0;fall3=1.5;}
+        if(keyp3.l && keyp3.u || keyp3.r && keyp3.u){jump3=5;}
+      }
+      if(controlMode3===2){
+        if(keyp3.u===false){px3=x-10+cx;jump3=0;fall3=1.5+(p3.stick.ly/2);}
+        if(p3.stick.lx<deadzone.inner-(deadzone.inner*2) && keyp3.u || p3.stick.lx>deadzone.inner && keyp3.u){jump3=5;}
+      }
+      dir3="left";
+      doLegRot3=false;
+    }
+    if(px3>x+cx && px3<x+15+cx){
+      if(controlMode3===0 || controlMode3===3){
+        if(keyp3.u===false && keyp3.d===false || keyp3.u && keyp3.d || p3.button.up && p3.button.down || p3.button.up===false || p3.button.down===false){fall3=1.5;}
+        if(keyp3.u && keyp3.d===false || p3.button.up && p3.button.down===false){fall3=1;}
+        if(keyp3.d && keyp3.u===false|| p3.button.down && p3.button.up===false){fall3=2;}
+        if(keyp3.u===false){px3=x+10+cx;jump3=0;fall3=1.5;}
+        if(keyp3.l && keyp3.u || keyp3.r && keyp3.u){jump3=5;}
+      }
+      if(controlMode3===2){
+        if(keyp3.u===false){px3=x+10+cx;jump3=0;fall3=1.5+(p3.stick.ly/2);}
+        if(p3.stick.lx<deadzone.inner-(deadzone.inner*2) && keyp3.u || p3.stick.lx>deadzone.inner && keyp3.u){jump3=5;}
+      }
+      dir3="right";
+      doLegRot3=false;
+    }
+  }
+
+	//player 4
+  if(py4>y+cy && py4<y+h+cy){
+    if(px4>x-15+cx && px4<x+cx){
+      if(controlMode4===0 || controlMode4===3){
+        if(keyp4.u===false && keyp4.d===false || keyp4.u && keyp4.d || p4.button.up && p4.button.down || p4.button.up===false || p4.button.down===false){fall4=1.5;}
+        if(keyp4.u && keyp4.d===false || p4.button.up && p4.button.down===false){fall4=1;}
+        if(keyp4.d && keyp4.u===false || p4.button.down && p4.button.up===false){fall4=2;}
+        if(keyp4.u===false){px4=x-10+cx;jump4=0;fall4=1.5;}
+        if(keyp4.l && keyp4.u || keyp4.r && keyp4.u){jump4=5;}
+      }
+      if(controlMode4===2){
+        if(keyp4.u===false){px4=x-10+cx;jump4=0;fall4=1.5+(p4.stick.ly/2);}
+        if(p4.stick.lx<deadzone.inner-(deadzone.inner*2) && keyp4.u || p4.stick.lx>deadzone.inner && keyp4.u){jump4=5;}
+      }
+      dir4="left";
+      doLegRot4=false;
+    }
+    if(px4>x+cx && px4<x+15+cx){
+      if(controlMode4===0 || controlMode4===3){
+        if(keyp4.u===false && keyp4.d===false || keyp4.u && keyp4.d || p4.button.up && p4.button.down || p4.button.up===false || p4.button.down===false){fall4=1.5;}
+        if(keyp4.u && keyp4.d===false || p4.button.up && p4.button.down===false){fall4=1;}
+        if(keyp4.d && keyp4.u===false|| p4.button.down && p4.button.up===false){fall4=2;}
+        if(keyp4.u===false){px4=x+10+cx;jump4=0;fall4=1.5;}
+        if(keyp4.l && keyp4.u || keyp4.r && keyp4.u){jump4=5;}
+      }
+      if(controlMode4===2){
+        if(keyp4.u===false){px4=x+10+cx;jump4=0;fall4=1.5+(p4.stick.ly/2);}
+        if(p4.stick.lx<deadzone.inner-(deadzone.inner*2) && keyp4.u || p4.stick.lx>deadzone.inner && keyp4.u){jump4=5;}
+      }
+      dir4="right";
+      doLegRot4=false;
     }
   }
 }
@@ -660,6 +802,9 @@ function door(x,y){
     levelStart.x=px1;
     levelStart.y=py1;
     onFloor1=false;
+		onFloor2=false;
+		onFloor3=false;
+		onFloor4=false;
   }
 }
 
@@ -672,6 +817,12 @@ function menu(){
     levelStart.y = 91;
     px1=levelStart.x;
     py1=levelStart.y;
+		px2=levelStart.x+140;
+    py2=levelStart.y;
+		px3=levelStart.x+140*2;
+    py3=levelStart.y;
+		px4=levelStart.x+140*3;
+    py4=levelStart.y;
     cx=0;
     cy=0;
     fall1=0;
@@ -681,7 +832,10 @@ function menu(){
   style.innerHTML="body {margin:0px;border:0px;background:rgb(50,50,50);}";
   background(50);
   drawSnooty(0);
-  if(keyp.u){jump1=5;onFloor1=false;}
+	if(controlMode2!==-1){drawSnooty(1);}
+	if(controlMode3!==-1){drawSnooty(2);}
+	if(controlMode4!==-1){drawSnooty(3);}
+  if(keyp1.u){jump1=5;onFloor1=false;}
 
   if(onFloor1){fall1=0;jump1=0;onFloorTF1=false;}else{fall1+=0.1;}
 
@@ -693,8 +847,8 @@ function menu(){
   platform(0,100,width);
 
   jumpRand1+=random(0.25,1)/2;
-  if(jumpRand1>10 && jumpRand1<50){keyp.u=false;}
-  if(jumpRand1>150){keyp.u = true;jumpRand1=0;}
+  if(jumpRand1>10 && jumpRand1<50){keyp1.u=false;}
+  if(jumpRand1>150){keyp1.u = true;jumpRand1=0;}
 
   fill(50);
   rectMode(CENTER);
@@ -729,6 +883,9 @@ function menu(){
     if(mouseX>(width/3)-100 && mouseY>(height/2)-50 && mouseX<(width/3)+100 && mouseY<(height/2)+50 && mouseIsPressed){
       scene=1;
       onFloor1=false;
+			onFloor2=false;
+			onFloor3=false;
+			onFloor4=false;
       selectedButton=0;
       init=true;
     }
@@ -743,7 +900,10 @@ function menu(){
 
     if(p1.button.cross && selectedButton===1){
       scene=1;
-      onFloor1=false;
+			onFloor1=false;
+			onFloor2=false;
+			onFloor3=false;
+			onFloor4=false;
       selectedButton=0;
       init=true;
     }
@@ -758,7 +918,10 @@ function menu(){
 
     if(p1.button.cross && selectedButton===1){
       scene=1;
-      onFloor1=false;
+			onFloor1=false;
+			onFloor2=false;
+			onFloor3=false;
+			onFloor4=false;
       selectedButton=0;
       init=true;
     }
@@ -796,8 +959,8 @@ function dead(){
   noStroke();
   fill(255,0,0);
   textSize(20);
-  text("Click here to continue",width/3,2*height/3);
-  text("Click here to return to menu",2*width/3,2*height/3);
+  text("Continue",width/3,2*height/3);
+  text("Return to menu",2*width/3,2*height/3);
   if(controlMode1===0){
     selectedButton=0;
     if(mouseX>(width/3)-100 && mouseY>(2*height/3)-12.5 && mouseX<(width/3)+100 && mouseY<(2*height/3)+12.5){
@@ -811,9 +974,18 @@ function dead(){
 
     if(mouseIsPressed && mouseX>(width/3)-100 && mouseY>(2*height/3)-12.5 && mouseX<(width/3)+100 && mouseY<(2*height/3)+12.5){
       onFloor1=false;
+			onFloor2=false;
+			onFloor3=false;
+			onFloor4=false;
       scene=level;
       px1=levelStart.x;
       py1=levelStart.y;
+			px2=px1;
+      py2=py1;
+			px3=px1;
+      py3=py1;
+			px4=px1;
+      py4=py1;
       cx=0;
       cy=0;
       rot1="right";
@@ -833,10 +1005,19 @@ function dead(){
     if(p1.stick.lx>deadzone.inner || p1.button.right){selectedButton=2;}
 
     if(p1.button.cross && selectedButton===1){
-      onFloor1=false;
+			onFloor1=false;
+			onFloor2=false;
+			onFloor3=false;
+			onFloor4=false;
       scene=level;
-      px1=83;
-      py1=91;
+      px1=levelStart.x;
+      py1=levelStart.y;
+			px2=px1;
+      py2=py1;
+			px3=px1;
+      py3=py1;
+			px4=px1;
+      py4=py1;
       cx=0;
       rot1="right";
       fall1=0;
@@ -856,16 +1037,66 @@ function dead(){
 }
 
 function pause(){
-  sounds.overworld.pause();
-  sounds.cave.pause();
+  sounds.overworld.stop();
+  sounds.cave.stop();
   fill(0,0,0,127.5);
+	rectMode(CORNER);
   rect(0,0,width,height);
   fill(255);
   textSize(40);
+	textAlign(CENTER,CENTER)
   text("PAUSED",width/2,height/3);
   textSize(20);
-  if(p1.button.circle){paused=false;}
-  if(keyIsDown(27) && keyIsDown(16)){paused=false;init=true;}
+	text("Drop out \n Player 2",width/3,height/2);
+	text("Drop out \n Player 3",width/2,height/2);
+	text("Drop out \n Player 4",width*2/3,height/2);
+	text("Menu",width/2,height*2/3);
+	noFill();
+	stroke(255);
+	rectMode(CENTER);
+	rect(width/3,height/2,100,75,5);
+	rect(width/2,height/2,100,75,5);
+	rect(width*2/3,height/2,100,75,5);
+	rect(width/2,height*2/3,100,75,5);
+	noStroke();
+	if(controlMode1===2 && p1.button.circle || controlMode1===3 && p1.button.circle){paused=false;init=true;}
+  if(controlMode1===0 && keyIsDown(27) && keyIsDown(16)){paused=false;init=true;}
+	if(controlMode1===0){
+		if(mouseX>width/3-50 && mouseX<width/3+50 && mouseY>height/2-75 && mouseY<height/2+75){
+			if(mouseIsPressed){controlMode2=-1;}
+			cursor(HAND);
+		}
+		if(mouseX>width/2-50 && mouseX<width/2+50 && mouseY>height/2-75 && mouseY<height/2+75){
+			if(mouseIsPressed){controlMode3=-1;}
+			cursor(HAND);
+		}
+		if(mouseX>width*2/3-50 && mouseX<width*2/3+50 && mouseY>height/2-75 && mouseY<height/2+75){
+			if(mouseIsPressed){controlMode4=-1;}
+			cursor(HAND);
+		}
+		if(mouseX>width/2-50 && mouseX<width/2+50 && mouseY>height*2/3-75 && mouseY<height*2/3+75){
+			if(mouseIsPressed){
+				scene=0;
+				cx=0;
+				cy=0;
+				px1=89;
+				py1=93;
+				px2=89+140;
+				py2=93;
+				px3=89+140*2;
+				py3=93;
+				px4=89+140*3;
+				py4=93;
+				dir1="right";
+				dir2="right";
+				dir3="right";
+				dir4s="right";
+				paused=false;
+			}
+			cursor(HAND);
+		}
+
+	}
 }
 
 function level0(){
@@ -897,8 +1128,11 @@ function level0(){
   }
 
   door(1975,350);
-  drawSnooty(0);
-  if(paused===false){controlinator(0);}
+	drawSnooty(0);
+	if(controlMode2!==-1){drawSnooty(1);}
+	if(controlMode3!==-1){drawSnooty(2);}
+	if(controlMode4!==-1){drawSnooty(3);}
+  if(paused===false){controlinator(0);controlinator(1);controlinator(2);controlinator(3);}
   noStroke();
   fill(0, 200, 0);
   rect(-1000+cx,0,1000,height);
@@ -942,8 +1176,11 @@ function level1(){
   fill(0,0,0);
   rect(175+cx,500+cy,50,100);
   triangle(150+cx,600+cy,250+cx,600+cy,200+cx,700+cy);
-  drawSnooty(0);
-  if(paused===false){controlinator(0);}
+	drawSnooty(0);
+	if(controlMode2!==-1){drawSnooty(1);}
+	if(controlMode3!==-1){drawSnooty(2);}
+	if(controlMode4!==-1){drawSnooty(3);}
+  if(paused===false){controlinator(0);controlinator(1);controlinator(2);controlinator(3);}
   platform(900,500,200);
   platform(700,400,200);
   platform(400,500,200);
@@ -969,18 +1206,43 @@ function debug(){
   text("px1="+px1+", py1="+py1,100,140);
   text("controlMode1="+controlMode1,100,160);
   text("p1.stick.lx="+p1.stick.lx,100,180);
-  text("onFloor1="+onFloor1+", keyp.u="+keyp.u,100,200);
+  text("onFloor1="+onFloor1+", keyp1.u="+keyp1.u,100,200);
   text("selectedButton="+selectedButton,100,220);
 }
 
 function draw(){
   cursor();
-  if(keyIsPressed || mouseX !==pmouseX || mouseY!==pmouseY){controlMode1=0;}
+
+  if(keyIsDown(87) || keyIsDown(83) || keyIsDown(65) || keyIsDown(68) || mouseX!==pmouseX || mouseY!==pmouseY){controlMode1=0;}
+
   if(touches>0){controlMode1=1;}
+
   if(p1.stick.lx>deadzone.inner || p1.stick.lx<deadzone.inner-(2*deadzone.inner) || p1.stick.ly>deadzone.inner || p1.stick.ly<deadzone.inner-(2*deadzone.inner)){controlMode1=2;}
+
   if(p1.button.left || p1.button.right || p1.button.up || p1.button.down){controlMode1=3;}
+
+	if(keyIsDown(73) || keyIsDown(75) || keyIsDown(74) || keyIsDown(76)){controlMode2=0;}
+
+  if(p2.stick.lx>deadzone.inner || p2.stick.lx<deadzone.inner-(2*deadzone.inner) || p2.stick.ly>deadzone.inner || p2.stick.ly<deadzone.inner-(2*deadzone.inner)){controlMode2=2;}
+
+  if(p2.button.left || p2.button.right || p2.button.up || p2.button.down){controlMode2=3;}
+
+	if(keyIsDown(38) || keyIsDown(40) || keyIsDown(37) || keyIsDown(39)){controlMode3=0;}
+
+  if(p3.stick.lx>deadzone.inner || p3.stick.lx<deadzone.inner-(2*deadzone.inner) || p3.stick.ly>deadzone.inner || p3.stick.ly<deadzone.inner-(2*deadzone.inner)){controlMode3=2;}
+
+  if(p3.button.left || p3.button.right || p3.button.up || p3.button.down){controlMode3=3;}
+
+	if(keyIsDown(84) ||	keyIsDown(71) || keyIsDown(70) || keyIsDown(72)){controlMode4=0;}
+
+  if(p4.stick.lx>deadzone.inner || p4.stick.lx<deadzone.inner-(2*deadzone.inner) || p4.stick.ly>deadzone.inner || p4.stick.ly<deadzone.inner-(2*deadzone.inner)){controlMode4=2;}
+
+  if(p4.button.left || p4.button.right || p4.button.up || p4.button.down){controlMode4=3;}
+
   if(controlMode1===2 && p1.button.logo || controlMode1===3 && p1.button.logo){window.location.href="https://turnoffthetv.github.io/programs/snooty-scooty-and-the-frowns/reload/";}
+
   if(width !== windowWidth || height !== windowHeight){resizeCanvas(windowWidth, windowHeight);}
+
   if(scene===-1){dead();}
   if(scene===0){menu();}
   if(scene===1){level0();}
