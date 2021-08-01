@@ -154,6 +154,7 @@ function drawSnooty(player){
     //leg
     push();
     stroke(0);
+		strokeWeight(3);
     translate(px1-rot1/12,py1);
     rotate(radians(legRot1-legRot1*2));
     line(0,0,0,35);
@@ -787,6 +788,17 @@ function wall(x,y,h){
   }
 }
 
+function spikes(x,y,w){
+	fill(96,144,88);
+	for(var i=0;i<w;i+=10){
+		triangle(x+cx+i,y+cy,x+10+cx+i,y+cy,x+5+cx+i,y-10+cy);
+	}
+	if(px1>x+cx && px1<x+w+cx && py1>y-10+cy && py1<y+cy){scene=-1;}
+	if(px2>x+cx && px2<x+w+cx && py2>y-10+cy && py2<y+cy){px2=px1;py2=py1;}
+	if(px3>x+cx && px3<x+w+cx && py3>y-10+cy && py3<y+cy){px3=px1;py3=py1;}
+	if(px4>x+cx && px4<x+w+cx && py4>y-10+cy && py4<y+cy){px4=px1;py4=py1;}
+}
+
 function door(x,y){
   fill(255);
   rect(x+cx-5,y+cy-5,70,85);
@@ -884,15 +896,19 @@ function menu(){
 	if(jumpRand4>10 && jumpRand4<50){keyp4.u=false;}
   if(jumpRand4>150){keyp4.u = true;jumpRand4=0;}
 
+	legRot1=0;
 	rot1=60;
 	dir1="right";
 
+	legRot2=0;
 	rot2=60;
 	dir2="right";
 
+	legRot3=0;
 	rot3=60;
 	dir3="right";
 
+	legRot4=0;
 	rot4=60;
 	dir4="right";
 
@@ -1100,9 +1116,17 @@ function pause(){
 	noFill();
 	stroke(255);
 	rectMode(CENTER);
+	strokeWeight(2);
+	if(selectedButton===1){strokeWeight(5);}
 	rect(width/3,height/2,100,75,5);
+	strokeWeight(2);
+	if(selectedButton===2){strokeWeight(5);}
 	rect(width/2,height/2,100,75,5);
+	strokeWeight(2);
+	if(selectedButton===3){strokeWeight(5);}
 	rect(width*2/3,height/2,100,75,5);
+	strokeWeight(2);
+	if(selectedButton===4){strokeWeight(5);}
 	rect(width/2,height*2/3,100,75,5);
 	noStroke();
 	if(controlMode1===2 && p1.button.circle || controlMode1===3 && p1.button.circle){paused=false;init=true;}
@@ -1142,6 +1166,66 @@ function pause(){
 			cursor(HAND);
 		}
 
+	}
+	if(controlMode1===2){
+		if(selectedButton!==4 && p1.stick.ly>deadzone.inner){selectedButton=4;}
+		if(selectedButton===4 && p1.stick.ly<deadzone.inner-deadzone.inner*2){selectedButton=2;}
+		if(selectedButton===2 && p1.stick.lx<deadzone.inner-deadzone.inner*2 || selectedButton===4 && p1.stick.lx<deadzone.inner-deadzone.inner*2){selectedButton=1;}
+		if(selectedButton===2 && p1.stick.lx>deadzone.inner || selectedButton===4 && p1.stick.lx>deadzone.inner){selectedButton=3;}
+		if(selectedButton===1 && p1.stick.lx>deadzone.inner){selectedButton=2;}
+		if(selectedButton===3 && p1.stick.lx<deadzone.inner-deadzone.inner*2){selectedButton=2;}
+
+		if(selectedButton===1 && p1.button.cross){controlMode2=-1;}
+		if(selectedButton===2 && p1.button.cross){controlMode3=-1;}
+		if(selectedButton===3 && p1.button.cross){controlMode4=-1;}
+		if(selectedButton===4 && p1.button.cross){
+			scene=0;
+			cx=0;
+			cy=0;
+			px1=89;
+			py1=93;
+			px2=89+140;
+			py2=93;
+			px3=89+140*2;
+			py3=93;
+			px4=89+140*3;
+			py4=93;
+			dir1="right";
+			dir2="right";
+			dir3="right";
+			dir4s="right";
+			paused=false;
+		}
+	}
+	if(controlMode1===3){
+		if(selectedButton!==4 && p1.button.down){selectedButton=4;}
+		if(selectedButton===4 && p1.button.up){selectedButton=2;}
+		if(selectedButton===2 && p1.button.left|| selectedButton===4 && p1.button.left){selectedButton=1;}
+		if(selectedButton===2 && p1.button.right || selectedButton===4 && p1.button.right){selectedButton=3;}
+		if(selectedButton===1 && p1.button.right){selectedButton=2;}
+		if(selectedButton===3 && p1.button.left){selectedButton=2;}
+
+		if(selectedButton===1 && p1.button.cross){controlMode2=-1;}
+		if(selectedButton===2 && p1.button.cross){controlMode3=-1;}
+		if(selectedButton===3 && p1.button.cross){controlMode4=-1;}
+		if(selectedButton===4 && p1.button.cross){
+			scene=0;
+			cx=0;
+			cy=0;
+			px1=89;
+			py1=93;
+			px2=89+140;
+			py2=93;
+			px3=89+140*2;
+			py3=93;
+			px4=89+140*3;
+			py4=93;
+			dir1="right";
+			dir2="right";
+			dir3="right";
+			dir4s="right";
+			paused=false;
+		}
 	}
 }
 
