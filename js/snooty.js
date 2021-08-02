@@ -323,12 +323,18 @@ function controlinator(player){
   if(controlMode1===3){
     keyp1.l=false;
     keyp1.r=false;
-    if(p1.button.left){keyp1.l=true;}
+		keyp1.u=false;
+		keyp1.d=false;
+
+		if(p1.button.up){keyp1.u=true;}
+		if(p1.button.down){keyp1.d=true;}
+		if(p1.button.left){keyp1.l=true;}
     if(p1.button.right){keyp1.r=true;}
+
     if(p1.button.right && onFloor1){dir1="right";}
     if(p1.button.left && onFloor1){dir1="left";}
     if(p1.button.right || p1.button.left){doLegRot1=true;} else {doLegRot1=false;}
-    if(p1.button.cross){keyp1.u=true;} else {keyp1.u=false;}
+    if(p1.button.cross){keyp1.u=true;}
     if(p1.button.options){paused=true;}
   }
 
@@ -377,19 +383,19 @@ function controlinator(player){
 			py2=py1;
 	  }
 
-	if(controlMode2===0){
-    doLegRot2=false;
-    keyp2.u=false;
-    keyp2.l=false;
-    keyp2.r=false;
-    keyp2.d=false;
+		if(controlMode2===0){
+	    doLegRot2=false;
+	    keyp2.u=false;
+	    keyp2.l=false;
+	    keyp2.r=false;
+	    keyp2.d=false;
 
-    if(keyIsDown(73)){keyp2.u=true;}
-    if(keyIsDown(75)){keyp2.d=true;}
-    if(keyIsDown(74)){keyp2.l=true; doLegRot2=true;}
-    if(keyIsDown(76)){keyp2.r=true; doLegRot2=true;}
-    if(keyIsDown(49)){paused=true;}
-  }
+	    if(keyIsDown(73)){keyp2.u=true;}
+	    if(keyIsDown(75)){keyp2.d=true;}
+	    if(keyIsDown(74)){keyp2.l=true; doLegRot2=true;}
+	    if(keyIsDown(76)){keyp2.r=true; doLegRot2=true;}
+	    if(keyIsDown(49)){paused=true;}
+  	}
 
     if(keyp2.l){px2-=2;}
     if(keyp2.r){px2+=2;}
@@ -651,139 +657,43 @@ function wall(x,y,h){
   line(x+cx,y+cy,x+cx,y+h+cy);
   noStroke();
 	//player 1
-  if(py1>y+cy && py1<y+h+cy){
+	if(py1>y+cy && py1<y+h+cy){
     if(px1>x-15+cx && px1<x+cx){
-      if(controlMode1===0 || controlMode1===3){
+			if(controlMode1===0 || controlMode1===3){
         if(keyp1.u===false && keyp1.d===false || keyp1.u && keyp1.d || p1.button.up && p1.button.down || p1.button.up===false || p1.button.down===false){fall1=1.5;}
         if(keyp1.u && keyp1.d===false || p1.button.up && p1.button.down===false){fall1=1;}
-        if(keyp1.d && keyp1.u===false || p1.button.down && p1.button.up===false){fall1=2;}
-        if(keyp1.u===false){px1=x-10+cx;jump1=0;fall1=1.5;}
-        if(keyp1.l && keyp1.u || keyp1.r && keyp1.u){jump1=5;}
+        if(keyp1.d && keyp1.u===false|| p1.button.down && p1.button.up===false){fall1=2;}
+
+        if(keyp1.u || keyp1.r || keyp1.u && keyp1.l===false){px1=x-14+cx;jump1=0;fall1=1.5;}
+        if(keyp1.r===false && keyp1.l && keyp1.u){jump1=5;}
       }
       if(controlMode1===2){
         if(keyp1.u===false){px1=x-10+cx;jump1=0;fall1=1.5+(p1.stick.ly/2);}
-        if(p1.stick.lx<deadzone.inner-(deadzone.inner*2) && keyp1.u || p1.stick.lx>deadzone.inner && keyp1.u){jump1=5;}
+
+				if(keyp1.u && p1.stick.lx>deadzone.inner || keyp1.u && p1.stick.lx>deadzone.inner-deadzone.inner*2){px1=x-14+cx;jump1=0;fall1=1.5;}
+        if(p1.stick.lx<deadzone.inner && p1.stick.lx<deadzone.inner-deadzone.inner*2 && keyp1.u){jump1=5;}
       }
       dir1="left";
       doLegRot1=false;
     }
+
     if(px1>x+cx && px1<x+15+cx){
       if(controlMode1===0 || controlMode1===3){
         if(keyp1.u===false && keyp1.d===false || keyp1.u && keyp1.d || p1.button.up && p1.button.down || p1.button.up===false || p1.button.down===false){fall1=1.5;}
         if(keyp1.u && keyp1.d===false || p1.button.up && p1.button.down===false){fall1=1;}
         if(keyp1.d && keyp1.u===false|| p1.button.down && p1.button.up===false){fall1=2;}
-        if(keyp1.u===false){px1=x+10+cx;jump1=0;fall1=1.5;}
-        if(keyp1.l && keyp1.u || keyp1.r && keyp1.u){jump1=5;}
+
+        if(keyp1.u || keyp1.l || keyp1.u && keyp1.r===false){px1=x+14+cx;jump1=0;fall1=1.5;}
+        if(keyp1.l===false && keyp1.r && keyp1.u){jump1=5;}
       }
       if(controlMode1===2){
         if(keyp1.u===false){px1=x+10+cx;jump1=0;fall1=1.5+(p1.stick.ly/2);}
-        if(p1.stick.lx<deadzone.inner-(deadzone.inner*2) && keyp1.u || p1.stick.lx>deadzone.inner && keyp1.u){jump1=5;}
+
+				if(keyp1.u && p1.stick.lx<deadzone.inner-deadzone.inner*2 || keyp1.u && p1.stick.lx<deadzone.inner){px1=x+14+cx;jump1=0;fall1=1.5;}
+        if(p1.stick.lx>deadzone.inner-deadzone.inner*2 && p1.stick.lx>deadzone.inner && keyp1.u){jump1=5;}
       }
       dir1="right";
       doLegRot1=false;
-    }
-  }
-
-	//player 2
-  if(py2>y+cy && py2<y+h+cy){
-    if(px2>x-15+cx && px2<x+cx){
-      if(controlMode2===0 || controlMode2===3){
-        if(keyp2.u===false && keyp2.d===false || keyp2.u && keyp2.d || p2.button.up && p2.button.down || p2.button.up===false || p2.button.down===false){fall2=1.5;}
-        if(keyp2.u && keyp2.d===false || p2.button.up && p2.button.down===false){fall2=1;}
-        if(keyp2.d && keyp2.u===false || p2.button.down && p2.button.up===false){fall2=2;}
-        if(keyp2.u===false){px2=x-10+cx;jump2=0;fall2=1.5;}
-        if(keyp2.l && keyp2.u || keyp2.r && keyp2.u){jump2=5;}
-      }
-      if(controlMode2===2){
-        if(keyp2.u===false){px2=x-10+cx;jump2=0;fall2=1.5+(p2.stick.ly/2);}
-        if(p2.stick.lx<deadzone.inner-(deadzone.inner*2) && keyp2.u || p2.stick.lx>deadzone.inner && keyp2.u){jump2=5;}
-      }
-      dir2="left";
-      doLegRot2=false;
-    }
-
-    if(px2>x+cx && px2<x+15+cx){
-      if(controlMode2===0 || controlMode2===3){
-        if(keyp2.u===false && keyp2.d===false || keyp2.u && keyp2.d || p2.button.up && p2.button.down || p2.button.up===false || p2.button.down===false){fall2=1.5;}
-        if(keyp2.u && keyp2.d===false || p2.button.up && p2.button.down===false){fall2=1;}
-        if(keyp2.d && keyp2.u===false|| p2.button.down && p2.button.up===false){fall2=2;}
-        if(keyp2.u===false){px2=x+10+cx;jump2=0;fall2=1.5;}
-        if(keyp2.l && keyp2.u || keyp2.r && keyp2.u){jump2=5;}
-      }
-      if(controlMode2===2){
-        if(keyp2.u===false){px2=x+10+cx;jump2=0;fall2=1.5+(p2.stick.ly/2);}
-        if(p2.stick.lx<deadzone.inner-(deadzone.inner*2) && keyp2.u || p2.stick.lx>deadzone.inner && keyp2.u){jump2=5;}
-      }
-      dir2="right";
-      doLegRot2=false;
-    }
-  }
-
-	//player 3
-  if(py3>y+cy && py3<y+h+cy){
-    if(px3>x-15+cx && px3<x+cx){
-      if(controlMode3===0 || controlMode3===3){
-        if(keyp3.u===false && keyp3.d===false || keyp3.u && keyp3.d || p3.button.up && p3.button.down || p3.button.up===false && p3.button.down===false){fall3=1.5;}
-        if(keyp3.u && keyp3.d===false || p3.button.up && p3.button.down===false){fall3=1;}
-        if(keyp3.d && keyp3.u===false || p3.button.down && p3.button.up===false){fall3=2;}
-        if(keyp3.u===false){px3=x-10+cx;jump3=0;fall3=1.5;}
-        if(keyp3.l && keyp3.u || keyp3.r && keyp3.u){jump3=5;}
-      }
-      if(controlMode3===2){
-        if(keyp3.u===false){px3=x-10+cx;jump3=0;fall3=1.5+(p3.stick.ly/2);}
-        if(p3.stick.lx<deadzone.inner-(deadzone.inner*2) && keyp3.u || p3.stick.lx>deadzone.inner && keyp3.u){jump3=5;}
-      }
-      dir3="left";
-      doLegRot3=false;
-    }
-    if(px3>x+cx && px3<x+15+cx){
-      if(controlMode3===0 || controlMode3===3){
-        if(keyp3.u===false && keyp3.d===false || keyp3.u && keyp3.d || p3.button.up && p3.button.down || p3.button.up===false || p3.button.down===false){fall3=1.5;}
-        if(keyp3.u && keyp3.d===false || p3.button.up && p3.button.down===false){fall3=1;}
-        if(keyp3.d && keyp3.u===false|| p3.button.down && p3.button.up===false){fall3=2;}
-        if(keyp3.u===false){px3=x+10+cx;jump3=0;fall3=1.5;}
-        if(keyp3.l && keyp3.u || keyp3.r && keyp3.u){jump3=5;}
-      }
-      if(controlMode3===2){
-        if(keyp3.u===false){px3=x+10+cx;jump3=0;fall3=1.5+(p3.stick.ly/2);}
-        if(p3.stick.lx<deadzone.inner-(deadzone.inner*2) && keyp3.u || p3.stick.lx>deadzone.inner && keyp3.u){jump3=5;}
-      }
-      dir3="right";
-      doLegRot3=false;
-    }
-  }
-
-	//player 4
-  if(py4>y+cy && py4<y+h+cy){
-    if(px4>x-15+cx && px4<x+cx){
-      if(controlMode4===0 || controlMode4===3){
-        if(keyp4.u===false && keyp4.d===false || keyp4.u && keyp4.d || p4.button.up && p4.button.down || p4.button.up===false || p4.button.down===false){fall4=1.5;}
-        if(keyp4.u && keyp4.d===false || p4.button.up && p4.button.down===false){fall4=1;}
-        if(keyp4.d && keyp4.u===false || p4.button.down && p4.button.up===false){fall4=2;}
-        if(keyp4.u===false){px4=x-10+cx;jump4=0;fall4=1.5;}
-        if(keyp4.l && keyp4.u || keyp4.r && keyp4.u){jump4=5;}
-      }
-      if(controlMode4===2){
-        if(keyp4.u===false){px4=x-10+cx;jump4=0;fall4=1.5+(p4.stick.ly/2);}
-        if(p4.stick.lx<deadzone.inner-(deadzone.inner*2) && keyp4.u || p4.stick.lx>deadzone.inner && keyp4.u){jump4=5;}
-      }
-      dir4="left";
-      doLegRot4=false;
-    }
-    if(px4>x+cx && px4<x+15+cx){
-      if(controlMode4===0 || controlMode4===3){
-        if(keyp4.u===false && keyp4.d===false || keyp4.u && keyp4.d || p4.button.up && p4.button.down || p4.button.up===false || p4.button.down===false){fall4=1.5;}
-        if(keyp4.u && keyp4.d===false || p4.button.up && p4.button.down===false){fall4=1;}
-        if(keyp4.d && keyp4.u===false|| p4.button.down && p4.button.up===false){fall4=2;}
-        if(keyp4.u===false){px4=x+10+cx;jump4=0;fall4=1.5;}
-        if(keyp4.l && keyp4.u || keyp4.r && keyp4.u){jump4=5;}
-      }
-      if(controlMode4===2){
-        if(keyp4.u===false){px4=x+10+cx;jump4=0;fall4=1.5+(p4.stick.ly/2);}
-        if(p4.stick.lx<deadzone.inner-(deadzone.inner*2) && keyp4.u || p4.stick.lx>deadzone.inner && keyp4.u){jump4=5;}
-      }
-      dir4="right";
-      doLegRot4=false;
     }
   }
 }
@@ -793,6 +703,10 @@ function spikes(x,y,w){
 	for(var i=0;i<w;i+=10){
 		triangle(x+cx+i,y+cy,x+10+cx+i,y+cy,x+5+cx+i,y-10+cy);
 	}
+	stroke(0);
+	strokeWeight(3);
+	line(x+cx,y+cy,x+w+cx,y+cy);
+	noStroke();
 	if(px1>x+cx && px1<x+w+cx && py1>y-10+cy && py1<y+cy){scene=-1;}
 	if(px2>x+cx && px2<x+w+cx && py2>y-10+cy && py2<y+cy){px2=px1;py2=py1;}
 	if(px3>x+cx && px3<x+w+cx && py3>y-10+cy && py3<y+cy){px3=px1;py3=py1;}
@@ -1080,7 +994,8 @@ function dead(){
       py3=py1;
 			px4=px1;
       py4=py1;
-      cx=0;
+			cx=0;
+			cy=0;
       rot1="right";
       fall1=0;
       rot1=60;
@@ -1306,6 +1221,7 @@ function level1(){
   fill(0,0,0);
   rect(175+cx,500+cy,50,100);
   triangle(150+cx,600+cy,250+cx,600+cy,200+cx,700+cy);
+	door(-625,2219);
 	drawSnooty(0);
 	if(controlMode2!==-1){drawSnooty(1);}
 	if(controlMode3!==-1){drawSnooty(2);}
@@ -1317,10 +1233,46 @@ function level1(){
   platform(600,600,100);
   platform(0,1000,400);
   platform(900,600,600);
+	platform(-200,900,200);
+	wall(-100,900,900)
+	platform(-400,1100,200);
+	platform(-500,1300,400);
+	platform(-700,1300,400);
+	spikes(-100,1800,2500);
+	platform(-1000,1200,200);
+	wall(-1100,700,1000);
+	spikes(-1100,1700,1000);
+	platform(-800,1100,150);
+	wall(-600,200,1000);
+	platform(-1000,1000,150);
+	platform(-800,900,150);
+	platform(-1000,800,150);
+	wall(-1400,500,1500);
+	spikes(-1400,2000,500);
+	platform(-1300,1900,200);
+	platform(-1100,1950,200);
+	platform(-900,2100,200);
+	platform(-700,2300,200);
   if(py1<0){
       fill(0,0,0,(py1-py1*2)*2);
       rect(0,0,width,height);
   }
+}
+
+function level2(){
+  if(init){
+    sounds.cave.stop();
+    init=false;
+  }
+  if(level<3){level=3;}
+  noStroke();
+  style.innerHTML="body {margin:0px;border:0px;background:rgb(0,0,0);}";
+  background(0);
+	/*drawSnooty(0);
+	if(controlMode2!==-1){drawSnooty(1);}
+	if(controlMode3!==-1){drawSnooty(2);}
+	if(controlMode4!==-1){drawSnooty(3);}
+  if(paused===false){controlinator(0);controlinator(1);controlinator(2);controlinator(3);}*/
 }
 
 function debug(){
@@ -1336,7 +1288,7 @@ function debug(){
   text("px1="+px1+", py1="+py1,100,140);
   text("controlMode1="+controlMode1,100,160);
   text("p1.stick.lx="+p1.stick.lx,100,180);
-  text("onFloor1="+onFloor1+", keyp1.u="+keyp1.u,100,200);
+  text("p1.button.up="+p1.button.up+", keyp1.u="+keyp1.u,100,200);
   text("selectedButton="+selectedButton,100,220);
 }
 
@@ -1377,5 +1329,6 @@ function draw(){
   if(scene===0){menu();}
   if(scene===1){level0();}
   if(scene===2){level1();}
+	if(scene===3){level2();}
   if(paused){pause();}
 }
