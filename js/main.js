@@ -1,8 +1,9 @@
-//dark mode
+//dark/light mode
 var isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+var style = document.getElementById("style");
 
-if(isDark){console.log("Dark");}
-else{console.log("Light");}
+if(isDark){style.innerHTML='<link href="css/dark.css" rel="stylesheet" id="style">';}
+else{style.innerHTML='<link href="css/light.css" rel="stylesheet" id="style">';}
 
 var unavaliableEls = document.getElementsByClassName("unavaliable");
 

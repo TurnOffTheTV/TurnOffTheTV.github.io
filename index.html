@@ -2,7 +2,7 @@
 <head>
 <title>Home</title>
 <link rel="shortcut icon" type="image/png" href="https://turnoffthetv.github.io/images/favicon.png"/>
-<link href="https://turnoffthetv.github.io/css/light.css" rel="stylesheet">
+<link href="css/light.css" rel="stylesheet" id="style">
 <link href="https://turnoffthetv.github.io/css/anim.css" rel="stylesheet">
 <a href="https://turnoffthetv.github.io"><h1 class="header">TurnOffTheTV's Website</h1></a>
 <img src="https://turnoffthetv.github.io/images/logo.jpg" width="150" align="right" alt="TurnOffTheTV Logo">
@@ -18,6 +18,10 @@
 <a href="links/"><p>Other links</p></a>
 <script src="js/gamepad.js"></script>
 <script src="js/main.js"></script>
-<script src="https://turnoffthetv.github.io/js/homescreen.js"></script>
+<script>
+	var welcome = document.getElementById("home-welcome");
+	if(getCookie("visited")==="true"){welcome.innerText="Welcome back!"}
+	if(getCookie("useCookies")==="true"){setCookie("visited","true",31);}
+</script>
 </body>
 </html>
