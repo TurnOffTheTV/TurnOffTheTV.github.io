@@ -8,20 +8,48 @@ font-family: 'start';
 src: url('https://turnoffthetv.github.io/fonts/start.ttf') format('truetype');
 }
 
-.header {font-family: start;color:blue;background:rgb(0,255,0);user-select:none;}
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  /* Position the tooltip */
+  position: absolute;
+
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.header {
+font-family: start;
+color:blue;
+background:rgb(0,255,0);
+user-select:none;
+}
 
 .headline {font-family: start;color:blue;}
 
 .strong {font-family: start;color:blue;}
 
-.hiddenlink {color:white;}
+.hiddenlink {color:black;}
 
-#name {background:black;}
+.error {color:blue; font-family:start;}
 
-#output {background:black;}
+.unavaliable {color:rgb(100,100,100);text-decoration:underline;cursor:default;}
 
-head {background:rgb(0,200,0);}
-body {font-family: Tahoma;color:white;background:rgb(0,0,100);}
+#message-box {border:dotted;}
+
+head {background:rgb(0,255,0);}
+body {font-family: Tahoma;color:black;background:rgb(0,0,100);}
 a {color:rgb(0,200,200);}
 a:visited {color:rgb(50,175,175);}
-button {font-family: Tahoma;}
