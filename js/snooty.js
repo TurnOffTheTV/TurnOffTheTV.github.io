@@ -82,6 +82,7 @@ var jumpRand2 = 0;
 var jumpRand3 = 0;
 var jumpRand4 = 0;
 var enemies = [];
+var coins = [];
 var level = 0;
 var controlMode1 = -1; //0=keyboad 1=touch 2=stick gamepad 3=button gamepad
 var controlMode2 = -1; //0=keyboad 1=touch 2=stick gamepad 3=button gamepad
@@ -102,21 +103,83 @@ var levelStart = {
 };
 var deathRumbleTimer = 0;
 var style = document.getElementById("style");
+var soundRand;
+var fallCount1 = 0;
+var fallCount2 = 0;
+var fallCount3 = 0;
+var fallCount4 = 0;
+var score1 = {
+	score:0,
+	size:0,
+	levelScore:0
+};
+var score2 = {
+	score:0,
+	size:0,
+	levelScore:0
+};
+var score3 = {
+	score:0,
+	size:0,
+	levelScore:0
+};
+var score4 = {
+	score:0,
+	size:0,
+	levelScore:0
+};
+var font;
 
 function preload(){
   sounds = {
+		level:loadSound("https://turnoffthetv.github.io/audio/ssatf-overworld.mp3"),
     menu:loadSound("https://turnoffthetv.github.io/audio/ssatf-menu.mp3"),
     overworld:loadSound("https://turnoffthetv.github.io/audio/ssatf-overworld.mp3"),
-    cave:loadSound("https://turnoffthetv.github.io/audio/ssatf-cave.mp3")
-  }
+    cave:loadSound("https://turnoffthetv.github.io/audio/ssatf-cave.mp3"),
+		kill:{
+			spike0:loadSound("https://turnoffthetv.github.io/audio/SSatF/spike-0.mp3"),
+			spike1:loadSound("https://turnoffthetv.github.io/audio/SSatF/spike-1.mp3"),
+			spike2:loadSound("https://turnoffthetv.github.io/audio/SSatF/spike-2.mp3")
+		},
+		fall:{
+			cave0:loadSound("https://turnoffthetv.github.io/audio/SSatF/cave-fall-0.mp3"),
+			cave1:loadSound("https://turnoffthetv.github.io/audio/SSatF/cave-fall-1.mp3"),
+			cave2:loadSound("https://turnoffthetv.github.io/audio/SSatF/cave-fall-2.mp3"),
+			grass0:loadSound("https://turnoffthetv.github.io/audio/SSatF/grass-fall-1.mp3"),
+			grass1:loadSound("https://turnoffthetv.github.io/audio/SSatF/grass-fall-1.mp3"),
+			grass2:loadSound("https://turnoffthetv.github.io/audio/SSatF/grass-fall-2.mp3")
+		},
+		footstep:{
+			cave0:loadSound("https://turnoffthetv.github.io/audio/SSatF/cave-footstep-0.mp3"),
+			cave1:loadSound("https://turnoffthetv.github.io/audio/SSatF/cave-footstep-1.mp3"),
+			cave2:loadSound("https://turnoffthetv.github.io/audio/SSatF/cave-footstep-2.mp3"),
+			grass0:loadSound("https://turnoffthetv.github.io/audio/SSatF/grass-fall-0.mp3"),
+			grass1:loadSound("https://turnoffthetv.github.io/audio/SSatF/grass-fall-1.mp3"),
+			grass2:loadSound("https://turnoffthetv.github.io/audio/SSatF/grass-fall-2.mp3")
+		},
+		thud:loadSound("https://turnoffthetv.github.io/audio/SSatF/thud.mp3")
+  };
+
   images = {
     sky:loadImage("https://turnoffthetv.github.io/images/snooty-sky.png")
-  }
+  };
+
+	font = loadFont("https://turnoffthetv.github.io/fonts/tahoma.ttf");
 }
 
 function setup(){
+	describe('Snooty Scooty and the Frowns');
   createCanvas(windowWidth,windowHeight);
-  textFont("Tahoma");
+	textFont(font);
+}
+
+function hitbox(x,y,w,h){
+	var returnValue = {p1:false,p2:false,p3:false,p4:false}
+	if(px1>x+cx && px1<x+w+cx && py1>y+cy && py1<y+h+cy){returnValue.p1=true;}
+	if(px2>x+cx && px2<x+w+cx && py2>y+cy && py2<y+h+cy){returnValue.p2=true;}
+	if(px3>x+cx && px3<x+w+cx && py3>y+cy && py3<y+h+cy){returnValue.p3=true;}
+	if(px4>x+cx && px4<x+w+cx && py4>y+cy && py4<y+h+cy){returnValue.p4=true;}
+	return(returnValue);
 }
 
 function drawSnooty(player){
@@ -287,6 +350,16 @@ function positive(posVictim){
   if(posVictim>0){return(posVictim);}else{return(posVictim-(posVictim*2));}
 }
 
+function footstep(){
+	if(scene===1){
+	}
+	if(scene===2){
+		if(soundRand===1){sounds.footstep.cave0.play();}
+		if(soundRand===2){sounds.footstep.cave1.play();}
+		if(soundRand===3){sounds.footstep.cave2.play();}
+	}
+}
+
 function controlinator(player){
   //player 1
   if(player===0){
@@ -352,6 +425,17 @@ function controlinator(player){
     if(legRot1>0){legRot1-=2;}
     if(legRot1<0){legRot1+=2;}
   }
+	if(legRot1>30 && onFloor1){footstep();}
+	if(legRot1<-30 && onFloor1){footstep();}
+
+	/*if(fallCount1===1 && soundRand===1 && scene===1){sounds.thud.play();}
+	if(fallCount1===1 && soundRand===2 && scene===1){sounds.thud.play();}
+	if(fallCount1===1 && soundRand===3 && scene===1){sounds.thud.play();}*/
+	if(fallCount1===1 && soundRand===1 && scene===2){sounds.fall.cave0.play();}
+	if(fallCount1===1 && soundRand===2 && scene===2){sounds.fall.cave1.play();}
+	if(fallCount1===1 && soundRand===3 && scene===2){sounds.fall.cave2.play();}
+	if(onFloor1){fallCount1+=1;}
+	if(onFloor1===false){fallCount1=0;}
 
   if(keyp1.l&&keyp1.r){
     if(rot1<0){rot1-=5;}
@@ -544,9 +628,9 @@ function controlinator(player){
 
   //player 4
   if(player===3){
-		if(controlMode3===-1){
-	    px3=px1;
-			py3=py1;
+		if(controlMode4===-1){
+	    px4=px1;
+			py4=py1;
 	  }
 
   if(controlMode4===0){
@@ -650,6 +734,12 @@ function platform(x,y,w){
 		if(px4>x+cx && px4<x+w+cx){py4=cy+y-35;onFloor4=true;}
 		if(px4<x+cx || px4>x+w+cx){onFloor4=false;}
 	}
+	for(var i = 0; i < enemies.length; i++){
+		if(enemies[i].x>x-3+cx && enemies[i].x<x+w-3+cx && enemies[i].y>y-3+cy && enemies[i].y<y+1+cy){
+			if(enemies[i].x>x+cx && enemies[i].x<x+w+cx){enemies[i].y=cy+y;enemies[i].onFloor=true;}
+			if(enemies[i].x<x+cx || enemies[i].x>x+w+cx){enemies[i].onFloor=false;}
+		}
+	}
 }
 
 function wall(x,y,h){
@@ -696,6 +786,126 @@ function wall(x,y,h){
       doLegRot1=false;
     }
   }
+	//player 2
+	if(py2>y+cy && py2<y+h+cy){
+		if(px2>x-15+cx && px2<x+cx){
+			if(controlMode2===0 || controlMode2===3){
+				if(keyp2.u===false && keyp2.d===false || keyp2.u && keyp2.d || p2.button.up && p2.button.down || p2.button.up===false || p2.button.down===false){fall2=1.5;}
+				if(keyp2.u && keyp2.d===false || p2.button.up && p2.button.down===false){fall2=1;}
+				if(keyp2.d && keyp2.u===false|| p2.button.down && p2.button.up===false){fall2=2;}
+
+				if(keyp2.u || keyp2.r || keyp2.u && keyp2.l===false){px2=x-14+cx;jump2=0;fall2=1.5;}
+				if(keyp2.r===false && keyp2.l && keyp2.u){jump2=5;}
+			}
+			if(controlMode2===2){
+				if(keyp2.u===false){px2=x-10+cx;jump2=0;fall2=1.5+(p2.stick.ly/2);}
+
+				if(keyp2.u && p2.stick.lx>deadzone.inner || keyp2.u && p2.stick.lx>deadzone.inner-deadzone.inner*2){px2=x-14+cx;jump2=0;fall2=1.5;}
+				if(p2.stick.lx<deadzone.inner && p2.stick.lx<deadzone.inner-deadzone.inner*2 && keyp2.u){jump2=5;}
+			}
+			dir2="left";
+			doLegRot2=false;
+		}
+
+		if(px2>x+cx && px2<x+15+cx){
+			if(controlMode2===0 || controlMode2===3){
+				if(keyp2.u===false && keyp2.d===false || keyp2.u && keyp2.d || p2.button.up && p2.button.down || p2.button.up===false || p2.button.down===false){fall2=1.5;}
+				if(keyp2.u && keyp2.d===false || p2.button.up && p2.button.down===false){fall2=1;}
+				if(keyp2.d && keyp2.u===false|| p2.button.down && p2.button.up===false){fall2=2;}
+
+				if(keyp2.u || keyp2.l || keyp2.u && keyp2.r===false){px2=x+14+cx;jump2=0;fall2=1.5;}
+				if(keyp2.l===false && keyp2.r && keyp2.u){jump2=5;}
+			}
+			if(controlMode2===2){
+				if(keyp2.u===false){px2=x+10+cx;jump2=0;fall2=1.5+(p2.stick.ly/2);}
+
+				if(keyp2.u && p2.stick.lx<deadzone.inner-deadzone.inner*2 || keyp2.u && p2.stick.lx<deadzone.inner){px2=x+14+cx;jump2=0;fall2=1.5;}
+				if(p2.stick.lx>deadzone.inner-deadzone.inner*2 && p2.stick.lx>deadzone.inner && keyp2.u){jump2=5;}
+			}
+			dir2="right";
+			doLegRot2=false;
+		}
+	}
+	//player 3
+	if(py3>y+cy && py3<y+h+cy){
+		if(px3>x-15+cx && px3<x+cx){
+			if(controlMode3===0 || controlMode3===3){
+				if(keyp3.u===false && keyp3.d===false || keyp3.u && keyp3.d || p3.button.up && p3.button.down || p3.button.up===false || p3.button.down===false){fall3=1.5;}
+				if(keyp3.u && keyp3.d===false || p3.button.up && p3.button.down===false){fall3=1;}
+				if(keyp3.d && keyp3.u===false|| p3.button.down && p3.button.up===false){fall3=2;}
+
+				if(keyp3.u || keyp3.r || keyp3.u && keyp3.l===false){px3=x-14+cx;jump3=0;fall3=1.5;}
+				if(keyp3.r===false && keyp3.l && keyp3.u){jump3=5;}
+			}
+			if(controlMode3===2){
+				if(keyp3.u===false){px3=x-10+cx;jump3=0;fall3=1.5+(p3.stick.ly/2);}
+
+				if(keyp3.u && p3.stick.lx>deadzone.inner || keyp3.u && p3.stick.lx>deadzone.inner-deadzone.inner*2){px3=x-14+cx;jump3=0;fall3=1.5;}
+				if(p3.stick.lx<deadzone.inner && p3.stick.lx<deadzone.inner-deadzone.inner*2 && keyp3.u){jump3=5;}
+			}
+			dir3="left";
+			doLegRot3=false;
+		}
+
+		if(px3>x+cx && px3<x+15+cx){
+			if(controlMode3===0 || controlMode3===3){
+				if(keyp3.u===false && keyp3.d===false || keyp3.u && keyp3.d || p3.button.up && p3.button.down || p3.button.up===false || p3.button.down===false){fall3=1.5;}
+				if(keyp3.u && keyp3.d===false || p3.button.up && p3.button.down===false){fall3=1;}
+				if(keyp3.d && keyp3.u===false|| p3.button.down && p3.button.up===false){fall3=2;}
+
+				if(keyp3.u || keyp3.l || keyp3.u && keyp3.r===false){px3=x+14+cx;jump3=0;fall3=1.5;}
+				if(keyp3.l===false && keyp3.r && keyp3.u){jump3=5;}
+			}
+			if(controlMode3===2){
+				if(keyp3.u===false){px3=x+10+cx;jump3=0;fall3=1.5+(p3.stick.ly/2);}
+
+				if(keyp3.u && p3.stick.lx<deadzone.inner-deadzone.inner*2 || keyp3.u && p3.stick.lx<deadzone.inner){px3=x+14+cx;jump3=0;fall3=1.5;}
+				if(p3.stick.lx>deadzone.inner-deadzone.inner*2 && p3.stick.lx>deadzone.inner && keyp3.u){jump3=5;}
+			}
+			dir3="right";
+			doLegRot3=false;
+		}
+	}
+	//player 4
+	if(py4>y+cy && py4<y+h+cy){
+		if(px4>x-15+cx && px4<x+cx){
+			if(controlMode4===0 || controlMode4===3){
+				if(keyp4.u===false && keyp4.d===false || keyp4.u && keyp4.d || p4.button.up && p4.button.down || p4.button.up===false || p4.button.down===false){fall4=1.5;}
+				if(keyp4.u && keyp4.d===false || p4.button.up && p4.button.down===false){fall4=1;}
+				if(keyp4.d && keyp4.u===false|| p4.button.down && p4.button.up===false){fall4=2;}
+
+				if(keyp4.u || keyp4.r || keyp4.u && keyp4.l===false){px4=x-14+cx;jump4=0;fall4=1.5;}
+				if(keyp4.r===false && keyp4.l && keyp4.u){jump4=5;}
+			}
+			if(controlMode4===2){
+				if(keyp4.u===false){px4=x-10+cx;jump4=0;fall4=1.5+(p4.stick.ly/2);}
+
+				if(keyp4.u && p4.stick.lx>deadzone.inner || keyp4.u && p4.stick.lx>deadzone.inner-deadzone.inner*2){px4=x-14+cx;jump4=0;fall4=1.5;}
+				if(p4.stick.lx<deadzone.inner && p4.stick.lx<deadzone.inner-deadzone.inner*2 && keyp4.u){jump4=5;}
+			}
+			dir4="left";
+			doLegRot1=false;
+		}
+
+		if(px4>x+cx && px4<x+15+cx){
+			if(controlMode4===0 || controlMode4===3){
+				if(keyp4.u===false && keyp4.d===false || keyp4.u && keyp4.d || p4.button.up && p4.button.down || p4.button.up===false || p4.button.down===false){fall4=1.5;}
+				if(keyp4.u && keyp4.d===false || p4.button.up && p4.button.down===false){fall4=1;}
+				if(keyp4.d && keyp4.u===false|| p4.button.down && p4.button.up===false){fall4=2;}
+
+				if(keyp4.u || keyp4.l || keyp4.u && keyp4.r===false){px4=x+14+cx;jump4=0;fall4=1.5;}
+				if(keyp4.l===false && keyp4.r && keyp4.u){jump4=5;}
+			}
+			if(controlMode4===2){
+				if(keyp4.u===false){px4=x+10+cx;jump4=0;fall4=1.5+(p4.stick.ly/2);}
+
+				if(keyp4.u && p4.stick.lx<deadzone.inner-deadzone.inner*2 || keyp4.u && p4.stick.lx<deadzone.inner){px4=x+14+cx;jump4=0;fall4=1.5;}
+				if(p4.stick.lx>deadzone.inner-deadzone.inner*2 && p4.stick.lx>deadzone.inner && keyp4.u){jump4=5;}
+			}
+			dir4="right";
+			doLegRot1=false;
+		}
+	}
 }
 
 function spikes(x,y,w){
@@ -707,10 +917,33 @@ function spikes(x,y,w){
 	strokeWeight(3);
 	line(x+cx,y+cy,x+w+cx,y+cy);
 	noStroke();
-	if(px1>x+cx && px1<x+w+cx && py1>y-10+cy && py1<y+cy){scene=-1;}
-	if(px2>x+cx && px2<x+w+cx && py2>y-10+cy && py2<y+cy){px2=px1;py2=py1;}
-	if(px3>x+cx && px3<x+w+cx && py3>y-10+cy && py3<y+cy){px3=px1;py3=py1;}
-	if(px4>x+cx && px4<x+w+cx && py4>y-10+cy && py4<y+cy){px4=px1;py4=py1;}
+	if(px1>x+cx && px1<x+w+cx && py1>y-10+cy && py1<y+cy){
+		scene=-1;
+		if(soundRand===1){sounds.kill.spike0.play();}
+		if(soundRand===2){sounds.kill.spike1.play();}
+		if(soundRand===3){sounds.kill.spike2.play();}
+	}
+	if(px2>x+cx && px2<x+w+cx && py2>y-10+cy && py2<y+cy){
+		px2=px1;
+		py2=py1;
+		if(soundRand===1){sounds.kill.spike0.play();}
+		if(soundRand===2){sounds.kill.spike1.play();}
+		if(soundRand===3){sounds.kill.spike2.play();}
+	}
+	if(px3>x+cx && px3<x+w+cx && py3>y-10+cy && py3<y+cy){
+		px3=px1;
+		py3=py1;
+		if(soundRand===1){sounds.kill.spike0.play();}
+		if(soundRand===2){sounds.kill.spike1.play();}
+		if(soundRand===3){sounds.kill.spike2.play();}
+	}
+	if(px4>x+cx && px4<x+w+cx && py4>y-10+cy && py4<y+cy){
+		px4=px1;
+		py4=py1;
+		if(soundRand===1){sounds.kill.spike0.play();}
+		if(soundRand===2){sounds.kill.spike1.play();}
+		if(soundRand===3){sounds.kill.spike2.play();}
+	}
 }
 
 function door(x,y){
@@ -731,7 +964,73 @@ function door(x,y){
 		onFloor2=false;
 		onFloor3=false;
 		onFloor4=false;
+		score1.levelScore=score1.score;
+		score2.levelScore=score2.score;
+		score3.levelScore=score3.score;
+		score4.levelScore=score4.score;
   }
+}
+
+function assets(){
+	for(var i = 0; i < coins.length; i++){
+		if(coins[i].visible){
+			fill(223,223,0);
+			ellipse(coins[i].x+cx,coins[i].y+cy,30,30);
+			fill(255,255,0);
+			ellipse(coins[i].x+cx,coins[i].y+cy,25,25);
+		}
+		if(px1>coins[i].x-50+cx && px1<coins[i].x+50+cx && py1>coins[i].y-50+cy && py1<coins[i].y+50+cy){
+			coins[i].collected=true;
+			if(coins[i].collected && coins[i].visible){score1.score+=100;coins[i].visible=false;}
+		}
+		if(px2>coins[i].x-50+cx && px2<coins[i].x+50+cx && py2>coins[i].y-50+cy && py2<coins[i].y+50+cy){
+			coins[i].collected=true;
+			if(coins[i].collected && coins[i].visible){score2.score+=100;coins[i].visible=false;}
+		}
+		if(px3>coins[i].x-50+cx && px3<coins[i].x+50+cx && py3>coins[i].y-50+cy && py3<coins[i].y+50+cy){
+			coins[i].collected=true;
+			if(coins[i].collected && coins[i].visible){score3.score+=100;coins[i].visible=false;}
+		}
+		if(px4>coins[i].x-50+cx && px4<coins[i].x+50+cx && py4>coins[i].y-50+cy && py4<coins[i].y+50+cy){
+			coins[i].collected=true;
+			if(coins[i].collected && coins[i].visible){score4.score+=100;coins[i].visible=false;}
+		}
+	}
+	for(var i = 0; i < enemies.length; i++){
+		if(enemies[i].type==="patrol"){
+			if(enemies[i].dead===false){
+				fill(140,5,43);
+				ellipse(enemies[i].x+cx,enemies[i].y-25+cy,50,50);
+				if(enemies[i].onFloor===false){enemies[i].dir+=1;enemies[i].fall+=0.1;}
+				if(enemies[i].onFloor){enemies[i].fall=0;}
+				if(enemies[i].dir>1){enemies[i].dir=0;}
+				if(enemies[i].dir<0){enemies[i].dir=1;}
+				if(enemies[i].dir===0){enemies[i].x+=2;}
+				if(enemies[i].dir===1){enemies[i].x-=2;}
+				enemies[i].y+=enemies[i].fall;
+			}
+		}
+			if(enemies[i].type==="left"){
+				if(enemies[i].dead===false){
+					fill(140,5,43);
+					ellipse(enemies[i].x+cx,enemies[i].y-25+cy,50,50);
+					if(enemies[i].onFloor===false){enemies[i].dir+=1;enemies[i].fall+=0.1;}
+					if(enemies[i].onFloor){enemies[i].fall=0;}
+					enemies[i].x-=2;
+					enemies[i].y+=enemies[i].fall;
+				}
+			}
+			if(enemies[i].type==="right"){
+				if(enemies[i].dead===false){
+					fill(140,5,43);
+					ellipse(enemies[i].x+cx,(enemies[i].y+25)+cy,50,50);
+					if(enemies[i].onFloor===false){enemies[i].dir+=1;enemies[i].fall+=0.1;}
+					if(enemies[i].onFloor){enemies[i].fall=0;}
+					enemies[i].x+=2;
+					enemies[i].y+=enemies[i].fall;
+				}
+			}
+	}
 }
 
 function menu(){
@@ -832,47 +1131,61 @@ function menu(){
   if(selectedButton===1){
     stroke(255);
   }
-  rect(width/3,height/2,200,100,5);
+  rect(width/3,height/3,200,100,5);
   stroke(0);
   if(selectedButton===2){
     stroke(255);
   }
-  rect(width*2/3,height/2,200,100,5);
+  rect(width*2/3,height/3,200,100,5);
+	stroke(0);
+	if(selectedButton===3){
+		stroke(255);
+	}
+	rect(width/2,height*2/3,200,100,5);
   textAlign(CENTER,CENTER);
   fill(255);
   textSize(40);
   noStroke();
-  text("Play!",width/3,height/2);
-  text("Back",width*2/3,height/2);
+  text("Play!",width/3,height/3);
+  text("Back",width*2/3,height/3);
+	text("Settings",width/2,height*2/3);
 
   if(controlMode1===0){selectedButton=0;
 
-    if(mouseX>(width/3)-100 && mouseY>(height/2)-50 && mouseX<(width/3)+100 && mouseY<(height/2)+50){
+    if(mouseX>(width/3)-100 && mouseY>(height/3)-50 && mouseX<(width/3)+100 && mouseY<(height/3)+50){
       selectedButton=1;
       cursor(HAND);
     }
-    if(mouseX>(width/3)*2-100 && mouseY>(height/2)-50 && mouseX<(width/3)*2+100 && mouseY<(height/2)+50){
+    if(mouseX>(width/3)*2-100 && mouseY>(height/3)-50 && mouseX<(width/3)*2+100 && mouseY<(height/3)+50){
       selectedButton=2;
       cursor(HAND);
     }
-
-    if(mouseX>(width/3)-100 && mouseY>(height/2)-50 && mouseX<(width/3)+100 && mouseY<(height/2)+50 && mouseIsPressed){
+		if(mouseX>(width/2)-100 && mouseY>(height*2/3)-50 && mouseX<(width/2)+100 && mouseY<(height*2/3)+50){
+      selectedButton=3;
+      cursor(HAND);
+    }
+    if(mouseX>(width/3)-100 && mouseY>(height/3)-50 && mouseX<(width/3)+100 && mouseY<(height/3)+50 && mouseIsPressed){
       scene=1;
       onFloor1=false;
 			onFloor2=false;
 			onFloor3=false;
 			onFloor4=false;
-      selectedButton=0;
+	    selectedButton=0;
       init=true;
-    }
-    if(mouseX>(width/3)*2-100 && mouseY>(height/2)-50 && mouseX<(width/3)*2+100 && mouseY<(height/2)+50 && mouseIsPressed){
-      window.location.href="https://turnoffthetv.github.io/programs/";
-      selectedButton=0;
-    }
-  }
-  if(controlMode1===2){
+	  }
+    if(mouseX>(width/3)*2-100 && mouseY>(height/3)-50 && mouseX<(width/3)*2+100 && mouseY<(height/3)+50 && mouseIsPressed){
+			window.location.href="https://turnoffthetv.github.io/programs/";
+	    selectedButton=0;
+	  }
+		if(mouseX>(width/2)-100 && mouseY>(height*2/3)-50 && mouseX<(width/2)+100 && mouseY<(height*2/3)+50 && mouseIsPressed){
+			scene=0.5;
+			selectedButton=0;
+		}
+	}
+	if(controlMode1===2){
     if(p1.stick.lx<deadzone.inner-(deadzone.inner*2)){selectedButton=1;}
     if(p1.stick.lx>deadzone.inner){selectedButton=2;}
+		if(p1.stick.ly>deadzone.inner){selectedButton=3;}
 
     if(p1.button.cross && selectedButton===1){
       scene=1;
@@ -886,11 +1199,16 @@ function menu(){
     if(p1.button.cross && selectedButton===2){
       window.location.href="https://turnoffthetv.github.io/programs/";
       selectedButton=0;
+    }
+		if(p1.button.cross && selectedButton===3){
+      scene=0.5;
+      selectedButton=8;
     }
   }
   if(controlMode1===3){
     if(p1.button.left){selectedButton=1;}
     if(p1.button.right){selectedButton=2;}
+		if(p1.button.down){selectedButton=3;}
 
     if(p1.button.cross && selectedButton===1){
       scene=1;
@@ -905,8 +1223,180 @@ function menu(){
       window.location.href="https://turnoffthetv.github.io/programs/";
       selectedButton=0;
     }
+		if(p1.button.cross && selectedButton===3){
+      scene=0.5;
+      selectedButton=0;
+    }
   }
   if(mouseIsPressed && sounds.menu.isPlaying()===false || p1.gamepadIsPressed && sounds.menu.isPlaying()===false){sounds.menu.play();}
+
+	/*stroke(0);
+	strokeWeight(2);
+	fill(255);
+	textSize(10);
+	textAlign(LEFT,BOTTOM);
+	text("Software v. 1.1.3",5,height-5);*/
+}
+
+function settings(){
+  background(50);
+	noFill();
+	stroke(0);
+	if(selectedButton===1){stroke(255);}
+	rect(width/3,height/3,50,25,5);
+	stroke(0);
+	if(selectedButton===2){stroke(255);}
+	rect(width/3,height/2,50,25,5);
+	stroke(0);
+	if(selectedButton===3){stroke(255);}
+	rect(width/3,height*2/3,50,25,5);
+	stroke(0);
+	if(selectedButton===4){stroke(255);}
+	rect(width/2,height/2,200,100,5);
+	stroke(0);
+	if(selectedButton===5){stroke(255);}
+	rect(width*2/3,height/3,50,25,5);
+	stroke(0);
+	if(selectedButton===6){stroke(255);}
+	rect(width*2/3,height/2,50,25,5);
+	stroke(0);
+	if(selectedButton===7){stroke(255);}
+	rect(width*2/3,height*2/3,50,25,5);
+	fill(255);
+	textSize(40);
+	textAlign(CENTER,CENTER);
+	noStroke();
+	text("Back",width/2,height/2);
+	text("Inner Deadzone",width/3,height/4);
+	text("Outer Deadzone",width*2/3,height/4);
+	textSize(20);
+	text("0.1",width/3,height/3);
+	text("0.2",width/3,height/2);
+	text("0.3",width/3,height*2/3);
+	text("0.1",width*2/3,height/3);
+	text("0.2",width*2/3,height/2);
+	text("0.3",width*2/3,height*2/3);
+
+	if(controlMode1===0){
+		selectedButton=0;
+		if(mouseX>width/3-25 && mouseX<width/3+25 && mouseY>height/3-(25/2) && mouseY<height/3+(25/2)){
+			selectedButton=1;
+			cursor(HAND);
+		}
+		if(mouseX>width/3-25 && mouseX<width/3+25 && mouseY>height/2-(25/2) && mouseY<height/2+(25/2)){
+			selectedButton=2;
+			cursor(HAND);
+		}
+		if(mouseX>width/3-25 && mouseX<width/3+25 && mouseY>height*2/3-(25/2) && mouseY<height*2/3+(25/2)){
+			selectedButton=3;
+			cursor(HAND);
+		}
+		if(mouseX>width/2-100 && mouseX<width/2+100 && mouseY>height/2-50 && mouseY<height/2+50){
+			selectedButton=4;
+			cursor(HAND);
+		}
+		if(mouseX>width*2/3-25 && mouseX<width*2/3+25 && mouseY>height/3-(25/2) && mouseY<height/3+(25/2)){
+			selectedButton=5;
+			cursor(HAND);
+		}
+		if(mouseX>width*2/3-25 && mouseX<width*2/3+25 && mouseY>height/2-(25/2) && mouseY<height/2+(25/2)){
+			selectedButton=6;
+			cursor(HAND);
+		}
+		if(mouseX>width*2/3-25 && mouseX<width*2/3+25 && mouseY>height*2/3-(25/2) && mouseY<height*2/3+(25/2)){
+			selectedButton=7;
+			cursor(HAND);
+		}
+		if(selectedButton===1 && mouseIsPressed){
+			deadzone.inner=0.1;
+		}
+		if(selectedButton===2 && mouseIsPressed){
+			deadzone.inner=0.2;
+		}
+		if(selectedButton===3 && mouseIsPressed){
+			deadzone.inner=0.3;
+		}
+		if(selectedButton===4 && mouseIsPressed){
+			scene=0;
+		}
+		if(selectedButton===5 && mouseIsPressed){
+			deadzone.outer=0.1;
+		}
+		if(selectedButton===6 && mouseIsPressed){
+			deadzone.outer=0.2;
+		}
+		if(selectedButton===7 && mouseIsPressed){
+			deadzone.outer=0.3;
+		}
+	}
+	if(controlMode1===2){
+		if(p1.stick.lx<deadzone.inner-deadzone.inner*2 && p1.stick.ly<deadzone.inner){selectedButton=1;}
+		if(p1.stick.lx<deadzone.inner-deadzone.inner*2 && p1.stick.ly<deadzone.inner && p1.stick.ly>deadzone.inner-deadzone.inner*2){selectedButton=2;}
+		if(p1.stick.lx<deadzone.inner-deadzone.inner*2 && p1.stick.ly>deadzone.inner){selectedButton=3;}
+		if(p1.stick.lx<deadzone.inner && p1.stick.lx>deadzone.inner-deadzone.inner*2){selectedButton=4;}
+		if(p1.stick.lx>deadzone.inner && p1.stick.ly<deadzone.inner){selectedButton=5;}
+		if(p1.stick.lx>deadzone.inner && p1.stick.ly<deadzone.inner && p1.stick.ly>deadzone.inner-deadzone.inner*2){selectedButton=6;}
+		if(p1.stick.lx>deadzone.inner && p1.stick.ly>deadzone.inner){selectedButton=7;}
+		if(selectedButton===1 && p1.button.cross){deadzone.inner=0.1;}
+		if(selectedButton===2 && p1.button.cross){deadzone.inner=0.2;}
+		if(selectedButton===3 && p1.button.cross){deadzone.inner=0.3;}
+		if(selectedButton===4 && p1.button.cross){scene=0;}
+		if(selectedButton===5 && p1.button.cross){deadzone.outer=0.1;}
+		if(selectedButton===6 && p1.button.cross){deadzone.outer=0.1;}
+		if(selectedButton===7 && p1.button.cross){deadzone.outer=0.1;}
+	}
+	if(controlMode1===3){
+		selectedButton=0;
+		if(mouseX>width/3-25 && mouseX<width/3+25 && mouseY>height/3-(25/2) && mouseY<height/3+(25/2)){
+			selectedButton=1;
+			cursor(HAND);
+		}
+		if(mouseX>width/3-25 && mouseX<width/3+25 && mouseY>height/2-(25/2) && mouseY<height/2+(25/2)){
+			selectedButton=2;
+			cursor(HAND);
+		}
+		if(mouseX>width/3-25 && mouseX<width/3+25 && mouseY>height*2/3-(25/2) && mouseY<height*2/3+(25/2)){
+			selectedButton=3;
+			cursor(HAND);
+		}
+		if(mouseX>width/2-100 && mouseX<width/2+100 && mouseY>height/2-50 && mouseY<height/2+50){
+			selectedButton=4;
+			cursor(HAND);
+		}
+		if(mouseX>width*2/3-25 && mouseX<width*2/3+25 && mouseY>height/3-(25/2) && mouseY<height/3+(25/2)){
+			selectedButton=5;
+			cursor(HAND);
+		}
+		if(mouseX>width*2/3-25 && mouseX<width*2/3+25 && mouseY>height/2-(25/2) && mouseY<height/2+(25/2)){
+			selectedButton=6;
+			cursor(HAND);
+		}
+		if(mouseX>width*2/3-25 && mouseX<width*2/3+25 && mouseY>height*2/3-(25/2) && mouseY<height*2/3+(25/2)){
+			selectedButton=7;
+			cursor(HAND);
+		}
+		if(selectedButton===1 && mouseIsPressed){
+			deadzone.inner=0.1;
+		}
+		if(selectedButton===2 && mouseIsPressed){
+			deadzone.inner=0.2;
+		}
+		if(selectedButton===3 && mouseIsPressed){
+			deadzone.inner=0.3;
+		}
+		if(selectedButton===4 && mouseIsPressed){
+			scene=0;
+		}
+		if(selectedButton===5 && mouseIsPressed){
+			deadzone.outer=0.1;
+		}
+		if(selectedButton===6 && mouseIsPressed){
+			deadzone.outer=0.2;
+		}
+		if(selectedButton===7 && mouseIsPressed){
+			deadzone.outer=0.3;
+		}
+	}
 }
 
 function dead(){
@@ -970,6 +1460,10 @@ function dead(){
       legRot1=0;
       jump1=0;
       deathRumbleTimer=0;
+			score1.score=score1.levelScore;
+			score2.score=score2.levelScore;
+			score3.score=score3.levelScore;
+			score4.score=score4.levelScore;
     }
     if(mouseIsPressed && mouseX>2*(width/3)-127.5 && mouseY>(2*height/3)-12.5 && mouseX<2*(width/3)+127.5 && mouseY<(2*height/2)+12.5){
       scene=0;
@@ -1044,22 +1538,26 @@ function pause(){
 	if(selectedButton===4){strokeWeight(5);}
 	rect(width/2,height*2/3,100,75,5);
 	noStroke();
-	if(controlMode1===2 && p1.button.circle || controlMode1===3 && p1.button.circle){paused=false;init=true;}
-  if(controlMode1===0 && keyIsDown(27) && keyIsDown(16)){paused=false;init=true;}
+	if(controlMode1===2 && p1.button.circle || controlMode1===3 && p1.button.circle){paused=false;sounds.level.play();}
+  if(controlMode1===0 && keyIsDown(27) && keyIsDown(16)){paused=false;sounds.level.play();}
 	if(controlMode1===0){
-		if(mouseX>width/3-50 && mouseX<width/3+50 && mouseY>height/2-75 && mouseY<height/2+75){
+		selectedButton=0;
+		if(mouseX>width/3-50 && mouseX<width/3+50 && mouseY>height/2-75/2 && mouseY<height/2+75/2){
 			if(mouseIsPressed){controlMode2=-1;}
 			cursor(HAND);
+			selectedButton=1;
 		}
-		if(mouseX>width/2-50 && mouseX<width/2+50 && mouseY>height/2-75 && mouseY<height/2+75){
+		if(mouseX>width/2-50 && mouseX<width/2+50 && mouseY>height/2-75/2 && mouseY<height/2+75/2){
 			if(mouseIsPressed){controlMode3=-1;}
 			cursor(HAND);
+			selectedButton=2;
 		}
-		if(mouseX>width*2/3-50 && mouseX<width*2/3+50 && mouseY>height/2-75 && mouseY<height/2+75){
+		if(mouseX>width*2/3-50 && mouseX<width*2/3+50 && mouseY>height/2-75/2 && mouseY<height/2+75/2){
 			if(mouseIsPressed){controlMode4=-1;}
 			cursor(HAND);
+			selectedButton=3;
 		}
-		if(mouseX>width/2-50 && mouseX<width/2+50 && mouseY>height*2/3-75 && mouseY<height*2/3+75){
+		if(mouseX>width/2-50 && mouseX<width/2+50 && mouseY>height*2/3-75/2 && mouseY<height*2/3+75/2){
 			if(mouseIsPressed){
 				scene=0;
 				cx=0;
@@ -1079,6 +1577,7 @@ function pause(){
 				paused=false;
 			}
 			cursor(HAND);
+			selectedButton=4;
 		}
 
 	}
@@ -1147,9 +1646,14 @@ function pause(){
 function level0(){
   if(init){
     sounds.menu.stop();
-    sounds.overworld.play();
-    sounds.overworld.loop();
+		sounds.level=sounds.overworld;
+		sounds.level.play();
+    sounds.level.loop();
     init=false;
+		coins=[{x:600,y:50,visible:true,collected:false},
+			{x:1050,y:450,visible:true,collected:false}
+		]
+		//enemies=[{type:"right",x:10,y:0,onFloor:false,fall:0,dir:0,dead:false}]
   }
   rectMode(CORNER);
   if(level<1){level=1;}
@@ -1173,6 +1677,7 @@ function level0(){
   }
 
   door(1975,350);
+	assets();
 	drawSnooty(0);
 	if(controlMode2!==-1){drawSnooty(1);}
 	if(controlMode3!==-1){drawSnooty(2);}
@@ -1202,26 +1707,38 @@ function level0(){
 
 function level1(){
   if(init){
-    sounds.overworld.stop();
-    sounds.cave.play();
-    sounds.cave.loop();
+    sounds.level.stop();
+		sounds.level=sounds.cave;
+    sounds.level.play();
+    sounds.level.loop();
     init=false;
+		coins=[{x:-295,y:1250,visible:true,collected:false},
+			{x:1300,y:550,visible:true,collected:false}
+		]
   }
   if(level<2){level=2;}
+	rectMode(CORNERS);
   noStroke();
   style.innerHTML="body {margin:0px;border:0px;background:rgb(60,85,89);}";
   background(60, 85, 89);
+
   fill(59);
-  rect(cx/3,400+(cy/3),300,height);
-  rect(300+(cx/3),300+(cy/3),400,height);
+  rect(cx/3,400+(cy/3),300+(cx/3),height);
+  rect(300+(cx/3),300+(cy/3),400+(cx/3),height);
+	rect(300+(cx/3),300+(cy/3),400+(cx/3),height);
+	rect(-400+(cx/3),600+(cy/3),(cx/3),height);
+	rect(-800+(cx/3),-400+(cy/3),300+(cx/3),height);
+
   fill(70);
-  rect(cx/2,500+(cy/2),300,height);
-  rect(300+(cx/2),400+(cy/2),350,height);
+  rect(cx/2,500+(cy/2),300+(cx/2),height);
+  rect(300+(cx/2),400+(cy/2),350+(cx/2),height);
+
   rectMode(CORNER);
   fill(0,0,0);
   rect(175+cx,500+cy,50,100);
   triangle(150+cx,600+cy,250+cx,600+cy,200+cx,700+cy);
 	door(-625,2219);
+	assets();
 	drawSnooty(0);
 	if(controlMode2!==-1){drawSnooty(1);}
 	if(controlMode3!==-1){drawSnooty(2);}
@@ -1261,18 +1778,23 @@ function level1(){
 
 function level2(){
   if(init){
-    sounds.cave.stop();
+    sounds.level.stop();
+		//sounds.level=sounds.beach;
+		sounds.level.play();
+		sounds.level.loop();
     init=false;
   }
   if(level<3){level=3;}
   noStroke();
   style.innerHTML="body {margin:0px;border:0px;background:rgb(0,0,0);}";
   background(0);
-	/*drawSnooty(0);
+/*	assets();
+	drawSnooty(0);
 	if(controlMode2!==-1){drawSnooty(1);}
 	if(controlMode3!==-1){drawSnooty(2);}
 	if(controlMode4!==-1){drawSnooty(3);}
-  if(paused===false){controlinator(0);controlinator(1);controlinator(2);controlinator(3);}*/
+  if(paused===false){controlinator(0);controlinator(1);controlinator(2);controlinator(3);}
+*/
 }
 
 function debug(){
@@ -1284,15 +1806,16 @@ function debug(){
   textSize(20);
   textAlign(LEFT,TOP);
   text("level="+level+", scene="+scene,100,100);
-  text("mouseX="+mouseX+", mouseY="+mouseY,100,120);
+  text("mouseX="+(mouseX+cx)+", mouseY="+(mouseY+cy),100,120);
   text("px1="+px1+", py1="+py1,100,140);
   text("controlMode1="+controlMode1,100,160);
-  text("p1.stick.lx="+p1.stick.lx,100,180);
-  text("p1.button.up="+p1.button.up+", keyp1.u="+keyp1.u,100,200);
-  text("selectedButton="+selectedButton,100,220);
+  text("width="+width+"height="+height,100,180);
+  text("soundRand="+soundRand,100,200);
 }
 
 function draw(){
+	soundRand=floor(random(1,4));
+
   cursor();
 
   if(keyIsDown(87) || keyIsDown(83) || keyIsDown(65) || keyIsDown(68) || mouseX!==pmouseX || mouseY!==pmouseY){controlMode1=0;}
@@ -1325,10 +1848,33 @@ function draw(){
 
   if(width !== windowWidth || height !== windowHeight){resizeCanvas(windowWidth, windowHeight);}
 
-  if(scene===-1){dead();}
+	if(scene===-1){dead();}
+	if(scene===0.5){settings();}
   if(scene===0){menu();}
   if(scene===1){level0();}
   if(scene===2){level1();}
 	if(scene===3){level2();}
   if(paused){pause();}
+	if(scene>0.5){
+		score1.size=textWidth(score1.score);
+		score2.size=textWidth(score2.score);
+		score3.size=textWidth(score3.score);
+		score4.size=textWidth(score4.score);
+		stroke(0);
+		strokeWeight(3);
+		textAlign(LEFT,TOP);
+		textSize(20);
+		fill(235,255,84);
+		text(score1.score,10,10);
+		if(controlMode2!==-1){
+			fill(128, 99, 255);
+			text(score2.score,score1.size+15,10);}
+		if(controlMode3!==-1){
+			fill(255, 80, 80);
+			text(score3.score,score1.size+score2.size+20,10);}
+		if(controlMode4!==-1){
+			fill(76, 255, 135);
+			text(score4.score,score1.size+score2.size+score3.size+25,10);}
+		noStroke();
+	}
 }
