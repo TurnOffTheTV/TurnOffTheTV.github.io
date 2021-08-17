@@ -2,6 +2,7 @@
 var name = document.getElementById("name").textContent;
 
 function deathGen() {
+	name = document.getElementById("name").textContent;
   //log name
   console.log("got name var: "+name);
 	if(getCookie("useCookies")){setCookie("mafia-name",name,31);}
