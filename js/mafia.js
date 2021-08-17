@@ -1,8 +1,10 @@
+//get name
+var name = document.getElementById("name").textContent;
+
 function deathGen() {
-  //get name
-  var name = document.getElementById("name").textContent;
+  //log name
   console.log("got name var: "+name);
-  setCookie("mafia-name",name,31);
+	if(getCookie("useCookies")){setCookie("mafia-name",name,31);}
 
   //set random variables
   var scene = Math.round(Math.random()*10);
