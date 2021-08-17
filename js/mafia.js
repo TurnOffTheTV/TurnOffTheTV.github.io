@@ -64,7 +64,7 @@ function deathGen() {
   if(scene===5){document.getElementById("output").innerHTML = name+" was killed by "+thing0+" using "+thing1+" whilst escaping "+thing2+".";}
   if(scene===6){document.getElementById("output").innerHTML = name+" ate "+thing0+" for lunch at a cafe and started choking on "+thing1+". "+name+" fell off the cafe chair and "+thing2+" called 911.";}
   if(scene===7){document.getElementById("output").innerHTML = name+" was in line at "+thing0+"'s concert and "+thing1+" snuck up behind them and killed them with "+thing2+".";}
-  if(scene===8){document.getElementById("output").innerHTML = name+" wanted to kill somebody because everybody was killing everybody else, so they made "+thing0+" an asassin. Using "+thing1+","+thing0+" revolted and killed"+name+".";}
+  if(scene===8){document.getElementById("output").innerHTML = name+" wanted to kill somebody because everybody was killing everybody else, so they made "+thing0+" an asassin. Using "+thing1+","+thing0+" revolted and killed "+name+".";}
   if(scene===9){document.getElementById("output").innerHTML = name+" was at the gym using "+thing0+" to weightlift and fell, not onto a mat, but onto "+thing1+"! Another person dropped "+thing2+" and ran to help "+name+" but it was too late.";}
   console.log("done");
 }

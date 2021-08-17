@@ -48,6 +48,7 @@ user-select:none;
 .unavaliable {color:rgb(100,100,100);text-decoration:underline;cursor:default;}
 
 #message-box {border:dotted;}
+#name {background:black;}
 
 head {background:rgb(0,255,0);}
 body {font-family: Tahoma;color:white;background:rgb(0,0,100);}
