@@ -12,16 +12,18 @@
 <h2 id="home-welcome">Welcome!</h2>
 </header>
 <h3>Here are some things you can click on (if you want).</h3>
-<a href="sounds/"><p>Downloadable Audio</p></a>
-<a href="about/"><p>About</p></a>
-<a href="programs/"><p>Programs</p></a>
-<a href="links/"><p>Other links</p></a>
+<p><a href="sounds/">Downloadable Audio</a></p>
+<p><a href="about/">About</a></p>
+<p><a href="programs/">Programs</a></p>
+<p><a href="links/">Other links</a></p>
 <script src="js/p1gamepad.js"></script>
 <script src="js/main.js"></script>
 <script>
 	var welcome = document.getElementById("home-welcome");
 	if(getCookie("visited")==="true"){welcome.innerText="Welcome back!"}
+	if(getCookie("dev")==="true"){welcome.innerText="Welcome back, dev!"}
 	if(getCookie("useCookies")==="true"){setCookie("visited","true",31);}
+}
 </script>
 </body>
 </html>

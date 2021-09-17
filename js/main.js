@@ -37,6 +37,8 @@ function getCookie(cname) {
   return "";
 }
 
+if(getCookie("dev")!=="true"){setCookie("dev","false",31);}
+
 //alert the user that we use cookies
 if(getCookie("useCookies")!=="true" && getCookie("useCookies")!=="false"){
   if (confirm("We use cookies to improve your browsing experience. Do you want us to store cookies?")) {
