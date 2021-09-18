@@ -129,8 +129,6 @@ var score4 = {
 	levelScore:0
 };
 var font;
-var cloudX=0;
-var clouds = [];
 
 function preload(){
   sounds = {
@@ -138,7 +136,6 @@ function preload(){
     menu:loadSound("https://turnoffthetv.github.io/audio/ssatf-menu.mp3"),
     overworld:loadSound("https://turnoffthetv.github.io/audio/ssatf-overworld.mp3"),
     cave:loadSound("https://turnoffthetv.github.io/audio/ssatf-cave.mp3"),
-		clouds:loadSound("https://turnoffthetv.github.io/audio/ssatf-clouds.mp3"),
 		kill:{
 			spike0:loadSound("https://turnoffthetv.github.io/audio/SSatF/spike-0.mp3"),
 			spike1:loadSound("https://turnoffthetv.github.io/audio/SSatF/spike-1.mp3"),
@@ -156,9 +153,9 @@ function preload(){
 			cave0:loadSound("https://turnoffthetv.github.io/audio/SSatF/cave-footstep-0.mp3"),
 			cave1:loadSound("https://turnoffthetv.github.io/audio/SSatF/cave-footstep-1.mp3"),
 			cave2:loadSound("https://turnoffthetv.github.io/audio/SSatF/cave-footstep-2.mp3"),
-			grass0:loadSound("https://turnoffthetv.github.io/audio/SSatF/grass-footstep-0.mp3"),
-			grass1:loadSound("https://turnoffthetv.github.io/audio/SSatF/grass-footstep-1.mp3"),
-			grass2:loadSound("https://turnoffthetv.github.io/audio/SSatF/grass-footstep-2.mp3")
+			grass0:loadSound("https://turnoffthetv.github.io/audio/SSatF/grass-fall-0.mp3"),
+			grass1:loadSound("https://turnoffthetv.github.io/audio/SSatF/grass-fall-1.mp3"),
+			grass2:loadSound("https://turnoffthetv.github.io/audio/SSatF/grass-fall-2.mp3")
 		},
 		thud:loadSound("https://turnoffthetv.github.io/audio/SSatF/thud.mp3")
   };
@@ -353,34 +350,13 @@ function positive(posVictim){
   if(posVictim>0){return(posVictim);}else{return(posVictim-(posVictim*2));}
 }
 
-function sound(soundType){
+function footstep(){
 	if(scene===1){
-		if(soundRand===1 && soundType==="footstep"){sounds.footstep.grass0.play();}
-		if(soundRand===2 && soundType==="footstep"){sounds.footstep.grass1.play();}
-		if(soundRand===3 && soundType==="footstep"){sounds.footstep.grass2.play();}
-		sounds.footstep.grass0.pan(map(px1, 0., width,-1.0, 1.0));
-		sounds.footstep.grass1.pan(map(px1, 0., width,-1.0, 1.0));
-		sounds.footstep.grass2.pan(map(px1, 0., width,-1.0, 1.0));
-		if(soundRand===1 && soundType==="fall"){sounds.fall.grass0.play();}
-		if(soundRand===2 && soundType==="fall"){sounds.fall.grass1.play();}
-		if(soundRand===3 && soundType==="fall"){sounds.fall.grass2.play();}
-		sounds.fall.grass0.pan(map(px1, 0., width,-1.0, 1.0));
-		sounds.fall.grass1.pan(map(px1, 0., width,-1.0, 1.0));
-		sounds.fall.grass2.pan(map(px1, 0., width,-1.0, 1.0));
 	}
 	if(scene===2){
-		if(soundRand===1 && soundType==="footstep"){sounds.footstep.cave0.play();}
-		if(soundRand===2 && soundType==="footstep"){sounds.footstep.cave1.play();}
-		if(soundRand===3 && soundType==="footstep"){sounds.footstep.cave2.play();}
-		sounds.footstep.cave0.pan(map(px1, 0., width,-1.0, 1.0));
-		sounds.footstep.cave1.pan(map(px1, 0., width,-1.0, 1.0));
-		sounds.footstep.cave2.pan(map(px1, 0., width,-1.0, 1.0));
-		if(soundRand===1 && soundType==="fall"){sounds.fall.cave0.play();}
-		if(soundRand===2 && soundType==="fall"){sounds.fall.cave1.play();}
-		if(soundRand===3 && soundType==="fall"){sounds.fall.cave2.play();}
-		sounds.fall.cave0.pan(map(px1, 0., width,-1.0, 1.0));
-		sounds.fall.cave1.pan(map(px1, 0., width,-1.0, 1.0));
-		sounds.fall.cave2.pan(map(px1, 0., width,-1.0, 1.0));
+		if(soundRand===1){sounds.footstep.cave0.play();}
+		if(soundRand===2){sounds.footstep.cave1.play();}
+		if(soundRand===3){sounds.footstep.cave2.play();}
 	}
 }
 
@@ -449,10 +425,15 @@ function controlinator(player){
     if(legRot1>0){legRot1-=2;}
     if(legRot1<0){legRot1+=2;}
   }
-	if(legRot1>30 && onFloor1){sound("footstep");}
-	if(legRot1<-30 && onFloor1){sound("footstep");}
+	if(legRot1>30 && onFloor1){footstep();}
+	if(legRot1<-30 && onFloor1){footstep();}
 
-	if(fallCount1===1){sound("fall");}
+	/*if(fallCount1===1 && soundRand===1 && scene===1){sounds.thud.play();}
+	if(fallCount1===1 && soundRand===2 && scene===1){sounds.thud.play();}
+	if(fallCount1===1 && soundRand===3 && scene===1){sounds.thud.play();}*/
+	if(fallCount1===1 && soundRand===1 && scene===2){sounds.fall.cave0.play();}
+	if(fallCount1===1 && soundRand===2 && scene===2){sounds.fall.cave1.play();}
+	if(fallCount1===1 && soundRand===3 && scene===2){sounds.fall.cave2.play();}
 	if(onFloor1){fallCount1+=1;}
 	if(onFloor1===false){fallCount1=0;}
 
@@ -992,56 +973,29 @@ function door(x,y){
 
 function assets(){
 	for(var i = 0; i < coins.length; i++){
-		if(coins[i].type==="yellow"){
-			if(coins[i].visible){
-				fill(223,223,0);
-				ellipse(coins[i].x+cx,coins[i].y+cy,30,30);
-				fill(255,255,0);
-				ellipse(coins[i].x+cx,coins[i].y+cy,25,25);
-			}
-			if(px1>coins[i].x-50+cx && px1<coins[i].x+50+cx && py1>coins[i].y-50+cy && py1<coins[i].y+50+cy){
-				coins[i].collected=true;
-				if(coins[i].collected && coins[i].visible){score1.score+=100;coins[i].visible=false;}
-			}
-			if(px2>coins[i].x-50+cx && px2<coins[i].x+50+cx && py2>coins[i].y-50+cy && py2<coins[i].y+50+cy){
-				coins[i].collected=true;
-				if(coins[i].collected && coins[i].visible){score2.score+=100;coins[i].visible=false;}
-			}
-			if(px3>coins[i].x-50+cx && px3<coins[i].x+50+cx && py3>coins[i].y-50+cy && py3<coins[i].y+50+cy){
-				coins[i].collected=true;
-				if(coins[i].collected && coins[i].visible){score3.score+=100;coins[i].visible=false;}
-			}
-			if(px4>coins[i].x-50+cx && px4<coins[i].x+50+cx && py4>coins[i].y-50+cy && py4<coins[i].y+50+cy){
-				coins[i].collected=true;
-				if(coins[i].collected && coins[i].visible){score4.score+=100;coins[i].visible=false;}
-			}
+		if(coins[i].visible){
+			fill(223,223,0);
+			ellipse(coins[i].x+cx,coins[i].y+cy,30,30);
+			fill(255,255,0);
+			ellipse(coins[i].x+cx,coins[i].y+cy,25,25);
 		}
-			if(coins[i].type==="blue"){
-				if(coins[i].visible){
-					fill(0,0,223);
-					ellipse(coins[i].x+cx,coins[i].y+cy,30,30);
-					fill(0,0,255);
-					ellipse(coins[i].x+cx,coins[i].y+cy,25,25);
-				}
-				if(px1>coins[i].x-50+cx && px1<coins[i].x+50+cx && py1>coins[i].y-50+cy && py1<coins[i].y+50+cy){
-					coins[i].collected=true;
-					if(coins[i].collected && coins[i].visible){score1.score+=200;coins[i].visible=false;}
-				}
-				if(px2>coins[i].x-50+cx && px2<coins[i].x+50+cx && py2>coins[i].y-50+cy && py2<coins[i].y+50+cy){
-					coins[i].collected=true;
-					if(coins[i].collected && coins[i].visible){score2.score+=200;coins[i].visible=false;}
-				}
-				if(px3>coins[i].x-50+cx && px3<coins[i].x+50+cx && py3>coins[i].y-50+cy && py3<coins[i].y+50+cy){
-					coins[i].collected=true;
-					if(coins[i].collected && coins[i].visible){score3.score+=200;coins[i].visible=false;}
-				}
-				if(px4>coins[i].x-50+cx && px4<coins[i].x+50+cx && py4>coins[i].y-50+cy && py4<coins[i].y+50+cy){
-					coins[i].collected=true;
-					if(coins[i].collected && coins[i].visible){score4.score+=200;coins[i].visible=false;}
-				}
-			}
+		if(px1>coins[i].x-50+cx && px1<coins[i].x+50+cx && py1>coins[i].y-50+cy && py1<coins[i].y+50+cy){
+			coins[i].collected=true;
+			if(coins[i].collected && coins[i].visible){score1.score+=100;coins[i].visible=false;}
+		}
+		if(px2>coins[i].x-50+cx && px2<coins[i].x+50+cx && py2>coins[i].y-50+cy && py2<coins[i].y+50+cy){
+			coins[i].collected=true;
+			if(coins[i].collected && coins[i].visible){score2.score+=100;coins[i].visible=false;}
+		}
+		if(px3>coins[i].x-50+cx && px3<coins[i].x+50+cx && py3>coins[i].y-50+cy && py3<coins[i].y+50+cy){
+			coins[i].collected=true;
+			if(coins[i].collected && coins[i].visible){score3.score+=100;coins[i].visible=false;}
+		}
+		if(px4>coins[i].x-50+cx && px4<coins[i].x+50+cx && py4>coins[i].y-50+cy && py4<coins[i].y+50+cy){
+			coins[i].collected=true;
+			if(coins[i].collected && coins[i].visible){score4.score+=100;coins[i].visible=false;}
+		}
 	}
-
 	for(var i = 0; i < enemies.length; i++){
 		if(enemies[i].type==="patrol"){
 			if(enemies[i].dead===false){
@@ -1449,7 +1403,8 @@ function dead(){
   if(controlMode1===2 || controlMode1===3){deathRumbleTimer+=1;
     if(deathRumbleTimer<25){p1.rumble=true;}else{p1.rumble=false;}
   }
-  sounds.level.stop();
+  sounds.overworld.stop();
+  sounds.cave.stop();
   init=true;
   onFloor1=false;
   textAlign(CENTER,CENTER);
@@ -1553,7 +1508,8 @@ function dead(){
 }
 
 function pause(){
-  sounds.level.stop();
+  sounds.overworld.stop();
+  sounds.cave.stop();
   fill(0,0,0,127.5);
 	rectMode(CORNER);
   rect(0,0,width,height);
@@ -1694,9 +1650,8 @@ function level0(){
 		sounds.level.play();
     sounds.level.loop();
     init=false;
-		coins=[{x:100,y:350,visible:true,collected:false,type:"yellow"},
-			{x:600,y:50,visible:true,collected:false,type:"yellow"},
-			{x:1050,y:450,visible:true,collected:false,type:"blue"}
+		coins=[{x:600,y:50,visible:true,collected:false},
+			{x:1050,y:450,visible:true,collected:false}
 		]
 		//enemies=[{type:"right",x:10,y:0,onFloor:false,fall:0,dir:0,dead:false}]
   }
@@ -1801,13 +1756,9 @@ function level1(){
 	platform(-500,1300,400);
 	platform(-700,1300,400);
 	spikes(-100,1800,2500);
-	spikes(-100,1801,2500);
-	spikes(-100,1802,2500);
 	platform(-1000,1200,200);
 	wall(-1100,700,1000);
 	spikes(-1100,1700,1000);
-	spikes(-1100,1701,1000);
-	spikes(-1100,1702,1000);
 	platform(-800,1100,150);
 	wall(-600,200,1000);
 	platform(-1000,1000,150);
@@ -1815,8 +1766,6 @@ function level1(){
 	platform(-1000,800,150);
 	wall(-1400,500,1500);
 	spikes(-1400,2000,500);
-	spikes(-1400,2001,500);
-	spikes(-1400,2002,500);
 	platform(-1300,1900,200);
 	platform(-1100,1950,200);
 	platform(-900,2100,200);
@@ -1830,71 +1779,22 @@ function level1(){
 function level2(){
   if(init){
     sounds.level.stop();
-		sounds.level=sounds.clouds;
+		//sounds.level=sounds.beach;
 		sounds.level.play();
 		sounds.level.loop();
     init=false;
-		coins=[{x:1050,y:450,visible:true,collected:false}]
-		//enemies=[{type:"right",x:10,y:0,onFloor:false,fall:0,dir:0,dead:false}]
-		clouds=[
-			{x:random(0,width),y:random(0,400),layer:random(0,3)},
-			{x:random(0,width),y:random(0,400),layer:random(0,3)},
-			{x:random(0,width),y:random(0,400),layer:random(0,3)}];
   }
-	cloudX+=1;
   if(level<3){level=3;}
   noStroke();
-	style.innerHTML="body {margin:0px;border:0px;background:rgb(0,219,255);}";
-  background(0, 219, 255);
-	rectMode(CORNER);
-	if(floor(random(0,220))===219){clouds[clouds.length]={x:-100-cloudX,y:random(0,400),layer:floor(random(0,3))};}
-	for(var i=0;i<clouds.length;i++){
-		fill(255);
-		if(clouds[i].layer===0){rect(clouds[i].x+cloudX+cx,clouds[i].y+cy,100,50);}
-	}
-	fill(240, 240, 245);
-  rect((cx/3)-75,(cy/3)+300,600,height);
-  rect((cx/3)+500,(cy/3)+400,600,height);
-  rect((cx/3)+1000,(cy/3)+300,800,height);
-    rect((cx/3)+1500,(cy/3)+250,600,height);
-		for(var i=0;i<clouds.length;i++){
-			fill(255);
-			if(clouds[i].layer===1){rect(clouds[i].x+cloudX+cx/3,clouds[i].y+cy/3,100,50);}
-		}
-  fill(250, 250, 255);
-  rect((cx/2)-100,(cy/2)+400,600,height);
-  rect((cx/2)+500,(cy/2)+500,600,height);
-  rect((cx/2)+1000,(cy/2)+300,400,height);
-  rect((cx/2)+1000,(cy/2)+600,1000,height);
-  rect((cx/2)+2000,(cy/2)+200,500,height);
-	for(var i=0;i<clouds.length;i++){
-		fill(255);
-		if(clouds[i].layer===2){rect(clouds[i].x+cloudX+cx/2,clouds[i].y+cy/2,100,50);}
-	}
-  if(py1<0){
-      fill(255,255,255,(py1-py1*2)*2);
-      rect(0,0,width,height);
-  }
-	assets();
-  if(paused===false){controlinator(0);controlinator(1);controlinator(2);controlinator(3);}
-	fill(100);
-	rect(cx,700+cy,700,height);
-	rect(cx-100,500+cy,700,height);
-	rect(cx-200,300+cy,700,height);
+  style.innerHTML="body {margin:0px;border:0px;background:rgb(0,0,0);}";
+  background(0);
+/*	assets();
 	drawSnooty(0);
 	if(controlMode2!==-1){drawSnooty(1);}
 	if(controlMode3!==-1){drawSnooty(2);}
 	if(controlMode4!==-1){drawSnooty(3);}
-	platform(600,800,500);
-	platform(1100,700,100);
-	platform(1100,900,100);
-	platform(1000,600,100);
-	platform(1200,600,150);
-	if(py1>height+100){scene=-1;}
-	fill(50);
-	rect(cx*1.25-100,800+cy*1.25,700,height);
-	rect(cx*1.25-200,600+cy*1.25*1.25,700,height);
-	rect(cx*1.25-300,400+cy*1.25,700,height);
+  if(paused===false){controlinator(0);controlinator(1);controlinator(2);controlinator(3);}
+*/
 }
 
 function debug(){
@@ -1977,5 +1877,4 @@ function draw(){
 			text(score4.score,score1.size+score2.size+score3.size+25,10);}
 		noStroke();
 	}
-	if(document.hasFocus()===false){paused=true;}
 }
