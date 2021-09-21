@@ -1828,8 +1828,9 @@ function level1(){
 }
 
 function level2(){
-  if(init){
-    sounds.level.stop();
+	background(0);
+  /*if(init){*/
+    sounds.level.stop();/*
 		sounds.level=sounds.clouds;
 		sounds.level.play();
 		sounds.level.loop();
@@ -1894,7 +1895,7 @@ function level2(){
 	fill(50);
 	rect(cx*1.25-100,800+cy*1.25,700,height);
 	rect(cx*1.25-200,600+cy*1.25*1.25,700,height);
-	rect(cx*1.25-300,400+cy*1.25,700,height);
+	rect(cx*1.25-300,400+cy*1.25,700,height);*/
 }
 
 function debug(){

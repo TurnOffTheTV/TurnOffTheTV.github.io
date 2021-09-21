@@ -29,6 +29,11 @@ hulk: {
 	x: x position
 	y: y position
 	health: 2 (hulks have 2 hp)
+	randomX: 0 (assets() makes random walk cycle)
+	randomY: 0 (assets() makes random walk cycle)
+	randomTime: 0 (assets() makes random hit)
+	dead: false
+	collected: false
 }
 
 ghoul: {
