@@ -204,8 +204,8 @@ function drawSnooty(player){
     rotate(radians(rot1));
     scale(2);
     triangle(0,-40,-10,10,10,10);
-    triangle(-10,10,-5,20,0,10);
-    triangle(0,10,5,20,10,10);
+    triangle(-10,9,-5,20,0,10);
+    triangle(0,9,5,20,10,10);
     stroke(0);
     strokeWeight(2);
     line(rot1/30,-3,rot1/12,-5);
