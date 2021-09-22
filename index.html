@@ -18,11 +18,14 @@
 <p><a href="links/">Other links</a></p>
 <script src="js/p1gamepad.js"></script>
 <script src="js/main.js"></script>
+<script src="js/p5.js"></script>
 <script>
 	var welcome = document.getElementById("home-welcome");
 	if(getCookie("visited")==="true"){welcome.innerText="Welcome back!"}
 	if(getCookie("dev")==="true"){welcome.innerText="Welcome back, dev!"}
 	if(getCookie("useCookies")==="true"){setCookie("visited","true",31);}
+	
+	function draw(){if(keyIsDown(69) && keyIsDown(76) && keyIsDown(69) && keyIsDown(73) && keyIsDown(74) && keyIsDown(65) && keyIsDown(72)){window.location.href="https://eclipse-5214.github.io/";}}
 </script>
 </body>
 </html>
