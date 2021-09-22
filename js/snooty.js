@@ -1757,8 +1757,8 @@ function level1(){
     sounds.level.play();
     sounds.level.loop();
     init=false;
-		coins=[{x:-295,y:1250,visible:true,collected:false},
-			{x:1300,y:550,visible:true,collected:false}
+		coins=[{x:-295,y:1250,visible:true,collected:false,type:"yellow"},
+			{x:1300,y:550,visible:true,collected:false,type:"yellow"}
 		]
   }
   if(level<2){level=2;}
