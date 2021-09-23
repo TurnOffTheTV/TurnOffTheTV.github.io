@@ -486,6 +486,7 @@ function controlinator(player){
 			py2=py1;
 			onFloor2=false;
 			fall2=0;
+			jump=0;
 	  }
 
 		if(controlMode2===0){
