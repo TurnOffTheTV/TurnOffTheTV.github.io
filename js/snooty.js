@@ -571,6 +571,7 @@ function controlinator(player){
 			py3=py1;
 			onFloor3=false;
 			fall3=0;
+			jump3=0;
 	  }
 
   if(controlMode3===0){
@@ -644,10 +645,10 @@ function controlinator(player){
   py3+=fall3;
   py3-=jump3;
 
-	if(py3<-50){px2=px1;py2=py1;onFloor3=false;fall3=0;}
-	if(py3>height+100){px3=px1;py3=py1;onFloor3=false;fall3=0;}
-	if(px3>width+50){px3=px2;py3=py1;onFloor3=false;fall3=0;}
-	if(px3<-50){px3=px1;py3=py1;onFloor3=false;fall3=0;}
+	if(py3<-50){px2=px1;py2=py1;onFloor3=false;fall3=0;jump3=0;}
+	if(py3>height+100){px3=px1;py3=py1;onFloor3=false;fall3=0;jump3=0;}
+	if(px3>width+50){px3=px2;py3=py1;onFloor3=false;fall3=0;jump3=0;}
+	if(px3<-50){px3=px1;py3=py1;onFloor3=false;fall3=0;jump3=0;}
   }
 
   //player 4
@@ -657,6 +658,7 @@ function controlinator(player){
 			py4=py1;
 			onFloor4=false;
 			fall4=false;
+			jump4=0;
 	  }
 
   if(controlMode4===0){
@@ -733,10 +735,10 @@ function controlinator(player){
   py4+=fall4;
   py4-=jump4;
 
-	if(py4<-50){px4=px1;py4=py1;onFloor4=false;fall4=0;}
-	if(py4>height+100){px4=px1;py4=py1;onFloor4=false;fall4=0;}
-	if(px4>width+50){px4=px2;py4=py1;onFloor4=false;fall4=0;}
-	if(px4<-50){px4=px1;py4=py1;onFloor4=false;fall4=0;}
+	if(py4<-50){px4=px1;py4=py1;onFloor4=false;fall4=0;jump4=0;}
+	if(py4>height+100){px4=px1;py4=py1;onFloor4=false;fall4=0;jump4=0;}
+	if(px4>width+50){px4=px2;py4=py1;onFloor4=false;fall4=0;jump4=0;}
+	if(px4<-50){px4=px1;py4=py1;onFloor4=false;fall4=0;jump4=0;}
   }
 }
 
@@ -1982,7 +1984,7 @@ function draw(){
 			fill(255, 80, 80);
 			text(score3.score,score1.size+score2.size+20,10);}
 		if(controlMode4!==-1){
-			fill(76, 255, 135);
+			fill(76, 255, 135);//best year ever (in music)
 			text(score4.score,score1.size+score2.size+score3.size+25,10);}
 		noStroke();
 	}
