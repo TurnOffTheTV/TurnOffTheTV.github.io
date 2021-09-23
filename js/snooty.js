@@ -482,8 +482,10 @@ function controlinator(player){
   //player 2
   if(player===1){
 		if(controlMode2===-1){
-	    px2=px1;
+	    px2=px1
 			py2=py1;
+			onFloor2=false;
+			fall2=0;
 	  }
 
 		if(controlMode2===0){
@@ -556,10 +558,10 @@ function controlinator(player){
   py2+=fall2;
   py2-=jump2;
 
-	if(py2<-50){px2=px1;py2=py1;onFloor2=false;}
-	if(py2>height+100){px2=px1;py2=py1;onFloor2=false;}
-	if(px2>width+50){px4=px2;py2=py1;onFloor2=false;}
-	if(px2<-50){px2=px1;py2=py1;onFloor2=false;}
+	if(py2<-50){px2=px1;py2=py1;onFloor2=false;fall2=0;}
+	if(py2>height+100){px2=px1;py2=py1;onFloor2=false;fall2=0;}
+	if(px2>width+50){px2=px1;py2=py1;onFloor2=false;fall2=0;}
+	if(px2<-50){px2=px1;py2=py1;onFloor2=false;fall2=0;}
   }
 
   //player 3
@@ -567,6 +569,8 @@ function controlinator(player){
 		if(controlMode3===-1){
 	    px3=px1;
 			py3=py1;
+			onFloor3=false;
+			fall3=0;
 	  }
 
   if(controlMode3===0){
@@ -640,9 +644,10 @@ function controlinator(player){
   py3+=fall3;
   py3-=jump3;
 
-	if(py3>height+100){px3=px1;py3=py1;}
-	if(px3>width+50){px4=px3;py3=py1;}
-	if(px3<-50){px3=px1;py3=py1;}
+	if(py3<-50){px2=px1;py2=py1;onFloor3=false;fall3=0;}
+	if(py3>height+100){px3=px1;py3=py1;onFloor3=false;fall3=0;}
+	if(px3>width+50){px3=px2;py3=py1;onFloor3=false;fall3=0;}
+	if(px3<-50){px3=px1;py3=py1;onFloor3=false;fall3=0;}
   }
 
   //player 4
@@ -650,6 +655,8 @@ function controlinator(player){
 		if(controlMode4===-1){
 	    px4=px1;
 			py4=py1;
+			onFloor4=false;
+			fall4=false;
 	  }
 
   if(controlMode4===0){
@@ -726,9 +733,10 @@ function controlinator(player){
   py4+=fall4;
   py4-=jump4;
 
-	if(py4>height+100){px4=px1;py4=py1;}
-	if(px4>width+50){px4=px1;py4=py1;}
-	if(px4<-50){px4=px1;py4=py1;}
+	if(py4<-50){px4=px1;py4=py1;onFloor4=false;fall4=0;}
+	if(py4>height+100){px4=px1;py4=py1;onFloor4=false;fall4=0;}
+	if(px4>width+50){px4=px2;py4=py1;onFloor4=false;fall4=0;}
+	if(px4<-50){px4=px1;py4=py1;onFloor4=false;fall4=0;}
   }
 }
 
