@@ -1978,5 +1978,5 @@ function draw(){
 			text(score4.score,score1.size+score2.size+score3.size+25,10);}
 		noStroke();
 	}
-	if(document.hasFocus()===false){paused=true;}
+	if(document.hasFocus()===false && scene>=1){paused=true;}
 }
