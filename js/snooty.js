@@ -966,27 +966,27 @@ function spikes(x,y,w){
 }
 
 function door(x,y){
-  fill(255);
-  rect(x+cx-5,y+cy-5,70,85);
-  fill(99, 36, 36);
-  rect(x+cx,y+cy,60,80);
-  fill(255, 255, 0);
-  ellipse(x+cx+50,y+40+cy,15,15);
-  if(px1>x+cx && py1>y+cy && px1<x+cx+60 && py1<y+80+cy){
-    init=true;
-    scene+=1;
-    cx=0;
-    cy=0;
-    levelStart.x=px1;
-    levelStart.y=py1;
-    onFloor1=false;
-		onFloor2=false;
-		onFloor3=false;
-		onFloor4=false;
-		score1.levelScore=score1.score;
-		score2.levelScore=score2.score;
-		score3.levelScore=score3.score;
-		score4.levelScore=score4.score;
+	fill(255);
+	rect(x+cx-5,y+cy-5,70,85);
+	fill(99, 36, 36);
+	rect(x+cx,y+cy,60,80);
+	fill(255, 255, 0);
+	ellipse(x+cx+50,y+40+cy,15,15);
+	if(px1>x+cx && py1>y+cy && px1<x+cx+60 && py1<y+80+cy){
+	init=true;
+	scene+=1;
+	cx=0;
+	cy=0;
+	levelStart.x=px1;
+	levelStart.y=py1;
+	onFloor1=false;
+	onFloor2=false;
+	onFloor3=false;
+	onFloor4=false;
+	score1.levelScore=score1.score;
+	score2.levelScore=score2.score;
+	score3.levelScore=score3.score;
+	score4.levelScore=score4.score;
   }
 }
 
