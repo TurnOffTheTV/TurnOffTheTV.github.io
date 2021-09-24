@@ -1,7 +1,8 @@
-//get name
-var name = document.getElementById("name").textContent;
+//define name
+var name;
 
 function deathGen() {
+	//get name
 	name = document.getElementById("name").textContent;
   //log name
   console.log("got name var: "+name);
