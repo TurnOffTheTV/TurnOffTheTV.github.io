@@ -3,6 +3,7 @@
 <title>Mafia Random Death Generator</title>
 <link rel="shortcut icon" type="image/png" href="https://turnoffthetv.github.io/images/favicon.png"/>
 <link href="https://turnoffthetv.github.io/css/dark.css" rel="stylesheet" id="style">
+ <script src="https://turnoffthetv.github.io/js/style.js"></script>
 <a href="https://turnoffthetv.github.io"><h1 class="header">TurnOffTheTV's Website</h1></a></head>
 <body>
 <p>Victim's name: <span id="name" contenteditable="true">TurnOffTheTV</span></p>
@@ -14,9 +15,9 @@
 <script src="https://turnoffthetv.github.io/js/main.js"></script>
 <script src="https://turnoffthetv.github.io/js/mafia.js"></script>
 <script>
-var name = document.getElementById("name").textContent;
+var name = document.getElementById("name").innerHTML;
 if(getCookie("useCookies")){
-	name=getCookie("mafia-name");
+	name='<span id="name" contenteditable="true">'+getCookie("mafia-name")+'</span>';
 }
 </script>
 </html>
