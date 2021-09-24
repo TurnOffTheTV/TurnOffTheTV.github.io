@@ -9,15 +9,15 @@
 <p>Victim's name: <span id="name" contenteditable="true">TurnOffTheTV</span></p>
 <button onclick="deathGen()" id="button">Generate Death</button>
 <p>Death: <span id="output">Press "Generate Death" to generate a death.</span></p>
-<a href="advanced/"><p>Advanced version</p></a>
+<!--<a href="advanced/"><p>Advanced version</p></a>-->
 <a href="../"><p>Back</p></a>
 </body>
 <script src="https://turnoffthetv.github.io/js/main.js"></script>
-<script src="https://turnoffthetv.github.io/js/mafia.js"></script>
 <script>
 var name = document.getElementById("name").innerHTML;
 if(getCookie("useCookies")){
 	name='<span id="name" contenteditable="true">'+getCookie("mafia-name")+'</span>';
 }
 </script>
+<script src="https://turnoffthetv.github.io/js/mafia.js"></script>
 </html>
