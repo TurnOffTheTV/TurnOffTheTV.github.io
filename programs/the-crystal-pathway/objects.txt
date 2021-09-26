@@ -20,8 +20,10 @@ zombie: {
 	y: y position
 	health: 3 (zombies have 3 hp)
 	team: 0 (assets() makes random team or freelance zombie)
-	target: 0 (assets() makes between "player", 0-25 of teams, or "none")
+	new: true (used to assign team)
+	target: 0 (assets() makes between "player", {0-25,number in array} of teams, or "none")
 	horde: false (horde zombie is 2x faster but only 1 hp)
+	dead: false
 }
 
 hulk: {
@@ -46,6 +48,7 @@ ghoul: {
 	arenaY: y of arena
 	arenaW: width of arena
 	arenaH: height of arena
+	dead: false
 }
 
 ghost: {
@@ -58,6 +61,7 @@ ghost: {
 	arenaY: y of arena
 	arenaW: width of arena
 	arenaH: height of arena
+	dead: false
 }
 
 gheist: {
@@ -68,6 +72,7 @@ gheist: {
 	alpha: 0 (transperancy set by assets())
 	use: boolean if in use or not, set by level functions
 	holding: "" (string with item being held, set by assets())
+	dead: false
 }
 
 wizard: {
@@ -76,4 +81,31 @@ wizard: {
 	y: y position
 	health: 4 (wizards have 4 hp)
 	age: 0-2, changes difficulty and sprite
+	dead: false
+}
+
+crystal: {
+	type: crystal-red, crystal-yellow, crystal-blue
+	x: x position
+	y: y position
+	visible: true
+	collected: false
+	number: (there are 5 crystals so 0-4 of which it is)
+}
+food: {
+	x: x position
+	y: y position
+	visible: true
+	collected: false
+	spriteX: x of sprite on spritesheet
+	spriteY: y of sprite on spritesheet
+	points: however many points of hunger it gives
+}
+
+lever: {
+	type:"lever"
+	x: x position
+	y: y position
+	switched: false or true
+	id: string to identify so input can be recieved
 }

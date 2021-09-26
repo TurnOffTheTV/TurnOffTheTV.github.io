@@ -1,10 +1,12 @@
+Enemies
+
 Zombie:
 	Randomly assigned teams 1-26
 	If a Zombie from one team is within 32 pixels of a Zombie on another team, they will attack that Zombie.
 	If a Zombie is within 128 pixels of the player, it will aim for it.
 	A freelance Zombie is team 0 and won't attack a team Zombie, and a team Zombie won't attack it
-	If the freelance Zombie spots the player first and is within 32 pixels of a team Zombie, it will spawn a Zombie horde
-	A Zombie horde spawns 10 faster Zombies with slower health 32-64 pixels offscreen
+	If the freelance Zombie spots the player first and is within 32 pixels of a team Zombie who's not seen the player, it will spawn a Zombie horde
+	A Zombie horde spawns 10 faster Zombies with lower health 32-64 pixels offscreen that always target the player.
 Hulk:
 	If a Hulk is within 256 pixels of the player, it will follow and do 1 hp to the player, otherwise it will randomly walk around. It has 3 hp.
 Ghoul:
