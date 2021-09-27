@@ -134,7 +134,6 @@ var clouds = [];
 var music = 0;
 var sfx = 0;
 var isDark = false;
-var stars = [];
 
 function preload(){
   sounds = {
@@ -168,7 +167,8 @@ function preload(){
   };
 
   images = {
-    sky:loadImage("https://turnoffthetv.github.io/images/snooty-sky.png")
+    sky:loadImage("https://turnoffthetv.github.io/images/snooty-sky.png"),
+		stars:loadImage("https://turnoffthetv.github.io/images/snooty-stars.png")
   };
 
 	font = loadFont("https://turnoffthetv.github.io/fonts/tahoma.ttf");
@@ -180,9 +180,6 @@ function setup(){
 	textFont(font);
 	music=getItem("music");
 	sfx=getItem("sfx");
-	for(var i = 0;i<2500;i++){
-		stars.push({x:random(0,width*2),y:random(0,height*2)});
-	}
 }
 
 function getCookie(cname) {
@@ -1331,6 +1328,7 @@ function menu(){
 	textSize(10);
 	textAlign(LEFT,BOTTOM);
 	text("Software v. 1.1.3",5,height-5);*/
+	if(mouseIsPressed){fullscreen(true);}
 }
 
 function settings(){
@@ -1629,7 +1627,9 @@ function dead(){
 }
 
 function pause(){
-  sounds.level.stop();
+	sounds.overworld.stop();
+  sounds.cave.stop();
+	sounds.clouds.stop();
   fill(0,0,0,127.5);
 	rectMode(CORNER);
   rect(0,0,width,height);
@@ -1658,7 +1658,12 @@ function pause(){
 	if(selectedButton===4){strokeWeight(5);}
 	rect(width/2,height*2/3,100,75,5);
 	noStroke();
-	if(controlMode1===2 && p1.button.circle || controlMode1===3 && p1.button.circle){paused=false;if(music===0){sounds.level.play();}}
+	if(controlMode1===2 && p1.button.circle || controlMode1===3 && p1.button.circle){
+		paused=false;
+		if(music===0 && scene===1){sounds.overworld.play();}
+		if(music===0 && scene===2){sounds.cave.play();}
+		if(music===0 && scene===3){sounds.clouds.play();}
+	}
   if(controlMode1===0 && keyIsDown(27) && keyIsDown(16)){paused=false;if(music===0){sounds.level.play();}}
 	if(controlMode1===0){
 		selectedButton=0;
@@ -1765,11 +1770,10 @@ function pause(){
 
 function level0(){
 	sounds.menu.stop();
-	sounds.level=sounds.overworld;
   if(init){
     if(music===0){
-			sounds.level.play();
-	    sounds.level.loop();
+			sounds.overworld.play();
+	    sounds.overworld.loop();
 		}
     init=false;
 		coins=[{x:100,y:350,visible:true,collected:false,type:"yellow"},
@@ -1780,16 +1784,14 @@ function level0(){
   }
   rectMode(CORNER);
   if(level<1){level=1;}
-  style.innerHTML="body {margin:0px;border:0px;background:rgb(0,219,255);}";
-  if(isDark){
-		background(0, 0, 139);
-		for(var i = 0;i<stars.length;i++){
-			stroke(255);
-			strokeWeight(2.5);
-			point(stars[i].x,stars[i].y);
-		}
-		noStroke();
-	} else{background(0, 219, 255);}
+	if(music===1){sounds.overworld.stop();}
+	if(isDark){
+		style.innerHTML="body {margin:0px;border:0px;background:rgb(0,0,139);}";
+		image(images.stars,0,0,width*3,height*3)
+	} else{
+		background(0, 219, 255);
+		style.innerHTML="body {margin:0px;border:0px;background:rgb(0,219,255);}";
+	}
 
   if(isDark){fill(0, 115, 0);} else {fill(0, 215, 0);}
   rect((cx/3)-75,(cy/3)+300,600,height);
@@ -1840,11 +1842,13 @@ function level0(){
 }
 
 function level1(){
-	sounds.level=sounds.cave;
+	sounds.overworld.stop();
   if(init){
-    if(music===0){sounds.level.stop();
-    sounds.level.play();
-    sounds.level.loop();}
+    sounds.overworld.stop();
+    if(music===0){
+			sounds.cave.play();
+    	sounds.cave.loop();
+	}
     init=false;
 		coins=[{x:-295,y:1250,visible:true,collected:false,type:"yellow"},
 			{x:1300,y:550,visible:true,collected:false,type:"yellow"}
@@ -1854,6 +1858,7 @@ function level1(){
 	rectMode(CORNERS);
   noStroke();
   style.innerHTML="body {margin:0px;border:0px;background:rgb(60,85,89);}";
+	if(music===1){sounds.cave.stop();}
   if(isDark){
 		background(10, 35, 39);
 		for(var i = 0;i<stars.length;i++){
@@ -1927,34 +1932,32 @@ function level1(){
 }
 
 function level2(){
-	sounds.level=sounds.clouds;
-	background(0);
-  //if(init){
-    if(music===0){sounds.level.stop();}
-		/*sounds.level=sounds.clouds;
-		sounds.level.play();
-		sounds.level.loop();}
+	//background(0);
+	sounds.cave.stop();
+  /*if(init){
+    if(music===0){
+		sounds.clouds.play();
+		sounds.clouds.loop();}
     init=false;
 		coins=[{x:1050,y:450,visible:true,collected:false}]
 		//enemies=[{type:"right",x:10,y:0,onFloor:false,fall:0,dir:0,dead:false}]
-		clouds=[
-			{x:random(0,width),y:random(0,400),layer:random(0,3)},
-			{x:random(0,width),y:random(0,400),layer:random(0,3)},
-			{x:random(0,width),y:random(0,400),layer:random(0,3)}];
+		/*clouds.push({x:random(0,width),y:random(0,400),layer:random(0,3)});
+		clouds.push({x:random(0,width),y:random(0,400),layer:random(0,3)});
+		clouds.push({x:random(0,width),y:random(0,400),layer:random(0,3)});
+		clouds.push({x:random(0,width),y:random(0,400),layer:random(0,3)});
+		clouds.push({x:random(0,width),y:random(0,400),layer:random(0,3)});*/
   }
-	cloudX+=1;
+	/*cloudX+=1;
   if(level<3){level=3;}
-  noStroke();
-	style.innerHTML="body {margin:0px;border:0px;background:rgb(0,219,255);}";
+	if(music===1){sounds.clouds.stop();}
 	if(isDark){
-		background(0, 0, 139);
-		for(var i = 0;i<stars.length;i++){
-			stroke(255);
-			strokeWeight(2.5);
-			point(stars[i].x,stars[i].y);
-		}
-		noStroke();
-	} else{background(0, 219, 255);}
+		style.innerHTML="body {margin:0px;border:0px;background:rgb(0,0,139);}";
+		image(images.stars,0,0,width*3,height*3)
+	} else{
+		background(0, 219, 255);
+		style.innerHTML="body {margin:0px;border:0px;background:rgb(0,219,255);}";
+	}
+	noStroke();
 	rectMode(CORNER);
 	if(floor(random(0,220))===219){clouds[clouds.length]={x:-100-cloudX,y:random(0,400),layer:floor(random(0,3))};}
 	for(var i=0;i<clouds.length;i++){
@@ -2074,7 +2077,7 @@ function draw(){
 		textAlign(LEFT,TOP);
 		textSize(20);
 		fill(235,255,84);
-		text(score1.score,10,10);
+		//text(score1.score,10,10);
 		if(controlMode2!==-1){
 			fill(128, 99, 255);
 			text(score2.score,score1.size+15,10);}
@@ -2091,7 +2094,9 @@ function draw(){
 	if(music<0){music=1;}
 	if(sfx>1){sfx=0;}
 	if(sfx<0){sfx=1;}
-	if(getCookie("useCookies")===true){storeItem("music",music);
-	storeItem("sfx",sfx);}
+	if(getCookie("useCookies")==="true"){
+		storeItem("music",music);
+		storeItem("sfx",sfx);
+	}
 	isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 }
