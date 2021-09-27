@@ -151,7 +151,7 @@ function player(){
 	if(velocity.ns>1){velocity.ns=1;}
 	if(velocity.ns<-1){velocity.ns=-1;}
 
-	if(!attack){
+	if(!attacking){
 		for(var i = 0;i<armor.runes.length;i++){
 		if(armor.runes[i].type!==2){px-=velocity.ew*3;
 			py-=velocity.ns*3;
@@ -200,7 +200,7 @@ function assets(){
 			if(width/2>px+enemies[i].x-16 && height/2>py+enemies[i].y-16 && width/2<px+enemies[i].x+80 && height/2<py+enemies[i].y+80 && floor(random(0,(5*(armor.armor.level+1))+1))===0){
 				health-=1;
 				for(var j = 0;j<armor.runes.length;j++){
-					if(armor.runes[j].type===1){enemies[i].health-=0.5;}
+					if(armor.runes[j].type===1){enemies[i].health-=0.5;sounds.hulk.hit.play();}
 				}
 				sounds.random=floor(random(0,10));
 				if(sounds.random===0){sounds.hit1.play();}
@@ -215,9 +215,9 @@ function assets(){
 				if(sounds.random===9){sounds.hit10.play();}
 			}
 
-			if(width/2>px+enemies[i].x-16 && height/2>py+enemies[i].y-16 && width/2<px+enemies[i].x+80 && height/2<py+enemies[i].y+80 && attack && floor(random(0,6))===0){enemies[i].health-=armor.weapon.level;sounds.hulk.hit.play();}
+			if(width/2>px+enemies[i].x-16 && height/2>py+enemies[i].y-16 && width/2<px+enemies[i].x+80 && height/2<py+enemies[i].y+80 && attacking && floor(random(0,6))===0){enemies[i].health-=armor.weapon.level;sounds.hulk.hit.play();}
 
-			if(enemies[i].collected===true && enemies[i].dead===false){coins+=2;enemies[i].dead=true;sounds.hulk.kill.play();}
+			if(enemies[i].collected && enemies[i].dead===false){coins+=2;enemies[i].dead=true;sounds.hulk.kill.play();}
 
 			if(enemies[i].health<0){enemies[i].collected=true;}
 
@@ -332,7 +332,7 @@ function draw(){
 		if(controlMode===1){text("PLEASE TAP TO ENTER FULLSCREEN",width/2,height/2);}
 		if(controlMode===2){text("PLEASE PRESS BUTTON 0 TO ENTER FULLSCREEN",width/2,height/2);}
 		if(p1.button.cross){fullscreen(true);}
-		function touchStarted(){fullscreen(true);}
+		function touchEnded(){fullscreen(true);}
 		sprite(46,17,width/2,height/2*3);
 	}else{
 	}
