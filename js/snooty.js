@@ -2077,7 +2077,7 @@ function draw(){
 		textAlign(LEFT,TOP);
 		textSize(20);
 		fill(235,255,84);
-		//text(score1.score,10,10);
+		text(score1.score,10,10);
 		if(controlMode2!==-1){
 			fill(128, 99, 255);
 			text(score2.score,score1.size+15,10);}
