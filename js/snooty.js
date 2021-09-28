@@ -371,10 +371,6 @@ function drawSnooty(player){
   }
 }
 
-function positive(posVictim){
-  if(posVictim>0){return(posVictim);}else{return(posVictim-(posVictim*2));}
-}
-
 function sound(soundType){
 	if(scene===1){
 		if(soundRand===1 && soundType==="footstep"){sounds.footstep.grass0.play();}
@@ -1946,7 +1942,7 @@ function level2(){
 		clouds.push({x:random(0,width),y:random(0,400),layer:random(0,3)});
 		clouds.push({x:random(0,width),y:random(0,400),layer:random(0,3)});
 		clouds.push({x:random(0,width),y:random(0,400),layer:random(0,3)});*/
-  }
+  //}
 	/*cloudX+=1;
   if(level<3){level=3;}
 	if(music===1){sounds.clouds.stop();}
