@@ -333,9 +333,7 @@ function draw(){
 		if(controlMode===2){text("PLEASE PRESS BUTTON 0 TO ENTER FULLSCREEN",width/2,height/2);}
 		if(p1.button.cross){fullscreen(true);}
 		function touchEnded(){fullscreen(true);}
-		sprite(46,17,width/2,height/2*3);
-	}else{
-	}
+		sprite(46,17,width/2,height/2*3);}
 	if(mouseX!==pmouseX || mouseY!==pmouseY){mouseDisplayTimeout=25;}
 	if(mouseDisplayTimeout>0 && cursorSelecting===false){sprite(38,10,mouseX,mouseY);}
 	if(mouseDisplayTimeout>0 && cursorSelecting){sprite(36,10,mouseX,mouseY);}

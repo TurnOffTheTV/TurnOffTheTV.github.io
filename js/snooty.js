@@ -134,6 +134,7 @@ var clouds = [];
 var music = 0;
 var sfx = 0;
 var isDark = false;
+var stars = [];
 
 function preload(){
   sounds = {
@@ -180,6 +181,9 @@ function setup(){
 	textFont(font);
 	music=getItem("music");
 	sfx=getItem("sfx");
+	for(var i = 0;i<2500;i++){
+		stars.push({x:random(0,width),y:random(0,height)});
+	}
 }
 
 function getCookie(cname) {
