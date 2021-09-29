@@ -1934,20 +1934,20 @@ function level1(){
 function level2(){
 	//background(0);
 	sounds.cave.stop();
-  /*if(init){
+  if(init){
     if(music===0){
 		sounds.clouds.play();
 		sounds.clouds.loop();}
     init=false;
 		coins=[{x:1050,y:450,visible:true,collected:false}]
 		//enemies=[{type:"right",x:10,y:0,onFloor:false,fall:0,dir:0,dead:false}]
-		/*clouds.push({x:random(0,width),y:random(0,400),layer:random(0,3)});
 		clouds.push({x:random(0,width),y:random(0,400),layer:random(0,3)});
 		clouds.push({x:random(0,width),y:random(0,400),layer:random(0,3)});
 		clouds.push({x:random(0,width),y:random(0,400),layer:random(0,3)});
-		clouds.push({x:random(0,width),y:random(0,400),layer:random(0,3)});*/
-  //}
-	/*cloudX+=1;
+		clouds.push({x:random(0,width),y:random(0,400),layer:random(0,3)});
+		clouds.push({x:random(0,width),y:random(0,400),layer:random(0,3)});
+  }
+	cloudX+=1;
   if(level<3){level=3;}
 	if(music===1){sounds.clouds.stop();}
 	if(isDark){
@@ -2006,7 +2006,7 @@ function level2(){
 	if(isDark){fill(25);} else {fill(50);}
 	rect(cx*1.25-100,800+cy*1.25,700,height);
 	rect(cx*1.25-200,600+cy*1.25*1.25,700,height);
-	rect(cx*1.25-300,400+cy*1.25,700,height);*/
+	rect(cx*1.25-300,400+cy*1.25,700,height);
 }
 
 function debug(){
