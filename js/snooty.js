@@ -499,6 +499,12 @@ function controlinator(player){
   if(py1>height-height/3){cy-=2;py1-=2;py2-=2;py3-=2;py4-=2;}
   if(py1<height/3){cy+=2;py1+=2;py2+=2;py3+=2;py4+=2;}
 
+	if(px1>width){cx-=3;px1-=2;px2-=2;px3-=2;px4-=2;}
+	if(px1<0){cx+=3;px1+=2;px2+=2;px3+=2;px4+=2;}
+
+	if(py1>height){cy-=3;py1-=2;py2-=2;py3-=2;py4-=2;}
+	if(py1<0){cy+=3;py1+=2;py2+=2;py3+=2;py4+=2;}
+
   }
 
   //player 2
@@ -1523,7 +1529,9 @@ function dead(){
   if(controlMode1===2 || controlMode1===3){deathRumbleTimer+=1;
     if(deathRumbleTimer<25){p1.rumble=true;}else{p1.rumble=false;}
   }
-  sounds.level.stop();
+  sounds.overworld.stop();
+	sounds.cave.stop();
+	sounds.clouds.stop();
   init=true;
   onFloor1=false;
   textAlign(CENTER,CENTER);
@@ -1787,7 +1795,7 @@ function level0(){
 	if(music===1){sounds.overworld.stop();}
 	if(isDark){
 		style.innerHTML="body {margin:0px;border:0px;background:rgb(0,0,139);}";
-		image(images.stars,0,0,width*3,height*3)
+		image(images.stars,cx/6,0,width*3,height*3)
 	} else{
 		background(0, 219, 255);
 		style.innerHTML="body {margin:0px;border:0px;background:rgb(0,219,255);}";
@@ -1934,25 +1942,25 @@ function level1(){
 function level2(){
 	//background(0);
 	sounds.cave.stop();
-  /*if(init){
+  if(init){
     if(music===0){
 		sounds.clouds.play();
 		sounds.clouds.loop();}
     init=false;
 		coins=[{x:1050,y:450,visible:true,collected:false}]
 		//enemies=[{type:"right",x:10,y:0,onFloor:false,fall:0,dir:0,dead:false}]
-		/*clouds.push({x:random(0,width),y:random(0,400),layer:random(0,3)});
 		clouds.push({x:random(0,width),y:random(0,400),layer:random(0,3)});
 		clouds.push({x:random(0,width),y:random(0,400),layer:random(0,3)});
 		clouds.push({x:random(0,width),y:random(0,400),layer:random(0,3)});
-		clouds.push({x:random(0,width),y:random(0,400),layer:random(0,3)});*/
-  //}
-	/*cloudX+=1;
+		clouds.push({x:random(0,width),y:random(0,400),layer:random(0,3)});
+		clouds.push({x:random(0,width),y:random(0,400),layer:random(0,3)});
+  }
+	cloudX+=1;
   if(level<3){level=3;}
 	if(music===1){sounds.clouds.stop();}
 	if(isDark){
 		style.innerHTML="body {margin:0px;border:0px;background:rgb(0,0,139);}";
-		image(images.stars,0,0,width*3,height*3)
+		image(images.stars,cx/6,0,width*3,height*3)
 	} else{
 		background(0, 219, 255);
 		style.innerHTML="body {margin:0px;border:0px;background:rgb(0,219,255);}";
@@ -1993,6 +2001,7 @@ function level2(){
 	rect(cx,700+cy,700,height);
 	rect(cx-100,500+cy,700,height);
 	rect(cx-200,300+cy,700,height);
+	door(1075,-80);
 	drawSnooty(0);
 	if(controlMode2!==-1){drawSnooty(1);}
 	if(controlMode3!==-1){drawSnooty(2);}
@@ -2002,11 +2011,22 @@ function level2(){
 	platform(1100,900,100);
 	platform(1000,600,100);
 	platform(1200,600,150);
+	platform(1400,500,150);
+	wall(1400,500,500);
+	platform(1400,700,250);
+	platform(1400,850,230);
+	platform(1650,600,150);
+	platform(1800,500,150);
+	platform(1650,350,150);
+	wall(1650,300,200);
+	platform(1450,200,150);
+	platform(1200,100,150);
+	platform(1050,0,150);
 	if(py1>height+100){scene=-1;}
 	if(isDark){fill(25);} else {fill(50);}
 	rect(cx*1.25-100,800+cy*1.25,700,height);
 	rect(cx*1.25-200,600+cy*1.25*1.25,700,height);
-	rect(cx*1.25-300,400+cy*1.25,700,height);*/
+	rect(cx*1.25-300,400+cy*1.25,700,height);
 }
 
 function debug(){
