@@ -135,6 +135,7 @@ var music = 0;
 var sfx = 0;
 var isDark = false;
 var stars = [];
+var cursorTimeout = false;
 
 function preload(){
   sounds = {
@@ -2032,6 +2033,34 @@ function level2(){
 	rect(cx*1.25-300,400+cy*1.25,700,height);
 }
 
+function level3(){
+	//background(0);
+	sounds.clouds.stop();
+  if(init){
+    if(music===0){
+		sounds.water.play();
+		sounds.water.loop();}
+    init=false;
+		coins=[{x:1450,y:800,visible:true,collected:false,type:"blue"},
+		      {x:1250,y:800,visible:true,collected:false,type:"yellow"},
+		      {x:1050,y:800,visible:true,collected:false,type:"yellow"}]
+  }
+  if(level<4){level=4;}
+	if(music===1){sounds.clouds.stop();}
+	if(isDark){
+		style.innerHTML="body {margin:0px;border:0px;background:rgb(75,0,0);}";
+	} else{
+		background(139,0,0);
+		style.innerHTML="body {margin:0px;border:0px;background:rgb(139,0,0);}";
+	}
+	assets();
+  if(paused===false){controlinator(0);controlinator(1);controlinator(2);controlinator(3);}
+	drawSnooty(0);
+	if(controlMode2!==-1){drawSnooty(1);}
+	if(controlMode3!==-1){drawSnooty(2);}
+	if(controlMode4!==-1){drawSnooty(3);}
+}
+
 function debug(){
   noStroke();
   fill(255);
@@ -2060,7 +2089,7 @@ function draw(){
   if(p1.stick.lx>deadzone.inner || p1.stick.lx<deadzone.inner-(2*deadzone.inner) || p1.stick.ly>deadzone.inner || p1.stick.ly<deadzone.inner-(2*deadzone.inner)){controlMode1=2;}
 
   if(p1.button.left || p1.button.right || p1.button.up || p1.button.down){controlMode1=3;}
-//smells pretty weird
+
 	if(keyIsDown(73) || keyIsDown(75) || keyIsDown(74) || keyIsDown(76)){controlMode2=0;}
 
   if(p2.stick.lx>deadzone.inner || p2.stick.lx<deadzone.inner-(2*deadzone.inner) || p2.stick.ly>deadzone.inner || p2.stick.ly<deadzone.inner-(2*deadzone.inner)){controlMode2=2;}
@@ -2089,6 +2118,7 @@ function draw(){
   if(scene===1){level0();}
   if(scene===2){level1();}
 	if(scene===3){level2();}
+	if(scene===4){level3();}
   if(paused){pause();}
 	if(scene>0.5){
 		score1.size=textWidth(score1.score);
