@@ -1859,7 +1859,8 @@ function level1(){
 	}
     init=false;
 		coins=[{x:-295,y:1250,visible:true,collected:false,type:"yellow"},
-			{x:1300,y:550,visible:true,collected:false,type:"yellow"}
+			{x:1300,y:550,visible:true,collected:false,type:"yellow"},
+		       {x:-600,y:100,visible:true,collected:false,type:"blue"}
 		]
   }
   if(level<2){level=2;}
@@ -1920,7 +1921,7 @@ function level1(){
 	spikes(-1100,1701,1000);
 	spikes(-1100,1702,1000);
 	platform(-800,1100,150);
-	wall(-600,200,1000);
+	wall(-600,200,1000);//88//
 	platform(-1000,1000,150);
 	platform(-800,900,150);
 	platform(-1000,800,150);
