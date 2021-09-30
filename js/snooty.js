@@ -1947,7 +1947,9 @@ function level2(){
 		sounds.clouds.play();
 		sounds.clouds.loop();}
     init=false;
-		coins=[{x:1050,y:450,visible:true,collected:false}]
+		coins=[{x:1450,y:800,visible:true,collected:false,type:"blue"}/*,
+		      {x:1450,y:800,visible:true,collected:false,type:"blue"},
+		      {x:1450,y:800,visible:true,collected:false,type:"blue"}*/]
 		//enemies=[{type:"right",x:10,y:0,onFloor:false,fall:0,dir:0,dead:false}]
 		clouds.push({x:random(0,width),y:random(0,400),layer:random(0,3)});
 		clouds.push({x:random(0,width),y:random(0,400),layer:random(0,3)});
