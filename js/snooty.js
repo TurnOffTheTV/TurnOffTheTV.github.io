@@ -1848,7 +1848,7 @@ function level0(){
   platform(1700,485,200);
   platform(1900,430,200);
   if(py1>height+100){scene=-1;}
-}
+}//The Rolling Hills
 
 function level1(){
 	sounds.overworld.stop();
@@ -1939,7 +1939,7 @@ function level1(){
       rect(0,0,width,height);
   }
 	if(py1+cy>2300){scene=-1;}
-}
+}//The Climber's Cavern
 
 function level2(){
 	//background(0);
@@ -1950,8 +1950,8 @@ function level2(){
 		sounds.clouds.loop();}
     init=false;
 		coins=[{x:1450,y:800,visible:true,collected:false,type:"blue"},
-		      {x:1250,y:800,visible:true,collected:false,type:"yellow"},
-		      {x:1050,y:800,visible:true,collected:false,type:"yellow"}]
+		      {x:900,y:-75,visible:true,collected:false,type:"yellow"},
+		      {x:1875,y:150,visible:true,collected:false,type:"yellow"}]
 		//enemies=[{type:"right",x:10,y:0,onFloor:false,fall:0,dir:0,dead:false}]
 		clouds.push({x:random(0,width),y:random(0,400),layer:random(0,3)});
 		clouds.push({x:random(0,width),y:random(0,400),layer:random(0,3)});
@@ -2026,12 +2026,16 @@ function level2(){
 	platform(1450,200,150);
 	platform(1200,100,150);
 	platform(1050,0,150);
+	platform(800,0,200);
+	platform(800,-150,200);
+	wall(800,-150,150);
+	platform(1800,200,150);
 	if(py1>height+100){scene=-1;}
 	if(isDark){fill(25);} else {fill(50);}
 	rect(cx*1.25-100,800+cy*1.25,700,height);
 	rect(cx*1.25-200,600+cy*1.25*1.25,700,height);
 	rect(cx*1.25-300,400+cy*1.25,700,height);
-}
+}//In The Clouds
 
 function level3(){
 	//background(0);
@@ -2040,6 +2044,34 @@ function level3(){
     if(music===0){
 		sounds.water.play();
 		sounds.water.loop();}
+    init=false;
+		coins=[{x:1450,y:800,visible:true,collected:false,type:"blue"},
+		      {x:900,y:-75,visible:true,collected:false,type:"yellow"},
+		      {x:1050,y:800,visible:true,collected:false,type:"yellow"}]
+  }
+  if(level<4){level=4;}
+	if(music===1){sounds.clouds.stop();}
+	if(isDark){
+		style.innerHTML="body {margin:0px;border:0px;background:rgb(75,0,0);}";
+	} else{
+		background(139,0,0);
+		style.innerHTML="body {margin:0px;border:0px;background:rgb(139,0,0);}";
+	}
+	assets();
+  if(paused===false){controlinator(0);controlinator(1);controlinator(2);controlinator(3);}
+	drawSnooty(0);
+	if(controlMode2!==-1){drawSnooty(1);}
+	if(controlMode3!==-1){drawSnooty(2);}
+	if(controlMode4!==-1){drawSnooty(3);}
+}//The Atlantis Trench
+
+function level4(){
+	/*
+	sounds.water.stop();
+  if(init){
+    if(music===0){
+		sounds.lava.play();
+		sounds.lava.loop();}
     init=false;
 		coins=[{x:1450,y:800,visible:true,collected:false,type:"blue"},
 		      {x:1250,y:800,visible:true,collected:false,type:"yellow"},
@@ -2058,7 +2090,7 @@ function level3(){
 	drawSnooty(0);
 	if(controlMode2!==-1){drawSnooty(1);}
 	if(controlMode3!==-1){drawSnooty(2);}
-	if(controlMode4!==-1){drawSnooty(3);}
+	if(controlMode4!==-1){drawSnooty(3);}*/
 }
 
 function debug(){
