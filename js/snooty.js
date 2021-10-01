@@ -2187,6 +2187,6 @@ function draw(){
 	}
 	isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 	cursorTimeout+=1;
-	if(cursorTimeout>25){cursor("none");
+	if(cursorTimeout>25){cursor("none");}
 	if(mouseX!==pmouseX || mouseY!==pmouseY){cursorTimeout=0;}
 }
