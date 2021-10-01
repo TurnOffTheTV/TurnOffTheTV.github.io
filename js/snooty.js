@@ -135,7 +135,8 @@ var music = 0;
 var sfx = 0;
 var isDark = false;
 var stars = [];
-var cursorTimeout = false;
+var cursorTimeout = 0;
+var continued = false;
 
 function preload(){
   sounds = {
@@ -2052,6 +2053,7 @@ function level3(){
   if(level<4){level=4;}
 	if(music===1){sounds.clouds.stop();}
 	if(isDark){
+		background(75,0,0);
 		style.innerHTML="body {margin:0px;border:0px;background:rgb(75,0,0);}";
 	} else{
 		background(139,0,0);
@@ -2184,4 +2186,7 @@ function draw(){
 		storeItem("sfx",sfx);
 	}
 	isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+	cursorTimeout+=1;
+	if(cursorTimeout>25){cursor("none");
+	if(mouseX!==pmouseX || mouseY!==pmouseY){cursorTimeout=0;}
 }
