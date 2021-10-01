@@ -135,6 +135,7 @@ var music = 0;
 var sfx = 0;
 var isDark = false;
 var stars = [];
+var cursorTimeout = false;
 
 function preload(){
   sounds = {
@@ -2051,7 +2052,6 @@ function level3(){
   if(level<4){level=4;}
 	if(music===1){sounds.clouds.stop();}
 	if(isDark){
-		background(75,0,0);
 		style.innerHTML="body {margin:0px;border:0px;background:rgb(75,0,0);}";
 	} else{
 		background(139,0,0);
