@@ -135,8 +135,6 @@ var music = 0;
 var sfx = 0;
 var isDark = false;
 var stars = [];
-var cursorTimeout = 0;
-var continued = false;
 
 function preload(){
   sounds = {
