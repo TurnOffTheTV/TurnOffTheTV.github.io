@@ -170,7 +170,8 @@ function preload(){
 
   images = {
     sky:loadImage("https://turnoffthetv.github.io/images/snooty-sky.png"),
-		stars:loadImage("https://turnoffthetv.github.io/images/snooty-stars.png")
+		stars:loadImage("https://turnoffthetv.github.io/images/snooty-stars.png"),
+		gems:loadImage("https://turnoffthetv.github.io/images/snooty-gems.png")
   };
 
 	font = loadFont("https://turnoffthetv.github.io/fonts/tahoma.ttf");
@@ -182,8 +183,8 @@ function setup(){
 	textFont(font);
 	music=getItem("music");
 	sfx=getItem("sfx");
-	for(var i = 0;i<2500;i++){
-		stars.push({x:random(0,width),y:random(0,height)});
+	for(var i = 0;i<10000;i++){
+		stars.push({x:random(0,width*2),y:random(0,height*2)});
 	}
 }
 
@@ -1867,18 +1868,15 @@ function level1(){
   if(level<2){level=2;}
 	rectMode(CORNERS);
   noStroke();
-  style.innerHTML="body {margin:0px;border:0px;background:rgb(60,85,89);}";
 	if(music===1){sounds.cave.stop();}
   if(isDark){
-		background(10, 35, 39);
-		for(var i = 0;i<stars.length;i++){
-			stroke(0, 219, 255);
-			strokeWeight(4);
-			if(stars[i].x-64<cx && stars[i].x+64>cx){stroke(255);strokeWeight(6);}
-			point(stars[i].x*2+cx/4,stars[i].y*2+cy/4);
-		}
+		style.innerHTML="body {margin:0px;border:0px;background:rgb(10, 35, 39);}";
+		image(images.gems,0,0,width*2,height*2);
 		noStroke();
-	} else {background(60, 85, 89);}
+	} else {
+		background(60, 85, 89);
+		style.innerHTML="body {margin:0px;border:0px;background:rgb(60,85,89);}";
+	}
 
   if(isDark){fill(59/2);} else {fill(59);}
   rect(cx/3,400+(cy/3),300+(cx/3),height);
@@ -1939,7 +1937,7 @@ function level1(){
       rect(0,0,width,height);
   }
 	if(py1+cy>2300){scene=-1;}
-}//The Climber's Cavern
+}
 
 function level2(){
 	//background(0);
@@ -2035,7 +2033,7 @@ function level2(){
 	rect(cx*1.25-100,800+cy*1.25,700,height);
 	rect(cx*1.25-200,600+cy*1.25*1.25,700,height);
 	rect(cx*1.25-300,400+cy*1.25,700,height);
-}//In The Clouds
+}
 
 function level3(){
 	//background(0);
