@@ -1947,7 +1947,7 @@ function level2(){
 		sounds.clouds.play();
 		sounds.clouds.loop();}
     init=false;
-		coins=[{x:1450,y:800,visible:true,collected:false,type:"blue"},
+		coins=[{x:1450,y:700,visible:true,collected:false,type:"blue"},
 		      {x:900,y:-75,visible:true,collected:false,type:"yellow"},
 		      {x:1875,y:150,visible:true,collected:false,type:"yellow"}]
 		//enemies=[{type:"right",x:10,y:0,onFloor:false,fall:0,dir:0,dead:false}]
@@ -2027,6 +2027,7 @@ function level2(){
 	platform(800,0,200);
 	platform(800,-150,200);
 	wall(800,-150,150);
+	platform(750,-150,100);
 	platform(1800,200,150);
 	if(py1>height+100){scene=-1;}
 	if(isDark){fill(25);} else {fill(50);}
