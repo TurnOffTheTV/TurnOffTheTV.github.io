@@ -1862,7 +1862,7 @@ function level1(){
     init=false;
 		coins=[{x:-295,y:1250,visible:true,collected:false,type:"yellow"},
 			{x:1300,y:550,visible:true,collected:false,type:"yellow"},
-		       {x:-600,y:100,visible:true,collected:false,type:"blue"}
+		       {x:-600,y:0,visible:true,collected:false,type:"blue"}
 		]
   }
   if(level<2){level=2;}
@@ -1921,6 +1921,7 @@ function level1(){
 	spikes(-1100,1702,1000);
 	platform(-800,1100,150);
 	wall(-600,200,1000);//88//
+	platform(-550,200,100);
 	platform(-1000,1000,150);
 	platform(-800,900,150);
 	platform(-1000,800,150);
@@ -1947,7 +1948,7 @@ function level2(){
 		sounds.clouds.play();
 		sounds.clouds.loop();}
     init=false;
-		coins=[{x:1450,y:700,visible:true,collected:false,type:"blue"},
+		coins=[{x:1450,y:800,visible:true,collected:false,type:"blue"},
 		      {x:900,y:-75,visible:true,collected:false,type:"yellow"},
 		      {x:1875,y:150,visible:true,collected:false,type:"yellow"}]
 		//enemies=[{type:"right",x:10,y:0,onFloor:false,fall:0,dir:0,dead:false}]
@@ -2027,7 +2028,6 @@ function level2(){
 	platform(800,0,200);
 	platform(800,-150,200);
 	wall(800,-150,150);
-	platform(750,-150,100);
 	platform(1800,200,150);
 	if(py1>height+100){scene=-1;}
 	if(isDark){fill(25);} else {fill(50);}
