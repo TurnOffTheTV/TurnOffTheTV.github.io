@@ -1921,7 +1921,7 @@ function level1(){
 	spikes(-1100,1702,1000);
 	platform(-800,1100,150);
 	wall(-600,200,1000);//88//
-	platform(-550,200,100);
+	platform(-650,200,100);
 	platform(-1000,1000,150);
 	platform(-800,900,150);
 	platform(-1000,800,150);
