@@ -1341,12 +1341,12 @@ function menu(){
   fill(255);
   textSize(40);
   noStroke();
-	if(level===0){
+	if(maxLevel===0){
 		text("Play!",width/3,height/3);
 	  text("Back",width*2/3,height/3);
 		text("Settings",width/2,height*2/3);
 	}
-		if(level>0){
+		if(maxLevel>0){
 			text("Play!",width/3,height/3);
 			textSize(30);
 	  	text("Play from \n beginning!",width*2/3,height/3);
@@ -1362,16 +1362,16 @@ function menu(){
       cursor(HAND);
     }
     if(mouseX>(width/3)*2-100 && mouseY>(height/3)-50 && mouseX<(width/3)*2+100 && mouseY<(height/3)+50){
-      if(level===0){selectedButton=2;}
-			if(level>0){selectedButton=4;}
+      if(maxLevel===0){selectedButton=2;}
+			if(maxLevel>0){selectedButton=4;}
       cursor(HAND);
     }
-		if(mouseX>(width/2)-100 && mouseY>(height*2/3)-50 && mouseX<(width/2)+100 && mouseY<(height*2/3)+50 && level===0){
+		if(mouseX>(width/2)-100 && mouseY>(height*2/3)-50 && mouseX<(width/2)+100 && mouseY<(height*2/3)+50 && maxLevel===0){
       selectedButton=3;
       cursor(HAND);
     }
     if(mouseX>(width/3)-100 && mouseY>(height/3)-50 && mouseX<(width/3)+100 && mouseY<(height/3)+50 && mouseIsPressed){
-      if(level===0){
+      if(maxLevel===0){
 				scene=1;
 	      onFloor1=false;
 				onFloor2=false;
@@ -1380,7 +1380,7 @@ function menu(){
 		    selectedButton=0;
 	      init=true;
 			}
-			if(level>0){
+			if(maxLevel>0){
 				scene=maxLevel;
 				onFloor1=false;
 				onFloor2=false;
@@ -1396,11 +1396,15 @@ function menu(){
 				py3=levelStart.y;
 				px4=levelStart.x;
 				py4=levelStart.y;
+				score1.score=score1.levelScore;
+				score2.score=score2.levelScore;
+				score3.score=score3.levelScore;
+				score4.score=score4.levelScore;
 			}
 	  }
     if(mouseX>(width/3)*2-100 && mouseY>(height/3)-50 && mouseX<(width/3)*2+100 && mouseY<(height/3)+50 && mouseIsPressed){
-			if(level===0){window.location.href="https://turnoffthetv.github.io/programs/";}
-			if(level>0){
+			if(maxLevel===0){window.location.href="https://turnoffthetv.github.io/programs/";}
+			if(maxLevel>0){
 				scene=1;
 				onFloor1=false;
 				onFloor2=false;
@@ -1410,15 +1414,15 @@ function menu(){
 			}
 	    selectedButton=0;
 	  }
-		if(mouseX>(width/2)-100 && mouseY>(height*2/3)-50 && mouseX<(width/2)+100 && mouseY<(height*2/3)+50 && level===0 && mouseIsPressed){
+		if(mouseX>(width/2)-100 && mouseY>(height*2/3)-50 && mouseX<(width/2)+100 && mouseY<(height*2/3)+50 && maxLevel===0 && mouseIsPressed){
 			scene=0.5;
 			selectedButton=0;
 		}
-		if(mouseX>(width*2/3)-100 && mouseY>(height*2/3)-50 && mouseX<(width/2)+100 && mouseY<(height*2/3)+50 && level>0 && mouseIsPressed){
+		if(mouseX>(width*2/3)-100 && mouseY>(height*2/3)-50 && mouseX<(width/2)+100 && mouseY<(height*2/3)+50 && maxLevel>0 && mouseIsPressed){
 			scene=0.5;
 			selectedButton=0;
 		}
-		if(mouseX>(width/3)-100 && mouseY>(height*2/3)-50 && mouseX<(width/2)+100 && mouseY<(height*2/3)+50 && level>0 && mouseIsPressed){
+		if(mouseX>(width/3)-100 && mouseY>(height*2/3)-50 && mouseX<(width/2)+100 && mouseY<(height*2/3)+50 && maxLevel>0 && mouseIsPressed){
 			window.location.href="https://turnoffthetv.github.io/programs/";
 			selectedButton=0;
 		}
@@ -1938,9 +1942,9 @@ function pause(){
 				dir3="right";
 				dir4s="right";
 				paused=false;
+				selectedButton=0;
 			}
 			cursor(HAND);
-			selectedButton=0;
 		}
 
 	}
