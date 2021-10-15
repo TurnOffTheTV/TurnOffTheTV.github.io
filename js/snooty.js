@@ -134,8 +134,8 @@ var clouds = [];
 var music = 0;
 var sfx = 0;
 var isDark = false;
-var stars = [];
 var cursorTimeout = false;
+var maxLevel = 0;
 
 function preload(){
   sounds = {
@@ -144,6 +144,9 @@ function preload(){
     overworld:loadSound("https://turnoffthetv.github.io/audio/ssatf-overworld.mp3"),
     cave:loadSound("https://turnoffthetv.github.io/audio/ssatf-cave.mp3"),
 		clouds:loadSound("https://turnoffthetv.github.io/audio/ssatf-clouds.mp3"),
+		water:loadSound("https://turnoffthetv.github.io/audio/ssatf-ocean.mp3"),
+		boss:loadSound("https://turnoffthetv.github.io/audio/ssatf-boss.mp3"),
+		space:loadSound("https://turnoffthetv.github.io/audio/ssatf-space.mp3"),
 		kill:{
 			spike0:loadSound("https://turnoffthetv.github.io/audio/SSatF/spike-0.mp3"),
 			spike1:loadSound("https://turnoffthetv.github.io/audio/SSatF/spike-1.mp3"),
@@ -165,7 +168,9 @@ function preload(){
 			grass1:loadSound("https://turnoffthetv.github.io/audio/SSatF/grass-footstep-1.mp3"),
 			grass2:loadSound("https://turnoffthetv.github.io/audio/SSatF/grass-footstep-2.mp3")
 		},
-		thud:loadSound("https://turnoffthetv.github.io/audio/SSatF/thud.mp3")
+		thud:loadSound("https://turnoffthetv.github.io/audio/SSatF/thud.mp3"),
+		blue:loadSound("https://turnoffthetv.github.io/audio/Crystal-sounds/General Sounds/Coins/sfx_coin_cluster1.wav"),
+		yellow:loadSound("https://turnoffthetv.github.io/audio/Crystal-sounds/General Sounds/Coins/sfx_coin_double1.wav")
   };
 
   images = {
@@ -181,11 +186,9 @@ function setup(){
 	describe('Snooty Scooty and the Frowns');
   createCanvas(windowWidth,windowHeight);
 	textFont(font);
-	music=getItem("music");
-	sfx=getItem("sfx");
-	for(var i = 0;i<10000;i++){
-		stars.push({x:random(0,width*2),y:random(0,height*2)});
-	}
+	if(getItem("music")>-1){music=getItem("music");}
+	if(getItem("sfx")>-1){sfx=getItem("sfx");}
+	pixelDensity(5);
 }
 
 function getCookie(cname) {
@@ -795,9 +798,9 @@ function platform(x,y,w){
 		if(px4<x+cx || px4>x+w+cx){onFloor4=false;}
 	}
 	for(var i = 0; i < enemies.length; i++){
-		if(enemies[i].x>x-3+cx && enemies[i].x<x+w-3+cx && enemies[i].y>y-3+cy && enemies[i].y<y+1+cy){
-			if(enemies[i].x>x+cx && enemies[i].x<x+w+cx){enemies[i].y=cy+y;enemies[i].onFloor=true;}
-			if(enemies[i].x<x+cx || enemies[i].x>x+w+cx){enemies[i].onFloor=false;}
+		if(enemies[i].x>x-5 && enemies[i].x<x+w+5 && enemies[i].y>y-52 && enemies[i].y<y+2){
+			if(enemies[i].x>x && enemies[i].x<x+w){enemies[i].y=y-50;enemies[i].onFloor=true;}
+			if(enemies[i].x<x || enemies[i].x>x+w){enemies[i].onFloor=false;}
 		}
 	}
 }
@@ -975,7 +978,8 @@ function spikes(x,y,w){
 	}
 	if(isDark){
 		fill(96,144,88,128);
-		rect(x,y-15,x+w,-15);
+		rectMode(CORNERS);
+		rect(x-15+cx,y-15+cy,x+w+cx,y+cy);
 	}
 
 	stroke(0);
@@ -1034,6 +1038,7 @@ function door(x,y){
 	score3.levelScore=score3.score;
 	score4.levelScore=score4.score;
   }
+	//if(getCookie("dev")==="true"){rectMode(CORNERS);fill(0,255,0,128);stroke(0,255,0);rect(x+cx,y+cy,x+60+cx,y+80+cy);}
 }
 
 function assets(){
@@ -1048,6 +1053,7 @@ function assets(){
 					fill(255,255,0,64);
 					ellipse(coins[i].x+cx,coins[i].y+cy,50,50);
 				}
+				if(getCookie("dev")==="true"){rectMode(CORNERS);stroke(255,255,0);fill(255,255,0,64);rect(coins[i].x-50+cx,coins[i].y-50+cy,coins[i].x+50+cx,coins[i].y+50+cy);noStroke();}
 			}
 			if(px1>coins[i].x-50+cx && px1<coins[i].x+50+cx && py1>coins[i].y-50+cy && py1<coins[i].y+50+cy){
 				coins[i].collected=true;
@@ -1063,9 +1069,10 @@ function assets(){
 			}
 			if(px4>coins[i].x-50+cx && px4<coins[i].x+50+cx && py4>coins[i].y-50+cy && py4<coins[i].y+50+cy){
 				coins[i].collected=true;
-				if(coins[i].collected && coins[i].visible){score4.score+=100;coins[i].visible=false;}
+				if(coins[i].collected && coins[i].visible){score4.score+=100;coins[i].visible=false;sounds.yellow.play();}
 			}
 		}
+
 		if(coins[i].type==="blue"){
 				if(coins[i].visible){
 					fill(0,0,223);
@@ -1076,6 +1083,7 @@ function assets(){
 						fill(0,0,255,64);
 						ellipse(coins[i].x+cx,coins[i].y+cy,50,50);
 					}
+					if(getCookie("dev")==="true"){rectMode(CORNERS);stroke(0,0,255);fill(0,0,255,64);rect(coins[i].x-50+cx,coins[i].y-50+cy,coins[i].x+50+cx,coins[i].y+50+cy);noStroke();}
 				}
 				if(px1>coins[i].x-50+cx && px1<coins[i].x+50+cx && py1>coins[i].y-50+cy && py1<coins[i].y+50+cy){
 					coins[i].collected=true;
@@ -1091,45 +1099,116 @@ function assets(){
 				}
 				if(px4>coins[i].x-50+cx && px4<coins[i].x+50+cx && py4>coins[i].y-50+cy && py4<coins[i].y+50+cy){
 					coins[i].collected=true;
-					if(coins[i].collected && coins[i].visible){score4.score+=200;coins[i].visible=false;}
+					if(coins[i].collected && coins[i].visible){score4.score+=200;coins[i].visible=false;sounds.blue.play();}
 				}
 			}
 	}
 
 	for(var i = 0; i < enemies.length; i++){
-		if(enemies[i].type==="patrol"){
-			if(enemies[i].dead===false){
-				fill(140,5,43);
-				ellipse(enemies[i].x+cx,enemies[i].y-25+cy,50,50);
-				if(enemies[i].onFloor===false){enemies[i].dir+=1;enemies[i].fall+=0.1;}
-				if(enemies[i].onFloor){enemies[i].fall=0;}
-				if(enemies[i].dir>1){enemies[i].dir=0;}
-				if(enemies[i].dir<0){enemies[i].dir=1;}
-				if(enemies[i].dir===0){enemies[i].x+=2;}
-				if(enemies[i].dir===1){enemies[i].x-=2;}
-				enemies[i].y+=enemies[i].fall;
+		if(enemies[i].type==="left" && enemies[i].dead===false){
+			noStroke();
+			fill(140,5,43);
+			ellipse(enemies[i].x+cx,enemies[i].y+25+cy,50,50);
+			fill(70,50,43);
+			ellipse(enemies[i].x+cx,enemies[i].y+25+cy,35,35);
+			noFill();
+			stroke(140,5,43);
+			push();
+			translate(enemies[i].x+cx,enemies[i].y+25+cy);
+			rotate(radians(enemies[i].rot));
+			arc(0,40,60,60,radians(270-45/2),radians(270+45/2));
+			strokeWeight(5);
+			point(-25/3,-25*1.25+25);
+			point(25/3,-25*1.25+25);
+			pop();
+			if(paused===false){if(enemies[i].onFloor===false){enemies[i].dir+=1;enemies[i].fall+=0.1;}
+			if(enemies[i].onFloor){enemies[i].fall=0;}
+			enemies[i].x-=1.5;
+			enemies[i].y+=enemies[i].fall;
+			enemies[i].rot-=2;}
+		}
+
+		if(enemies[i].type==="right" && enemies[i].dead===false){
+			noStroke();
+			fill(140,5,43);
+			ellipse(enemies[i].x+cx,enemies[i].y+25+cy,50,50);
+			fill(70,50,43);
+			ellipse(enemies[i].x+cx,enemies[i].y+25+cy,35,35);
+			noFill();
+			stroke(140,5,43);
+			push();
+			translate(enemies[i].x+cx,enemies[i].y+25+cy);
+			rotate(radians(enemies[i].rot));
+			arc(0,40,60,60,radians(270-45/2),radians(270+45/2));
+			strokeWeight(5);
+			point(-25/3,-25*1.25+25);
+			point(25/3,-25*1.25+25);
+			pop();
+			if(paused===false){if(enemies[i].onFloor===false){enemies[i].dir+=1;enemies[i].fall+=0.1;}
+			if(enemies[i].onFloor){enemies[i].fall=0;}
+			enemies[i].x+=1.5;
+			enemies[i].y+=enemies[i].fall;
+			enemies[i].rot+=2;}
+		}
+
+		if(enemies[i].type==="patrol" && enemies[i].dead===false){
+			noStroke();
+			fill(140,5,43);
+			ellipse(enemies[i].x+cx,enemies[i].y+25+cy,50,50);
+			fill(70,50,43);
+			ellipse(enemies[i].x+cx,enemies[i].y+25+cy,35,35);
+			noFill();
+			stroke(140,5,43);
+			push();
+			translate(enemies[i].x+cx,enemies[i].y+25+cy);
+			rotate(radians(enemies[i].rot));
+			arc(0,40,60,60,radians(270-45/2),radians(270+45/2));
+			strokeWeight(5);
+			point(-25/3,-25*1.25+25);
+			point(25/3,-25*1.25+25);
+			pop();
+			if(paused===false){if(enemies[i].onFloor===false){enemies[i].fall+=0.1;}
+			if(enemies[i].onFloor){enemies[i].fall=0;}
+			enemies[i].y+=enemies[i].fall;
+			if(enemies[i].dir===0){enemies[i].x+=1.5;}
+			if(enemies[i].dir===1){enemies[i].x-=1.5;}
+			if(enemies[i].x<enemies[i].trigger.left || enemies[i].x>enemies[i].trigger.right){enemies[i].dir+=1;}
+			if(enemies[i].dir>1){enemies[i].dir=0;}
+			if(enemies[i].dir===0){enemies[i].rot+=2;}
+			if(enemies[i].dir===1){enemies[i].rot-=2;}}
+		}
+
+		if(enemies[i].dead===false){
+			if(px1>enemies[i].x+cx-25 && px1<enemies[i].x+cx+25 && py1>enemies[i].y+cy-30 && py1<enemies[i].y+cy+30){scene=-1;}
+			if(px1>enemies[i].x+cx-25 && px1<enemies[i].x+cx+25 && py1>enemies[i].y+cy-40 && py1<enemies[i].y+cy-30){enemies[i].dead=true;enemies[i].killer=1;}
+
+			if(px2>enemies[i].x+cx-25 && px2<enemies[i].x+cx+25 && py2>enemies[i].y+cy-30 && py2<enemies[i].y+cy+30 && controlMode2!==-1){px2=px1;py2=py1;fall2=0;jump2=0;onFloor2=false;}
+			if(px2>enemies[i].x+cx-25 && px2<enemies[i].x+cx+25 && py2>enemies[i].y+cy-40 && py2<enemies[i].y+cy-30 && controlMode2!==-1){enemies[i].dead=true;enemies[i].killer=2;}
+
+			if(px3>enemies[i].x+cx-25 && px3<enemies[i].x+cx+25 && py3>enemies[i].y+cy-30 && py3<enemies[i].y+cy+30 && controlMode2!==-1){px3=px1;py3=py1;fall3=0;jump3=0;onFloor3=false;}
+			if(px3>enemies[i].x+cx-25 && px3<enemies[i].x+cx+25 && py3>enemies[i].y+cy-40 && py3<enemies[i].y+cy-30 && controlMode2!==-1){enemies[i].dead=true;enemies[i].killer=3;}
+
+			if(px4>enemies[i].x+cx-25 && px4<enemies[i].x+cx+25 && py4>enemies[i].y+cy-30 && py4<enemies[i].y+cy+30 && controlMode2!==-1){px4=px1;py4=py1;fall4=0;jump4=0;onFloor4=false;}
+			if(px4>enemies[i].x+cx-25 && px4<enemies[i].x+cx+25 && py4>enemies[i].y+cy-40 && py4<enemies[i].y+cy-30 && controlMode2!==-1){enemies[i].dead=true;enemies[i].killer=4;}
+
+			if(getCookie("dev")==="true"){
+				rectMode(CORNERS);
+				stroke(255,0,0);
+				fill(255,0,0,128);
+				rect(enemies[i].x+cx-25,enemies[i].y+cy-30,enemies[i].x+cx+25,enemies[i].y+cy+30);
+				stroke(0,0,255);
+				fill(0,0,255,128);
+				rect(enemies[i].x+cx-25,enemies[i].y+cy-40,enemies[i].x+cx+25,enemies[i].y+cy-30);
 			}
 		}
-			if(enemies[i].type==="left"){
-				if(enemies[i].dead===false){
-					fill(140,5,43);
-					ellipse(enemies[i].x+cx,enemies[i].y-25+cy,50,50);
-					if(enemies[i].onFloor===false){enemies[i].dir+=1;enemies[i].fall+=0.1;}
-					if(enemies[i].onFloor){enemies[i].fall=0;}
-					enemies[i].x-=2;
-					enemies[i].y+=enemies[i].fall;
-				}
-			}
-			if(enemies[i].type==="right"){
-				if(enemies[i].dead===false){
-					fill(140,5,43);
-					ellipse(enemies[i].x+cx,(enemies[i].y+25)+cy,50,50);
-					if(enemies[i].onFloor===false){enemies[i].dir+=1;enemies[i].fall+=0.1;}
-					if(enemies[i].onFloor){enemies[i].fall=0;}
-					enemies[i].x+=2;
-					enemies[i].y+=enemies[i].fall;
-				}
-			}
+
+		if(enemies[i].dead && enemies[i].collected===false){
+			if(enemies[i].killer===1){score1.score+=50;}
+			if(enemies[i].killer===2){score2.score+=50;}
+			if(enemies[i].killer===3){score3.score+=50;}
+			if(enemies[i].killer===4){score4.score+=50;}
+			enemies[i].collected=true;
+		}
 	}
 }
 
@@ -1138,21 +1217,26 @@ function menu(){
     if(music===0){sounds.menu.play();
     sounds.menu.loop();}
     init=false;
-    levelStart.x = 83;
-    levelStart.y = 91;
-    px1=levelStart.x;
-    py1=levelStart.y;
-		px2=levelStart.x+140;
-    py2=levelStart.y;
-		px3=levelStart.x+140*2;
-    py3=levelStart.y;
-		px4=levelStart.x+140*3;
-    py4=levelStart.y;
-    cx=0;
-    cy=0;
-    fall1=0;
-    facing="right";
+		px1=83;
+		py1=91;
+		px2=83+140;
+		py2=91;
+		px3=83+140*2;
+		py3=91;
+		px4=83+140*3;
+		py4=91;
+		cx=0;
+		cy=0;
+		fall1=0;
+		fall2=0;
+		fall3=0;
+		fallCount4=0;
+		dir1="right";
+		dir2="right";
+		dir3="right";
+		dir4="right";
   }
+
   if(sounds.menu.isPlaying===false){init=true;}
   style.innerHTML="body {margin:0px;border:0px;background:rgb(50,50,50);}";
   if(isDark){background(25);} else {background(50);}
@@ -1232,23 +1316,44 @@ function menu(){
     stroke(255);
   }
   rect(width/3,height/3,200,100,5);
+
   stroke(0);
   if(selectedButton===2){
     stroke(255);
-  }
-  rect(width*2/3,height/3,200,100,5);
+	}
+	if(level===0){rect(width*2/3,height/3,200,100,5);}
+  if(level>0){rect(width/3,height*2/3,200,100,5);}
+
 	stroke(0);
 	if(selectedButton===3){
 		stroke(255);
 	}
-	rect(width/2,height*2/3,200,100,5);
-  textAlign(CENTER,CENTER);
+	if(level===0){rect(width/2,height*2/3,200,100,5);}
+	if(level>0){rect(width*2/3,height*2/3,200,100,5);}
+
+	stroke(0);
+	if(selectedButton===4){
+		stroke(255);
+	}
+	if(level>0){rect(width*2/3,height/3,200,100,5);}
+
+	textAlign(CENTER,CENTER);
   fill(255);
   textSize(40);
   noStroke();
-  text("Play!",width/3,height/3);
-  text("Back",width*2/3,height/3);
-	text("Settings",width/2,height*2/3);
+	if(level===0){
+		text("Play!",width/3,height/3);
+	  text("Back",width*2/3,height/3);
+		text("Settings",width/2,height*2/3);
+	}
+		if(level>0){
+			text("Play!",width/3,height/3);
+			textSize(30);
+	  	text("Play from \n beginning!",width*2/3,height/3);
+			textSize(40);
+			text("Back",width/3,height*2/3);
+			text("Settings",width*2/3,height*2/3);
+	}
 
   if(controlMode1===0){selectedButton=0;
 
@@ -1257,44 +1362,115 @@ function menu(){
       cursor(HAND);
     }
     if(mouseX>(width/3)*2-100 && mouseY>(height/3)-50 && mouseX<(width/3)*2+100 && mouseY<(height/3)+50){
-      selectedButton=2;
+      if(level===0){selectedButton=2;}
+			if(level>0){selectedButton=4;}
       cursor(HAND);
     }
-		if(mouseX>(width/2)-100 && mouseY>(height*2/3)-50 && mouseX<(width/2)+100 && mouseY<(height*2/3)+50){
+		if(mouseX>(width/2)-100 && mouseY>(height*2/3)-50 && mouseX<(width/2)+100 && mouseY<(height*2/3)+50 && level===0){
       selectedButton=3;
       cursor(HAND);
     }
     if(mouseX>(width/3)-100 && mouseY>(height/3)-50 && mouseX<(width/3)+100 && mouseY<(height/3)+50 && mouseIsPressed){
-      scene=1;
-      onFloor1=false;
-			onFloor2=false;
-			onFloor3=false;
-			onFloor4=false;
-	    selectedButton=0;
-      init=true;
+      if(level===0){
+				scene=1;
+	      onFloor1=false;
+				onFloor2=false;
+				onFloor3=false;
+				onFloor4=false;
+		    selectedButton=0;
+	      init=true;
+			}
+			if(level>0){
+				scene=maxLevel;
+				onFloor1=false;
+				onFloor2=false;
+				onFloor3=false;
+				onFloor4=false;
+				selectedButton=0;
+				init=true;
+				px1=levelStart.x;
+				py1=levelStart.y;
+				px2=levelStart.x;
+				py2=levelStart.y;
+				px3=levelStart.x;
+				py3=levelStart.y;
+				px4=levelStart.x;
+				py4=levelStart.y;
+			}
 	  }
     if(mouseX>(width/3)*2-100 && mouseY>(height/3)-50 && mouseX<(width/3)*2+100 && mouseY<(height/3)+50 && mouseIsPressed){
-			window.location.href="https://turnoffthetv.github.io/programs/";
+			if(level===0){window.location.href="https://turnoffthetv.github.io/programs/";}
+			if(level>0){
+				scene=1;
+				onFloor1=false;
+				onFloor2=false;
+				onFloor3=false;
+				onFloor4=false;
+				init=true;
+			}
 	    selectedButton=0;
 	  }
-		if(mouseX>(width/2)-100 && mouseY>(height*2/3)-50 && mouseX<(width/2)+100 && mouseY<(height*2/3)+50 && mouseIsPressed){
+		if(mouseX>(width/2)-100 && mouseY>(height*2/3)-50 && mouseX<(width/2)+100 && mouseY<(height*2/3)+50 && level===0 && mouseIsPressed){
 			scene=0.5;
+			selectedButton=0;
+		}
+		if(mouseX>(width*2/3)-100 && mouseY>(height*2/3)-50 && mouseX<(width/2)+100 && mouseY<(height*2/3)+50 && level>0 && mouseIsPressed){
+			scene=0.5;
+			selectedButton=0;
+		}
+		if(mouseX>(width/3)-100 && mouseY>(height*2/3)-50 && mouseX<(width/2)+100 && mouseY<(height*2/3)+50 && level>0 && mouseIsPressed){
+			window.location.href="https://turnoffthetv.github.io/programs/";
 			selectedButton=0;
 		}
 	}
 	if(controlMode1===2){
-    if(p1.stick.lx<deadzone.inner-(deadzone.inner*2)){selectedButton=1;}
-    if(p1.stick.lx>deadzone.inner){selectedButton=2;}
-		if(p1.stick.ly>deadzone.inner){selectedButton=3;}
+    if(level===0){
+			if(p1.stick.lx<deadzone.inner-(deadzone.inner*2)){selectedButton=1;}
+	    if(p1.stick.lx>deadzone.inner){selectedButton=2;}
+			if(p1.stick.ly>deadzone.inner){selectedButton=3;}
+		}
+		if(level>0){
+			if(selectedButton===1 && p1.stick.lx>deadzone.inner){selectedButton=4;}
+			if(selectedButton===1 && p1.stick.ly>deadzone.inner){selectedButton=2;}
+			if(selectedButton===2 && p1.stick.lx>deadzone.inner){selectedButton=3;}
+			if(selectedButton===2 && p1.stick.ly<deadzone.inner-deadzone.inner*2){selectedButton=1;}
+			if(selectedButton===3 && p1.stick.lx<deadzone.inner-deadzone.inner*2){selectedButton=2;}
+			if(selectedButton===3 && p1.stick.ly<deadzone.inner-deadzone.inner*2){selectedButton=4;}
+			if(selectedButton===4 && p1.stick.lx<deadzone.inner-deadzone.inner*2){selectedButton=1;}
+			if(selectedButton===4 && p1.stick.ly>deadzone.inner){selectedButton=3;}
+			if(selectedButton===0 && p1.stick.lx>deadzone.inner && p1.stick.ly>deadzone.inner){selectedButton=3;}
+			if(selectedButton===0 && p1.stick.lx>deadzone.inner && p1.stick.ly<deadzone.inner-deadzone.inner*2){selectedButton=4;}
+			if(selectedButton===0 && p1.stick.lx<deadzone.inner-deadzone.inner*2 && p1.stick.ly<deadzone.inner-deadzone.inner*2){selectedButton=1;}
+			if(selectedButton===0 && p1.stick.lx<deadzone.inner-deadzone.inner*2 && p1.stick.ly>deadzone.inner){selectedButton=2;}
+		}
 
     if(p1.button.cross && selectedButton===1){
-      scene=1;
-			onFloor1=false;
-			onFloor2=false;
-			onFloor3=false;
-			onFloor4=false;
-      selectedButton=0;
-      init=true;
+			if(level===0){
+				scene=1;
+	      onFloor1=false;
+				onFloor2=false;
+				onFloor3=false;
+				onFloor4=false;
+		    selectedButton=0;
+	      init=true;
+			}
+			if(level>0){
+				scene=maxLevel;
+				onFloor1=false;
+				onFloor2=false;
+				onFloor3=false;
+				onFloor4=false;
+				selectedButton=0;
+				init=true;
+				px1=levelStart.x;
+				py1=levelStart.y;
+				px2=levelStart.x;
+				py2=levelStart.y;
+				px3=levelStart.x;
+				py3=levelStart.y;
+				px4=levelStart.x;
+				py4=levelStart.y;
+			}
     }
     if(p1.button.cross && selectedButton===2){
       window.location.href="https://turnoffthetv.github.io/programs/";
@@ -1304,11 +1480,36 @@ function menu(){
       scene=0.5;
       selectedButton=8;
     }
+		if(p1.button.cross && selectedButton===4){
+			scene=1;
+			onFloor1=false;
+			onFloor2=false;
+			onFloor3=false;
+			onFloor4=false;
+      selectedButton=0;
+      init=true;
+    }
   }
   if(controlMode1===3){
-    if(p1.button.left){selectedButton=1;}
-    if(p1.button.right){selectedButton=2;}
-		if(p1.button.down){selectedButton=3;}
+		if(level===0){
+			if(p1.button.left){selectedButton=1;}
+	    if(p1.button.right){selectedButton=2;}
+			if(p1.button.down){selectedButton=3;}
+		}
+		if(level>0){
+			if(selectedButton===1 && p1.button.right){selectedButton=4;}
+			if(selectedButton===1 && p1.button.right){selectedButton=2;}
+			if(selectedButton===2 && p1.button.right){selectedButton=3;}
+			if(selectedButton===2 && p1.button.up){selectedButton=1;}
+			if(selectedButton===3 && p1.button.left){selectedButton=2;}
+			if(selectedButton===3 && p1.button.up){selectedButton=4;}
+			if(selectedButton===4 && p1.button.left){selectedButton=1;}
+			if(selectedButton===4 && p1.button.down){selectedButton=3;}
+			if(selectedButton===0 && p1.button.right && p1.button.down){selectedButton=3;}
+			if(selectedButton===0 && p1.button.right && p1.button.up){selectedButton=4;}
+			if(selectedButton===0 && p1.button.left && p1.button.up){selectedButton=1;}
+			if(selectedButton===0 && p1.button.left && p1.button.down){selectedButton=2;}
+		}
 
     if(p1.button.cross && selectedButton===1){
       scene=1;
@@ -1327,16 +1528,33 @@ function menu(){
       scene=0.5;
       selectedButton=0;
     }
+		if(p1.button.cross && selectedButton===4){
+			scene=maxLevel;
+			onFloor1=false;
+			onFloor2=false;
+			onFloor3=false;
+			onFloor4=false;
+			selectedButton=0;
+			init=true;
+			px1=levelStart.x;
+			py1=levelStart.y;
+			px2=levelStart.x;
+			py2=levelStart.y;
+			px3=levelStart.x;
+			py3=levelStart.y;
+			px4=levelStart.x;
+			py4=levelStart.y;
+    }
   }
   if(mouseIsPressed && sounds.menu.isPlaying()===false && music===0|| p1.gamepadIsPressed && sounds.menu.isPlaying()===false && music===0){sounds.menu.play();}
 
-	/*stroke(0);
+	stroke(0);
 	strokeWeight(2);
 	fill(255);
 	textSize(10);
 	textAlign(LEFT,BOTTOM);
-	text("Software v. 1.1.3",5,height-5);*/
-	if(mouseIsPressed){fullscreen(true);}
+	if(getCookie("dev")==="true"){text("Software v. 0.5.3",5,height-5);}
+	//if(mouseIsPressed){fullscreen(true);}
 }
 
 function settings(){
@@ -1619,16 +1837,26 @@ function dead(){
       py4=py1;
 			cx=0;
 			cy=0;
-      rot1="right";
+      dir1="right";
+			dir2="right";
+			dir3="right";
+			dir4="right";
       fall1=0;
+			fall2=0;
+			fall3=0;
+			fall4=0;
       rot1=60;
+			rot2=60;
+			rot3=60;
+			rot4=60;
       legRot1=0;
+			legRot2=0;
+			legRot3=0;
+			legRot4=0;
       selectedButton=0;
       deathRumbleTimer=0;
     }
     if(p1.button.cross && selectedButton===2){
-      levelStart.x=83;
-      levelStart.y=91;
       scene=0;
       selectedButton=0;
       deathRumbleTimer=0;
@@ -1712,7 +1940,7 @@ function pause(){
 				paused=false;
 			}
 			cursor(HAND);
-			selectedButton=4;
+			selectedButton=0;
 		}
 
 	}
@@ -1744,6 +1972,7 @@ function pause(){
 			dir3="right";
 			dir4s="right";
 			paused=false;
+			selectedButton=0;
 		}
 	}
 	if(controlMode1===3){
@@ -1774,10 +2003,12 @@ function pause(){
 			dir3="right";
 			dir4s="right";
 			paused=false;
+			selectedButton=0;
 		}
 	}
 }
 
+//The Rolling Hills
 function level0(){
 	sounds.menu.stop();
   if(init){
@@ -1790,10 +2021,14 @@ function level0(){
 			{x:600,y:50,visible:true,collected:false,type:"yellow"},
 			{x:1050,y:450,visible:true,collected:false,type:"blue"}
 		]
-		//enemies=[{type:"right",x:10,y:0,onFloor:false,fall:0,dir:0,dead:false}]
+		enemies=[
+			{type:"right",x:200,y:125,onFloor:false,fall:0,dead:false,rot:0,collected:false,killer:0},
+			{type:"patrol",x:400,y:400,onFloor:false,fall:0,dir:0,dead:false,trigger:{left:300,right:495},rot:0,collected:false,killer:0}
+		];
   }
   rectMode(CORNER);
-  if(level<1){level=1;}
+  if(maxLevel<1){maxLevel=1;}
+	level=1;
 	if(music===1){sounds.overworld.stop();}
 	if(isDark){
 		style.innerHTML="body {margin:0px;border:0px;background:rgb(0,0,139);}";
@@ -1815,8 +2050,8 @@ function level0(){
   rect((cx/2)+1000,(cy/2)+600,1000,height);
   rect((cx/2)+2000,(cy/2)+200,500,height);
   if(py1<0){
-      fill(255,255,255,(py1-py1*2)*2);
-      rect(0,0,width,height);
+    fill(255,255,255,(py1-py1*2)*2);
+    rect(0,0,width,height);
   }
 
   door(1975,350);
@@ -1828,16 +2063,17 @@ function level0(){
   if(paused===false){controlinator(0);controlinator(1);controlinator(2);controlinator(3);}
   noStroke();
   if(isDark){fill(0, 100, 0);} else {fill(0, 200, 0);}
+	rectMode(CORNER);
   rect(-1000+cx,0,1000,height);
   if(px1<10+cx){px1=10+cx;}
 	if(px2<10+cx){px2=10+cx;}
 	if(px3<10+cx){px3=10+cx;}
 	if(px4<10+cx){px4=10+cx;}
   platform(0,500,150);
-  platform(0,205,200);
+  platform(0,205,200);//frown start
   wall(200,205,150);
-  platform(300,300,200);
-  platform(300,400,200);
+  platform(275,300,225);
+  platform(300,400,200);//frown patrol
   platform(500,350,200);
   platform(500,100,200);
   platform(150,450,100);
@@ -1849,8 +2085,9 @@ function level0(){
   platform(1700,485,200);
   platform(1900,430,200);
   if(py1>height+100){scene=-1;}
-}//The Rolling Hills
+}
 
+//The Climber's Cavern
 function level1(){
 	sounds.overworld.stop();
   if(init){
@@ -1865,7 +2102,8 @@ function level1(){
 		       {x:-600,y:0,visible:true,collected:false,type:"blue"}
 		]
   }
-  if(level<2){level=2;}
+  if(maxLevel<2){maxLevel=2;}
+	level=2;
 	rectMode(CORNERS);
   noStroke();
 	if(music===1){sounds.cave.stop();}
@@ -1900,6 +2138,7 @@ function level1(){
 	if(controlMode3!==-1){drawSnooty(2);}
 	if(controlMode4!==-1){drawSnooty(3);}
   if(paused===false){controlinator(0);controlinator(1);controlinator(2);controlinator(3);}
+	rectMode(CORNER);
   platform(900,500,200);
   platform(700,400,200);
   platform(400,500,200);
@@ -1940,6 +2179,7 @@ function level1(){
 	if(py1+cy>2300){scene=-1;}
 }
 
+//Among the Clouds
 function level2(){
 	//background(0);
 	sounds.cave.stop();
@@ -1959,7 +2199,8 @@ function level2(){
 		clouds.push({x:random(0,width),y:random(0,400),layer:random(0,3)});
   }
 	cloudX+=1;
-  if(level<3){level=3;}
+  if(maxLevel<3){maxLevel=3;}
+	level=3;
 	if(music===1){sounds.clouds.stop();}
 	if(isDark){
 		style.innerHTML="body {margin:0px;border:0px;background:rgb(0,0,139);}";
@@ -1970,37 +2211,26 @@ function level2(){
 	}
 	noStroke();
 	rectMode(CORNER);
-	if(floor(random(0,220))===219){clouds[clouds.length]={x:-100-cloudX,y:random(0,400),layer:floor(random(0,3))};}
+	if(floor(random(0,220))===219){clouds.push({x:-100-cloudX,y:random(0,400)});}
 	for(var i=0;i<clouds.length;i++){
 		if(isDark){fill(155);} else {fill(255);}
-		if(clouds[i].layer===0){rect(clouds[i].x+cloudX+cx,clouds[i].y+cy,100,50);}
+		rect(clouds[i].x+cloudX+cx/6,clouds[i].y+cy/6,100,50);
 	}
 	if(isDark){fill(140, 140, 145);} else {fill(240, 240, 245);}
   rect((cx/3)-75,(cy/3)+300,600,height);
   rect((cx/3)+500,(cy/3)+400,600,height);
   rect((cx/3)+1000,(cy/3)+300,800,height);
     rect((cx/3)+1500,(cy/3)+250,600,height);
-		for(var i=0;i<clouds.length;i++){
-			if(isDark){fill(155);} else {fill(255);}
-			if(clouds[i].layer===1){rect(clouds[i].x+cloudX+cx/3,clouds[i].y+cy/3,100,50);}
-		}
   if(isDark){fill(150, 150, 155);} else {fill(250, 250, 255);}
   rect((cx/2)-100,(cy/2)+400,600,height);
   rect((cx/2)+500,(cy/2)+500,600,height);
   rect((cx/2)+1000,(cy/2)+300,400,height);
   rect((cx/2)+1000,(cy/2)+600,1000,height);
   rect((cx/2)+2000,(cy/2)+200,500,height);
-	for(var i=0;i<clouds.length;i++){
-		if(isDark){fill(155);} else {fill(255);}
-		if(clouds[i].layer===2){rect(clouds[i].x+cloudX+cx/2,clouds[i].y+cy/2,100,50);}
-	}
-  if(py1<0){
-      fill(255,255,255,(py1-py1*2)*2);
-      rect(0,0,width,height);
-  }
 	assets();
   if(paused===false){controlinator(0);controlinator(1);controlinator(2);controlinator(3);}
 	if(isDark){fill(50);} else {fill(100);}
+	rectMode(CORNER);
 	rect(cx,700+cy,700,height);
 	rect(cx-100,500+cy,700,height);
 	rect(cx-200,300+cy,700,height);
@@ -2036,6 +2266,7 @@ function level2(){
 	rect(cx*1.25-300,400+cy*1.25,700,height);
 }
 
+//The Atlantis Trench
 function level3(){
 	//background(0);
 	sounds.clouds.stop();
@@ -2048,7 +2279,96 @@ function level3(){
 		      {x:900,y:-75,visible:true,collected:false,type:"yellow"},
 		      {x:1050,y:800,visible:true,collected:false,type:"yellow"}]
   }
-  if(level<4){level=4;}
+  if(maxLevel<4){maxLevel=4;}
+	level=4;
+	if(music===1){sounds.clouds.stop();}
+	if(isDark){
+		style.innerHTML="body {margin:0px;border:0px;background:rgb(0,0,75);}";
+		background(0,0,75);
+	} else{
+		background(0,0,139);
+		style.innerHTML="body {margin:0px;border:0px;background:rgb(0,0,0);}";
+	}
+	assets();
+  if(paused===false){controlinator(0);controlinator(1);controlinator(2);controlinator(3);}
+	drawSnooty(0);
+	if(controlMode2!==-1){drawSnooty(1);}
+	if(controlMode3!==-1){drawSnooty(2);}
+	if(controlMode4!==-1){drawSnooty(3);}
+}
+
+//The Volcano Caves
+function level4(){
+	sounds.water.stop();
+  if(init){
+    if(music===0){
+		sounds.lava.play();
+		sounds.lava.loop();}
+    init=false;
+		coins=[{x:1450,y:800,visible:true,collected:false,type:"blue"},
+		      {x:1250,y:800,visible:true,collected:false,type:"yellow"},
+		      {x:1050,y:800,visible:true,collected:false,type:"yellow"}]
+  }
+  if(maxLevel<5){maxLevel=5;}
+	level=5;
+	if(music===1){sounds.clouds.stop();}
+	if(isDark){
+		style.innerHTML="body {margin:0px;border:0px;background:rgb(75,0,0);}";
+		background(75,0,0);
+	} else{
+		background(139,0,0);
+		style.innerHTML="body {margin:0px;border:0px;background:rgb(139,0,0);}";
+	}
+	assets();
+  if(paused===false){controlinator(0);controlinator(1);controlinator(2);controlinator(3);}
+	drawSnooty(0);
+	if(controlMode2!==-1){drawSnooty(1);}
+	if(controlMode3!==-1){drawSnooty(2);}
+	if(controlMode4!==-1){drawSnooty(3);}
+}
+
+//Boss
+function level5(){
+	sounds.lava.stop();
+  if(init){
+    if(music===0){
+		sounds.boss.play();
+		sounds.boss.loop();}
+    init=false;
+		coins=[{x:1450,y:800,visible:true,collected:false,type:"blue"},
+		      {x:1250,y:800,visible:true,collected:false,type:"yellow"},
+		      {x:1050,y:800,visible:true,collected:false,type:"yellow"}]
+  }
+  level=6;
+	if(music===1){sounds.clouds.stop();}
+	if(isDark){
+		style.innerHTML="body {margin:0px;border:0px;background:rgb(75,0,0);}";
+		background(75,0,0);
+	} else{
+		background(139,0,0);
+		style.innerHTML="body {margin:0px;border:0px;background:rgb(139,0,0);}";
+	}
+	assets();
+  if(paused===false){controlinator(0);controlinator(1);controlinator(2);controlinator(3);}
+	drawSnooty(0);
+	if(controlMode2!==-1){drawSnooty(1);}
+	if(controlMode3!==-1){drawSnooty(2);}
+	if(controlMode4!==-1){drawSnooty(3);}
+}
+
+//About Space
+function level6(){
+  if(init){
+    if(music===0){
+		sounds.space.play();
+		sounds.space.loop();}
+    init=false;
+		coins=[{x:1450,y:800,visible:true,collected:false,type:"blue"},
+		      {x:1250,y:800,visible:true,collected:false,type:"yellow"},
+		      {x:1050,y:800,visible:true,collected:false,type:"yellow"}]
+  }
+  if(maxLevel<7){maxLevel=7;}
+	level=7;
 	if(music===1){sounds.clouds.stop();}
 	if(isDark){
 		style.innerHTML="body {margin:0px;border:0px;background:rgb(75,0,0);}";
@@ -2062,34 +2382,6 @@ function level3(){
 	if(controlMode2!==-1){drawSnooty(1);}
 	if(controlMode3!==-1){drawSnooty(2);}
 	if(controlMode4!==-1){drawSnooty(3);}
-}//The Atlantis Trench
-
-function level4(){
-	/*
-	sounds.water.stop();
-  if(init){
-    if(music===0){
-		sounds.lava.play();
-		sounds.lava.loop();}
-    init=false;
-		coins=[{x:1450,y:800,visible:true,collected:false,type:"blue"},
-		      {x:1250,y:800,visible:true,collected:false,type:"yellow"},
-		      {x:1050,y:800,visible:true,collected:false,type:"yellow"}]
-  }
-  if(level<4){level=4;}
-	if(music===1){sounds.clouds.stop();}
-	if(isDark){
-		style.innerHTML="body {margin:0px;border:0px;background:rgb(75,0,0);}";
-	} else{
-		background(139,0,0);
-		style.innerHTML="body {margin:0px;border:0px;background:rgb(139,0,0);}";
-	}
-	assets();
-  if(paused===false){controlinator(0);controlinator(1);controlinator(2);controlinator(3);}
-	drawSnooty(0);
-	if(controlMode2!==-1){drawSnooty(1);}
-	if(controlMode3!==-1){drawSnooty(2);}
-	if(controlMode4!==-1){drawSnooty(3);}*/
 }
 
 function debug(){
@@ -2101,7 +2393,7 @@ function debug(){
   textSize(20);
   textAlign(LEFT,TOP);
   text("level="+level+", scene="+scene,100,100);
-  text("mouseX="+(mouseX+cx)+", mouseY="+(mouseY+cy),100,120);
+  text("mouseX="+mouseX+", mouseY="+mouseY,100,120);
   text("px1="+px1+", py1="+py1,100,140);
   text("controlMode1="+controlMode1,100,160);
   text("width="+width+"height="+height,100,180);
@@ -2152,10 +2444,10 @@ function draw(){
 	if(scene===4){level3();}
   if(paused){pause();}
 	if(scene>0.5){
-		score1.size=textWidth(score1.score);
-		score2.size=textWidth(score2.score);
-		score3.size=textWidth(score3.score);
-		score4.size=textWidth(score4.score);
+		score1.size=textWidth(score1.score)+5;
+		if(controlMode2!==-1){score2.size=textWidth(score2.score)+5;}else{score2.size=0;}
+		if(controlMode3!==-1){score3.size=textWidth(score3.score)+5;}else{score3.size=0;}
+		if(controlMode4!==-1){score4.size=textWidth(score4.score)+5;}else{score4.size=0;}
 		stroke(0);
 		strokeWeight(3);
 		textAlign(LEFT,TOP);
@@ -2164,13 +2456,13 @@ function draw(){
 		text(score1.score,10,10);
 		if(controlMode2!==-1){
 			fill(128, 99, 255);
-			text(score2.score,score1.size+15,10);}
+			text(score2.score,score1.size+10,10);}
 		if(controlMode3!==-1){
 			fill(255, 80, 80);
-			text(score3.score,score1.size+score2.size+20,10);}
+			text(score3.score,score1.size+score2.size+10,10);}
 		if(controlMode4!==-1){
 			fill(76, 255, 135);
-			text(score4.score,score1.size+score2.size+score3.size+25,10);}
+			text(score4.score,score1.size+score2.size+score3.size+10,10);}
 		noStroke();
 	}
 	if(document.hasFocus()===false && scene>=1){paused=true;}
@@ -2183,4 +2475,6 @@ function draw(){
 		storeItem("sfx",sfx);
 	}
 	isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+	if(getCookie("dev")==="true"){debug();stroke(255,0,0);strokeWeight(5);point(px1,py1);point(px2,py2);point(px3,py3);point(px4,py4);noStroke();strokeWeight(2);}
+
 }
