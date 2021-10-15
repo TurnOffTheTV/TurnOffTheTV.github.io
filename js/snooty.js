@@ -977,9 +977,9 @@ function spikes(x,y,w){
 		triangle(x+cx+i,y+cy,x+10+cx+i,y+cy,x+5+cx+i,y-10+cy);
 	}
 	if(isDark){
-		fill(96,144,88,128);
+		fill(56,72,44,128);
 		rectMode(CORNERS);
-		rect(x-15+cx,y-15+cy,x+w+cx,y+cy);
+		rect(x+cx,y-15+cy,x+w+cx,y+cy);
 	}
 
 	stroke(0);
