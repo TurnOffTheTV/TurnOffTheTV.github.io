@@ -158,7 +158,10 @@ function preload(){
 			cave2:loadSound("https://turnoffthetv.github.io/audio/SSatF/cave-fall-2.mp3"),
 			grass0:loadSound("https://turnoffthetv.github.io/audio/SSatF/grass-fall-1.mp3"),
 			grass1:loadSound("https://turnoffthetv.github.io/audio/SSatF/grass-fall-1.mp3"),
-			grass2:loadSound("https://turnoffthetv.github.io/audio/SSatF/grass-fall-2.mp3")
+			grass2:loadSound("https://turnoffthetv.github.io/audio/SSatF/grass-fall-2.mp3"),
+			cloud0:loadSound("https://turnoffthetv.github.io/audio/SSatF/cloud-fall-0.mp3"),
+			cloud1:loadSound("https://turnoffthetv.github.io/audio/SSatF/cloud-fall-1.mp3"),
+			cloud2:loadSound("https://turnoffthetv.github.io/audio/SSatF/cloud-fall-2.mp3")
 		},
 		footstep:{
 			cave0:loadSound("https://turnoffthetv.github.io/audio/SSatF/cave-footstep-0.mp3"),
@@ -166,7 +169,10 @@ function preload(){
 			cave2:loadSound("https://turnoffthetv.github.io/audio/SSatF/cave-footstep-2.mp3"),
 			grass0:loadSound("https://turnoffthetv.github.io/audio/SSatF/grass-footstep-0.mp3"),
 			grass1:loadSound("https://turnoffthetv.github.io/audio/SSatF/grass-footstep-1.mp3"),
-			grass2:loadSound("https://turnoffthetv.github.io/audio/SSatF/grass-footstep-2.mp3")
+			grass2:loadSound("https://turnoffthetv.github.io/audio/SSatF/grass-footstep-2.mp3"),
+			cloud0:loadSound("https://turnoffthetv.github.io/audio/SSatF/cloud-footstep-0.mp3"),
+			cloud1:loadSound("https://turnoffthetv.github.io/audio/SSatF/cloud-footstep-1.mp3"),
+			cloud2:loadSound("https://turnoffthetv.github.io/audio/SSatF/cloud-footstep-2.mp3")
 		},
 		thud:loadSound("https://turnoffthetv.github.io/audio/SSatF/thud.mp3"),
 		blue:loadSound("https://turnoffthetv.github.io/audio/Crystal-sounds/General Sounds/Coins/sfx_coin_cluster1.wav"),
@@ -407,6 +413,20 @@ function sound(soundType){
 		sounds.fall.cave0.pan(map(px1, 0., width,-1.0, 1.0));
 		sounds.fall.cave1.pan(map(px1, 0., width,-1.0, 1.0));
 		sounds.fall.cave2.pan(map(px1, 0., width,-1.0, 1.0));
+	}
+	if(scene===3){
+		if(soundRand===1 && soundType==="footstep"){sounds.footstep.cloud0.play();}
+		if(soundRand===2 && soundType==="footstep"){sounds.footstep.cloud1.play();}
+		if(soundRand===3 && soundType==="footstep"){sounds.footstep.cloud2.play();}
+		sounds.footstep.cloud0.pan(map(px1, 0., width,-1.0, 1.0));
+		sounds.footstep.cloud1.pan(map(px1, 0., width,-1.0, 1.0));
+		sounds.footstep.cloud2.pan(map(px1, 0., width,-1.0, 1.0));
+		if(soundRand===1 && soundType==="fall"){sounds.fall.cloud0.play();}
+		if(soundRand===2 && soundType==="fall"){sounds.fall.cloud1.play();}
+		if(soundRand===3 && soundType==="fall"){sounds.fall.cloud2.play();}
+		sounds.fall.cloud0.pan(map(px1, 0., width,-1.0, 1.0));
+		sounds.fall.cloud1.pan(map(px1, 0., width,-1.0, 1.0));
+		sounds.fall.cloud2.pan(map(px1, 0., width,-1.0, 1.0));
 	}
 }
 
@@ -1570,7 +1590,7 @@ function menu(){
 	fill(255);
 	textSize(10);
 	textAlign(LEFT,BOTTOM);
-	if(getCookie("dev")==="true"){text("Software v. 0.5.4x",5,height-5);}
+	if(getCookie("dev")==="true"){text("Software v. 0.5.5",5,height-5);}
 }
 
 function settings(){
