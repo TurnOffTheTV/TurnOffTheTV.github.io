@@ -188,7 +188,6 @@ function setup(){
 	textFont(font);
 	if(getItem("music")>-1){music=getItem("music");}
 	if(getItem("sfx")>-1){sfx=getItem("sfx");}
-	pixelDensity(5);
 }
 
 function getCookie(cname) {
@@ -1557,7 +1556,7 @@ function menu(){
 	fill(255);
 	textSize(10);
 	textAlign(LEFT,BOTTOM);
-	if(getCookie("dev")==="true"){text("Software v. 0.5.3",5,height-5);}
+	if(getCookie("dev")==="true"){text("Software v. 0.5.4",5,height-5);}
 	//if(mouseIsPressed){fullscreen(true);}
 }
 
