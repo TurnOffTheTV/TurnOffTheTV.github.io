@@ -1320,21 +1320,26 @@ function menu(){
   if(selectedButton===2){
     stroke(255);
 	}
-	if(level===0){rect(width*2/3,height/3,200,100,5);}
-  if(level>0){rect(width/3,height*2/3,200,100,5);}
+	if(maxLevel===0){rect(width*2/3,height/3,200,100,5);}
+  if(maxLevel>0){rect(width/3,height*2/3,200,100,5);}
 
 	stroke(0);
 	if(selectedButton===3){
 		stroke(255);
 	}
-	if(level===0){rect(width/2,height*2/3,200,100,5);}
-	if(level>0){rect(width*2/3,height*2/3,200,100,5);}
+	if(maxLevel===0){rect(width/2,height*2/3,200,100,5);}
+	if(maxLevel>0){rect(width*2/3,height*2/3,200,100,5);}
 
 	stroke(0);
 	if(selectedButton===4){
 		stroke(255);
 	}
-	if(level>0){rect(width*2/3,height/3,200,100,5);}
+	if(maxLevel>0){rect(width*2/3,height/3,200,100,5);}
+	stroke(0);
+	if(selectedButton===5){
+		stroke(255);
+	}
+	rect(width/5,height/5,50,50,5);
 
 	textAlign(CENTER,CENTER);
   fill(255);
@@ -1348,11 +1353,13 @@ function menu(){
 		if(maxLevel>0){
 			text("Play!",width/3,height/3);
 			textSize(30);
-	  	text("Play from \n beginning!",width*2/3,height/3);
+	  	text("Play from\nbeginning!",width*2/3,height/3);
 			textSize(40);
 			text("Back",width/3,height*2/3);
 			text("Settings",width*2/3,height*2/3);
 	}
+	textSize(15);
+	text("Full\nscreen",width/5,height/5);
 
   if(controlMode1===0){selectedButton=0;
 
@@ -1369,6 +1376,10 @@ function menu(){
       selectedButton=3;
       cursor(HAND);
     }
+		if(mouseX>(width/5)-25 && mouseY>height/5-25 && mouseX<width/5+25 && mouseY<height/5+25){
+			selectedButton=5;
+			cursor(HAND);
+		}
     if(mouseX>(width/3)-100 && mouseY>(height/3)-50 && mouseX<(width/3)+100 && mouseY<(height/3)+50 && mouseIsPressed){
       if(maxLevel===0){
 				scene=1;
@@ -1424,6 +1435,9 @@ function menu(){
 		if(mouseX>(width/3)-100 && mouseY>(height*2/3)-50 && mouseX<(width/2)+100 && mouseY<(height*2/3)+50 && maxLevel>0 && mouseIsPressed){
 			window.location.href="https://turnoffthetv.github.io/programs/";
 			selectedButton=0;
+		}
+		if(mouseX>(width/5)-25 && mouseY>height/5-25 && mouseX<width/5+25 && mouseY<height/5+25 && mouseIsPressed){
+			fullscreen(!fullscreen());
 		}
 	}
 	if(controlMode1===2){
@@ -1556,8 +1570,7 @@ function menu(){
 	fill(255);
 	textSize(10);
 	textAlign(LEFT,BOTTOM);
-	if(getCookie("dev")==="true"){text("Software v. 0.5.4",5,height-5);}
-	//if(mouseIsPressed){fullscreen(true);}
+	if(getCookie("dev")==="true"){text("Software v. 0.5.4x",5,height-5);}
 }
 
 function settings(){
