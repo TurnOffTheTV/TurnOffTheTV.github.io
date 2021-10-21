@@ -1222,10 +1222,10 @@ function assets(){
 		}
 
 		if(enemies[i].dead && enemies[i].collected===false){
-			if(enemies[i].killer===1){score1.score+=50;}
-			if(enemies[i].killer===2){score2.score+=50;}
-			if(enemies[i].killer===3){score3.score+=50;}
-			if(enemies[i].killer===4){score4.score+=50;}
+			if(enemies[i].killer===1){score1.score+=50;jump1=2.5;fall1=0;onFloor1=false;}
+			if(enemies[i].killer===2){score2.score+=50;jump2=2.5;fall2=0;onFloor2=false;}
+			if(enemies[i].killer===3){score3.score+=50;jump3=2.5;fall3=0;onFloor3=false;}
+			if(enemies[i].killer===4){score4.score+=50;jump4=2.5;fall4=0;onFloor4=false;}
 			enemies[i].collected=true;
 		}
 	}
