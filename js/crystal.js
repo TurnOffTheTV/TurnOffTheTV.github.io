@@ -24,7 +24,7 @@ var armor = {
 		name:"Hands",
 		level:2
 	},
-	runes: [{
+	runes: [/*{
 		name:"Nothing",
 		type:1//0=nothing,1=Minecraft thorns enchantment, 2=speed, 3=1.5x attack, 4=2x attack
 	},{
@@ -33,7 +33,7 @@ var armor = {
 	},{
 		name:"Nothing",
 		type:3
-	}]
+	}*/]
 };
 var attacking = false;
 var attack = true;
@@ -123,6 +123,8 @@ function player(){
 		if(keyIsDown(32)){attacking=true;} else {attacking=false;attack=true;}
 
 		if(attack && attacking){attack=false;onAttack();}
+
+		if(keyIsDown(69)){stage=1;}
 	}
 	if(controlMode===1){
 		attacking=false;
@@ -143,6 +145,8 @@ function player(){
 		if(p1.button.cross===false){attacking=false;attack=true;}
 
 		if(attack && attacking){attack=false;onAttack();}
+
+		if(p1.button.square){stage=1;}
 	}
 
 	if(velocity.ew>1){velocity.ew=1;}
@@ -299,11 +303,32 @@ function overworld(){
 		player();
 		if(floor(random(0,50))===0){
 			if(floor(random(0,2))===0){
-				enemies.push({x:random(0-width/2,0),y:random(0-height/2,0),type:"hulk",health:3,randomX:0,randomY:0,randomTime:0,dead:false,collected:false});
+				enemies.push({x:random(0-width/2,0),y:random(0-height+px/2,0+px),type:"hulk",health:3,randomX:0,randomY:0,randomTime:0,dead:false,collected:false});
 			} else {
-				enemies.push({x:random(width,width*1.5),y:random(height,height*1.5),type:"hulk",health:3,randomX:0,randomY:0,randomTime:0,dead:false,collected:false});
+				enemies.push({x:random(width+px,width*1.5+px),y:random(height+px,height*1.5+px),type:"hulk",health:3,randomX:0,randomY:0,randomTime:0,dead:false,collected:false});
 			}
 		}
+	}
+}
+
+function inventory(){
+	background(0);
+	textAlign(CENTER,TOP);
+	if(controlMode===0){
+		if(keyIsDown(81)){stage=0;}
+		text("Press Q to quit",width/2,128+64);
+	}
+	if(controlMode===1){
+		text("Tap here to quit",width/2,128+64);
+	}
+	if(controlMode===2){
+		if(p1.button.circle){stage=0;}
+		text("Press Button 2 to quit",width/2,128+64);
+	}
+
+	text("Inventory",width/2,128);
+	if(armor.runes.length===0){
+		text("You have no activated runes",width/3,height/2,64*5,64*6);
 	}
 }
 
@@ -311,6 +336,7 @@ function draw(){
 	isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 	cursor("none");
 	if(stage===0){overworld();}
+	if(stage===1){inventory();}
 	if(round(health)===4){sprite(42,10,64,0);}
 	if(round(health)===3){sprite(41,10,64,0);}
 	if(round(health)>1){sprite(42,10,0,0);}

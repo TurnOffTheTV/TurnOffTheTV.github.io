@@ -1,3 +1,4 @@
+
 var unavaliableEls = document.getElementsByClassName("unavaliable");
 
 for (var i = 0; i < unavaliableEls.length; i++) {
@@ -37,22 +38,18 @@ if(getCookie("useCookies")!=="true" && getCookie("useCookies")!=="false"){
 
 }
 
-var useGamepad = false;
+var useGamepad = true;
 var links = document.getElementsByTagName("a");
-var gamepadSelected = 0;
+var gamepadSelected = 2;
 
 setInterval(() => {
-if(p1.gamepadIsPressed){useGamepad=true;}
-if(useGamepad){
-  if(gamepadSelected<0){gamepadSelected=0;}
-  if(gamepadSelected>links.length){gamepadSelected=links.length;}
-  if(p1.button.circle){window.location.href="../";}
-  if(p1.button.logo){window.location.href="https://turnoffthetv.github.io";}
-  for(var i;i>links.length;i++){
-    links[i].style.outline = "0px dashed #0000FF";
-    if(i===gamepadSelected){links[i].style.outline = "medium dashed #0000FF";}
-  }
-
-
-}
+	if(p1.gamepadIsPressed){useGamepad=true;}
+	if(useGamepad){
+	  if(gamepadSelected<0){gamepadSelected=0;}
+	  if(gamepadSelected>links.length){gamepadSelected=links.length;}
+	  for(var i = 0;i>links.length;i++){
+	    links[i].style = "outline:0px dashed;";
+	    if(i===gamepadSelected){links[i].style = "outline:medium dashed #00FF00;";}
+	  }
+	}
 }, 50);

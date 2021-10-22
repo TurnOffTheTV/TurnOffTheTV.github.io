@@ -2137,6 +2137,7 @@ function level1(){
 			{x:1300,y:550,visible:true,collected:false,type:"yellow"},
 		       {x:-600,y:0,visible:true,collected:false,type:"blue"}
 		]
+		enemies=[];
   }
   if(maxLevel<2){maxLevel=2;}
 	level=2;
@@ -2511,6 +2512,7 @@ function draw(){
 		storeItem("sfx",sfx);
 	}
 	isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+	if(month()===10&&day()===31){isDark=true;}
 	if(getCookie("dev")==="true"){debug();stroke(255,0,0);strokeWeight(5);point(px1,py1);point(px2,py2);point(px3,py3);point(px4,py4);noStroke();strokeWeight(2);}
 
 }
