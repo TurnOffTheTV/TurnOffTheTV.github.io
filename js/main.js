@@ -53,6 +53,3 @@ setInterval(() => {
 	  }
 	}
 }, 50);
-
-var stupid = document.getElementById("gg-privacy-banner");
-stupid.remove();
