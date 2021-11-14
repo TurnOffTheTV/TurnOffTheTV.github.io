@@ -41,7 +41,7 @@ user-select:none;
 
 .strong {font-family: start;color:blue;}
 
-.hiddenlink {color:black;}
+.hiddenlink {color:rgb(200,200,255);text-decoration:none;}
 
 .error {color:blue; font-family:start;}
 
