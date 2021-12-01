@@ -1,7 +1,7 @@
 var rot = 0;
 var images;
 
-function preload(){
+/*function preload(){
   images = {
     n:loadImage("https://turnoffthetv.github.io/images/mcnorth.png"),
     s:loadImage("https://turnoffthetv.github.io/images/mcsouth.png"),
@@ -10,7 +10,7 @@ function preload(){
     u:loadImage("https://turnoffthetv.github.io/images/mcup.png"),
     d:loadImage("https://turnoffthetv.github.io/images/mcdown.png")
   };
-}
+}*/
 
 function setup(){
   createCanvas(windowWidth,windowHeight,WEBGL);
