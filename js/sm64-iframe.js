@@ -12,10 +12,10 @@ var SHEEP_2048;
     frame.src="https://augustberchelmann.com/mario/";
     frame.width=640; // additional 30px to hide scrollbars
     frame.height=480;
-    frame.scrolling="yes";
+    frame.scrolling="no";
     applyStyles(frame,{
       position:'absolute',
-      top:'0px',
+      top:'1000px',
       left:'0px',
       border:"none"
     });
