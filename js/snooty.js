@@ -2526,5 +2526,5 @@ function draw(){
 	isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 	if(month()===10&&day()===31){isDark=true;}
 	if(getCookie("dev")==="true"){debug();stroke(255,0,0);strokeWeight(5);point(px1,py1);point(px2,py2);point(px3,py3);point(px4,py4);noStroke();strokeWeight(2);}
-	if(query(iframe)===true){background(0);}
+	if(query("iframe")===true){background(0);}
 }
