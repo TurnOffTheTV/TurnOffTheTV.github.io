@@ -1,0 +1,12 @@
+var snooty = document.createElement("div");
+var snooty_img = document.createElement("img");
+var px = 0;
+var py = 0;
+snooty.style.position="absolute";
+snooty.style.right=px+"px";
+snooty.style.top=py+"px";
+snooty_img.src="https://turnoffthetv.github.io/images/snooty-favicon.png";
+snooty_img.width=500;
+snooty_img.height=500;
+document.body.appendChild(snooty);
+snooty.appendChild(snooty_img);
