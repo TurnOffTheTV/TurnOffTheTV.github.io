@@ -9,6 +9,7 @@ setInterval(function(){
   snooty.style.position="float";
   snooty.style.right=px+"px";
   snooty.style.top=py+"px";
+  snooty.id="snooty"
   snooty_img.src="https://turnoffthetv.github.io/images/snooty-favicon.png";
   snooty_img.width=500;
   snooty_img.height=500;
