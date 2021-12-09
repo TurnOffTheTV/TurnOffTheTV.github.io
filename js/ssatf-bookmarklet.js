@@ -9,7 +9,7 @@ function setup(){
   canvas = createCanvas(100,100);
   background(0,0,255);
   var snooty = document.getElementById("defaultCanvas0");
-  snooty.style.float="left";
+  snooty.style.position="absolute";
 }
 
 function drawSnooty(){
