@@ -4,6 +4,7 @@ div.id="sketch-container";
 document.body.appendChild(div);
 var rot = 60;
 var legRot = 0;
+var blink = 0;
 
 
 function setup(){
