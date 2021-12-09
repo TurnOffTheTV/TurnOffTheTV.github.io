@@ -1,12 +1,13 @@
 var div = document.createElement("div");
+var canvas;
 div.id="sketch-container";
-document.body.appendChild(sketch);
+document.body.appendChild(div);
 var rot = 60;
 var legRot = 0;
 
 
 function setup(){
-  createCanvas(100,100);
+  canvas = createCanvas(100,100);
   canvas.parent="sketch-container";
   background(0,0,255);
 }
