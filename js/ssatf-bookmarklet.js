@@ -1,3 +1,4 @@
+var snooty;
 var px = 0;
 var py = 0;
 var rot = 60;
@@ -8,7 +9,7 @@ var blink = 0;
 function setup(){
   createCanvas(100,100);
   background(0,0,255);
-  var snooty = document.getElementById("defaultCanvas0");
+  snooty = document.getElementById("defaultCanvas0");
   snooty.style.position="absolute";
 }
 
