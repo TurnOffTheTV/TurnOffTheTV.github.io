@@ -1,7 +1,5 @@
-var div = document.createElement("div");
-var canvas;
-div.id="sketch-container";
-document.body.appendChild(div);
+var px = 0;
+var py = 0;
 var rot = 60;
 var legRot = 0;
 var blink = 0;
@@ -11,6 +9,8 @@ function setup(){
   canvas = createCanvas(100,100);
   canvas.parent="sketch-container";
   background(0,0,255);
+  var snooty = document.getElementById("defaultCanvas0");
+  snooty.style.float="left";
 }
 
 function drawSnooty(){
@@ -61,4 +61,7 @@ function drawSnooty(){
 function draw(){
 background(document.body.background-color);
 drawSnooty();
+	px+=1;
+snooty.style.left=px+"px";
+snooty.style.top=py+"px";
 }
