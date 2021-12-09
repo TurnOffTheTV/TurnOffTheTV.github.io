@@ -6,7 +6,7 @@ var blink = 0;
 
 
 function setup(){
-  canvas = createCanvas(100,100);
+  createCanvas(100,100);
   background(0,0,255);
   var snooty = document.getElementById("defaultCanvas0");
   snooty.style.position="absolute";
