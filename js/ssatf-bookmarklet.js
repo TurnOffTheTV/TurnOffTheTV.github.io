@@ -12,6 +12,7 @@ function setup(){
   background(0,0,255);
 }
 
+function drawSnooty(){
 //leg
     push();
     translate(rot/12,0);
@@ -51,6 +52,7 @@ function setup(){
     line(0,0,0,35);
     line(0,35,rot/12,35);
     pop();
+}
 
 function draw(){
 drawSnooty();
