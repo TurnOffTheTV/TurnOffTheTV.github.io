@@ -7,7 +7,6 @@ var blink = 0;
 
 function setup(){
   canvas = createCanvas(100,100);
-  canvas.parent="sketch-container";
   background(0,0,255);
   var snooty = document.getElementById("defaultCanvas0");
   snooty.style.float="left";
