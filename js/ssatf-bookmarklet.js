@@ -14,7 +14,7 @@ function setup(){
 
 function drawSnooty(){
 	push();
-	translate(50,50);
+	translate(37.5,70);
 //leg
     push();
     translate(rot/12,0);
