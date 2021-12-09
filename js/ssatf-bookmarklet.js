@@ -59,5 +59,6 @@ function drawSnooty(){
 }
 
 function draw(){
+background(document.body.background-color);
 drawSnooty();
 }
