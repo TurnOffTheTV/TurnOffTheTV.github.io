@@ -149,6 +149,8 @@ function controlinator(){
 	
 	if(px>window.innerWidth){px=-100;}
 	if(px<-100){px=window.innerWidth;}
+	if(py>window.innerHeight){window.scrollTo(window.innerHeight,0);}
+	if(py<-100){window.scrollTo(-window.innerHeight,0);}
 }
 
 function draw(){
