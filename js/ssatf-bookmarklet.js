@@ -146,7 +146,9 @@ function controlinator(){
 
   py+=fall;
   py-=jump;
-
+	
+	if(px>window.innerWidth){px=-100;}
+	if(px<-100){px=window.innerWidth;}
 }
 
 function draw(){
