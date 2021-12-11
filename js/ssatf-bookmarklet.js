@@ -131,7 +131,7 @@ function controlinator(){
     if(legRot>0){legRot-=2;}
     if(legRot<0){legRot+=2;}
     }
-	
+
   if(keyp.l && keyp.r){
     if(rot<0){rot-=5;}
     if(rot>0){rot+=5;}
@@ -146,7 +146,7 @@ function controlinator(){
 
   py+=fall;
   py-=jump;
-	
+
 	if(px>window.innerWidth){px=-100;}
 	if(px<-100){px=window.innerWidth;}
 	if(py>window.innerHeight){window.scrollTo(window.innerHeight,0);}
@@ -154,7 +154,9 @@ function controlinator(){
 }
 
 function draw(){
-background(document.body.background-color);
+erase();
+rect(0,0,width,height);
+noErase();
 drawSnooty();
 snooty.style.left=px+"px";
 snooty.style.top=py+"px";
