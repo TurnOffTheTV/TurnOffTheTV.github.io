@@ -158,6 +158,7 @@ erase();
 rect(0,0,width,height);
 noErase();
 drawSnooty();
+controlinator();
 snooty.style.left=px+"px";
 snooty.style.top=py+"px";
 if(keyIsDown(87) || keyIsDown(83) || keyIsDown(65) || keyIsDown(68)){controlMode=0;}
