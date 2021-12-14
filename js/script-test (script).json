@@ -1,0 +1,135 @@
+{
+  "name": "script-test",
+  "type": "script",
+  "groups": [
+    {
+      "name": "blank",
+      "type": "group",
+      "slides": [
+        {
+          "name": "1",
+          "type": "slide",
+          "background": [
+            0,
+            0,
+            0
+          ],
+          "elements": [
+            {
+              "type": "textbox",
+              "content": "Hello, world!",
+              "size": 50,
+              "x": 0,
+              "y": 0,
+              "w": 1920,
+              "h": 1080,
+							"align": [
+								"center",
+								"center"
+							],
+							"stroke": [
+                0,
+                0,
+                0
+              ],
+              "fill": [
+                255,
+                255,
+                255
+              ]
+            }
+          ]
+        },
+        {
+          "name": "2",
+          "type": "slide",
+          "background": [
+            255,
+						255,
+						255
+          ],
+          "elements": [
+            {
+              "type": "rect",
+              "x": 0,
+              "y": 0,
+              "w": 960,
+              "h": 540,
+							"align": [
+								"center",
+								"center"
+							],
+              "fill": [
+                0,
+                0,
+                255
+              ]
+            }
+          ]
+        }
+      ]
+    },
+		{
+      "name": "2",
+      "type": "group",
+      "slides": [
+        {
+          "name": "1",
+          "type": "slide",
+          "background": [
+            0,
+            0,
+            255
+          ],
+          "elements": [
+            {
+              "type": "ellipse",
+              "x": 480,
+              "y": 270,
+              "w": 960,
+              "h": 540,
+							"align": [
+								"center",
+								"center"
+							],
+              "fill": [
+                0,
+                255,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "2",
+          "type": "slide",
+          "background": [
+            255,
+						255,
+						255
+          ],
+          "elements": [
+            {
+              "type": "textbox",
+              "content": "Hello, world!",
+              "size": 50,
+              "x": 0,
+              "y": 0,
+              "w": 1920,
+              "h": 1080,
+							"align": [
+								"center",
+								"center"
+							],
+              "fill": [
+                0,
+                255,
+                0
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
