@@ -100,7 +100,7 @@ function controlinator(){
     if(p1.button.cross){keyp.u=true;} else {keyp.u=false;}
   }
 
-  if(controlMode1===3){
+  if(controlMode===3){
     keyp.l=false;
     keyp.r=false;
 		keyp.u=false;
