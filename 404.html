@@ -16,20 +16,20 @@
 	<p><span style="color:rgb(0,255,0)">user@turnoffthetv.github.io:</span><span style="color:rgb(0,0,255)">~ / </span><span id="cursor">_</span></p>
 </body>
 <script>
-	function getParameterByName(name, url = window.location.href) {
+	/*function getParameterByName(name, url = window.location.href) {
 		name = name.replace(/[\[\]]/g, '\\$&');
 		var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
 				results = regex.exec(url);
 		if (!results) return null;
 		if (!results[2]) return '';
 		return decodeURIComponent(results[2].replace(/\+/g, ' '));
-	}
+	}*/
 	var cursor = document.getElementById("cursor");
-	var from = getParameterByName(from);
+	//var from = getParameterByName(from);
 	var page = document.getElementById("page");
 	var on = true;
 
-	page.innerText=from;
+	//page.innerText=from;
 	setInterval(function(){
 		if(on){
 			cursor.innerText="_";
