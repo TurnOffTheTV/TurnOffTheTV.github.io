@@ -33,11 +33,18 @@ if(getCookie("useCookies")!=="true" && getCookie("useCookies")!=="false"){
 
 if(getCookie("useCookies")==="true"){setCookie("lastPage",window.location.pathname,31);}
 
-//gamepad movement support, will try to make seperate script
-var useGamepad = true;
 var links = document.getElementsByTagName("a");
-var gamepadSelected = 2;
-
+var selected = 0;
+var down = false;
 setInterval(function(){
-	//nothing here, why don't you go see a movie?
-}, 50);
+	if(p1.button.up && down===false){selected--;down=true;}
+	if(p1.button.down && down===false){selected++;down=true;}
+	if(!p1.button.down && !p1.button.up){down=false;}
+	if(selected<0){selected=links.length;}
+	if(selected>links.length){selected=0;}
+	links[selected].style="outline-style:dashed;outline-color:blue;";
+	for(i = 0;i<links.length;i++){
+		if(i!=selected){links[i].style="outline-style:none;";}
+	}
+	if(p1.button.cross){console.log("Pressed!");window.location.href=links[selected].href;}
+},50);
