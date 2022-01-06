@@ -27,8 +27,8 @@ if(getCookie("useCookies")!=="true" && getCookie("useCookies")!=="false"){
   if (confirm("I save cookies for a whole bunch of reasons outlined in the cookie policy (tunoffthetv.github.io/about/cookie-policy). Do you want cookies stored?")) {
     setCookie("useCookies","true",31);
   } else {
-    setCookie("useCookies","false",31);}
-		alert("I still stored one cookie to tell wether or not to use cookies.");
+    setCookie("useCookies","false",31);
+		alert("I still stored one cookie to tell wether or not to use cookies.");}
 }
 
 if(getCookie("useCookies")==="true"){setCookie("lastPage",window.location.pathname,31);}
