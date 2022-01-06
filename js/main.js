@@ -1,10 +1,3 @@
-
-var unavaliableEls = document.getElementsByClassName("unavaliable");
-
-for (var i = 0; i < unavaliableEls.length; i++) {
-                unavaliableEls[i].innerHTML += " (<span>Unavaliable</span>)";
-            }
-
 //cookies
 function setCookie(cname,cvalue,exdays) {
   var d = new Date();
@@ -29,27 +22,22 @@ function getCookie(cname) {
   return "";
 }
 
-//alert the user that we use cookies
+//alert the user that I use cookies
 if(getCookie("useCookies")!=="true" && getCookie("useCookies")!=="false"){
-  if (confirm("We use cookies to improve your browsing experience. Do you want us to store cookies?")) {
+  if (confirm("I save cookies for a whole bunch of reasons outlined in the cookie policy (tunoffthetv.github.io/about/cookie-policy). Do you want cookies stored?")) {
     setCookie("useCookies","true",31);
   } else {
     setCookie("useCookies","false",31);}
-
+		alert("I still stored one cookie to tell wether or not to use cookies.");
 }
 
+if(getCookie("useCookies")==="true"){setCookie("lastPage",window.location.pathname,31);}
+
+//gamepad movement support, will try to make seperate script
 var useGamepad = true;
 var links = document.getElementsByTagName("a");
 var gamepadSelected = 2;
 
-setInterval(() => {
-	if(p1.gamepadIsPressed){useGamepad=true;}
-	if(useGamepad){
-	  if(gamepadSelected<0){gamepadSelected=0;}
-	  if(gamepadSelected>links.length){gamepadSelected=links.length;}
-	  for(var i = 0;i>links.length;i++){
-	    links[i].style = "outline:0px dashed;";
-	    if(i===gamepadSelected){links[i].style = "outline:medium dashed #00FF00;";}
-	  }
-	}
+setInterval(function(){
+	//nothing here, why don't you go see a movie?
 }, 50);

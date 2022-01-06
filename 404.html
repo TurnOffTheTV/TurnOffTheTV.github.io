@@ -10,26 +10,35 @@
 	</style>
 </head>
 <body>
-	<p><span style="color:rgb(0,255,0)">user@turnoffthetv.github.io:</span><span style="color:rgb(0,0,255)">~ / </span>page <span id="page">404</span></p>
+	<p><span style="color:rgb(0,255,0)">user@turnoffthetv.github.io:</span><span style="color:rgb(0,0,255)">~ / </span>page <span id="page">index.html</span></p>
 	<p><span style="color:red;">Fatal! [ERROR] 404</span></p>
-	<p>No page found. Restarting...</p>
+	<p>Page not found. Restarting...</p>
+	<p>Either a link didn't work or this page doesn't exist.</p>
+	<p><a href="https://turnoffthetv.github.io" style="color:lightblue;">Try visiting the homepage</a></p>
 	<p><span style="color:rgb(0,255,0)">user@turnoffthetv.github.io:</span><span style="color:rgb(0,0,255)">~ / </span><span id="cursor">_</span></p>
 </body>
 <script>
-	/*function getParameterByName(name, url = window.location.href) {
-		name = name.replace(/[\[\]]/g, '\\$&');
-		var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-				results = regex.exec(url);
-		if (!results) return null;
-		if (!results[2]) return '';
-		return decodeURIComponent(results[2].replace(/\+/g, ' '));
-	}*/
+function getCookie(cname) {
+	var name = cname + "=";
+	var decodedCookie = decodeURIComponent(document.cookie);
+	var ca = decodedCookie.split(';');
+	for(var i = 0; i < ca.length; i++) {
+		var c = ca[i];
+		while (c.charAt(0) == ' ') {
+			c = c.substring(1);
+		}
+		if (c.indexOf(name) == 0) {
+			return c.substring(name.length, c.length);
+		}
+	}
+	return "";
+	}
 	var cursor = document.getElementById("cursor");
-	//var from = getParameterByName(from);
 	var page = document.getElementById("page");
 	var on = true;
 
-	//page.innerText=from;
+	//if(getCookie("useCookies")==="true"){page.innerText=getCookie("lastPage");}
+	page.innerText=window.location.pathname;
 	setInterval(function(){
 		if(on){
 			cursor.innerText="_";
