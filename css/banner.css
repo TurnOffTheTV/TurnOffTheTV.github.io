@@ -1,0 +1,18 @@
+#tottvSiteBannerDark {
+  border:dashed;
+  border-color:white;
+  background:rgb(0,0,100);
+  color:white;
+}
+a#tottvSiteBannerDark {color:rgb(0,200,200);}
+a#tottvSiteBannerDark:visited {color:rgb(50,175,175);}
+
+#tottvSiteBannerLight {
+  border:dashed;
+  border-color:black;
+  background:rgb(200,200,255);
+  color:black;
+}
+
+a#tottvSiteBannerLight {color:rgb(0,200,200);}
+a#tottvSiteBannerLight:visited {color:rgb(50,175,175);}

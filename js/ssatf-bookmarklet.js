@@ -161,6 +161,7 @@ drawSnooty();
 controlinator();
 snooty.style.left=px+"px";
 snooty.style.top=py+"px";
+snooty.style.z_index=255;
 if(keyIsDown(87) || keyIsDown(83) || keyIsDown(65) || keyIsDown(68)){controlMode=0;}
 
   if(p1.stick.lx>0.2 || p1.stick.lx<-0.2 || p1.stick.ly>0.2 || p1.stick.ly<-0.2){controlMode=2;}
