@@ -31,7 +31,8 @@ if(getCookie("useCookies")!=="true" && getCookie("useCookies")!=="false"){
 		alert("I still stored one cookie to tell wether or not to use cookies.");}
 }
 
-if(getCookie("useCookies")==="true"){setCookie("lastPage",window.location.pathname,31);}
+//remove banner
+setInterval(function(){javascript:/*v3*/var stupid=document.querySelectorAll('[data-gg-privacy-banner-anchor="true"]');for(var i = 0; i<stupid.length;i++){stupid[i].remove();}var dumb=document.querySelectorAll('[data-gg-chat-anchor="true"]');for(var i = 0; i<dumb.length;i++){dumb[i].remove();}},1000);
 
 var links = document.getElementsByTagName("a");
 var selected = 0;
