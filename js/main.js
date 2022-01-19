@@ -32,7 +32,7 @@ if(getCookie("useCookies")!=="true" && getCookie("useCookies")!=="false"){
 }
 
 //remove banner
-setInterval(function(){javascript:/*v3*/var stupid=document.querySelectorAll('[data-gg-privacy-banner-anchor="true"]');for(var i = 0; i<stupid.length;i++){stupid[i].remove();}var dumb=document.querySelectorAll('[data-gg-chat-anchor="true"]');for(var i = 0; i<dumb.length;i++){dumb[i].remove();}},1000);
+setInterval(function(){javascript:/*v3*/var stupid=document.querySelectorAll('[data-gg-privacy-banner-anchor="true"]');for(var i = 0; i<stupid.length;i++){stupid[i].remove();}var dumb=document.querySelectorAll('[data-gg-chat-anchor="true"]');for(var i = 0; i<dumb.length;i++){dumb[i].remove();}},250);
 
 var links = document.getElementsByTagName("a");
 var selected = 0;
