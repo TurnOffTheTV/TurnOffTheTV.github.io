@@ -6,6 +6,7 @@ function preload(){
 }
 
 function setup(){
+  problems.problems=problems;
   createCanvas(windowWidth,windowHeight);
 }
 
