@@ -28,5 +28,8 @@ function draw(){
 	sphere(150,20,20);
 	scale(15);
 	fill(100);
+	push();
+	translateY(15/2);
 	model(teapot);
+	pop();
 }
