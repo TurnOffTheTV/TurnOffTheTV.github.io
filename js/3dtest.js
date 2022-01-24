@@ -29,7 +29,7 @@ function draw(){
 	scale(15);
 	fill(100);
 	push();
-	translateY(15/2);
+	translate(0,15/2);
 	model(teapot);
 	pop();
 }
