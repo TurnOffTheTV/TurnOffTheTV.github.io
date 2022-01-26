@@ -1,6 +1,10 @@
-var xRot = 0;
-var yRot = 0;
+var px = 0;
+var py = 0;
+var pz = 0;
+var cx = 0;
+var cy = 0;
 var teapot;
+
 
 function preload(){
 	teapot = loadModel("teapot.obj");
@@ -14,22 +18,22 @@ function windowResized(){
 	resizeCanvas(windowWidth,windowHeight);
 }
 
-var mousePressed =function(){requestPointerLock();}
+var mousePressed =function(){requestPointerLock();fullscreen(true);}
 
 function draw(){
-	xRot+=movedY/100;
-	yRot+=movedX/100;
+	noStroke();
+	ambientLight(100);
+	pointLight(255, 255, 255, -250, -250, -250);
+	cx+=movedY;
+	cy+=movedX;
   background(0);
-	rotateX(xRot);
-	rotateY(yRot);
-	scale(5.596063232421875);
-	fill(255,255,255,128);
-	stroke(255);
-	sphere(150,20,20);
-	scale(15);
-	fill(100);
+	rotateX(radians(cx));
+	rotateY(radians(cy));
+	specularMaterial(0,0,255);
 	push();
-	translate(0,-1);
+	scale(100);
+	translate(0,1);
+	rotateZ(radians(180));
 	model(teapot);
 	pop();
 }
