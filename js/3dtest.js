@@ -24,7 +24,8 @@ function draw(){
   	background(0);
 	rotateX(xRot);
 	rotateY(yRot);
-	scale(20);
+	scale(100);
+	noStroke();
 	specularMaterial(0,0,255);
 	push();
 	translate(0,-1);
