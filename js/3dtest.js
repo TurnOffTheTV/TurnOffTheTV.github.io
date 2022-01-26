@@ -14,20 +14,18 @@ function windowResized(){
 	resizeCanvas(windowWidth,windowHeight);
 }
 
-var mousePressed =function(){requestPointerLock();}
+var mousePressed =function(){requestPointerLock();fullscreen(true);}
 
 function draw(){
+	pointLight(0,0,255,-250,-250,-250);
+	ambientLight(0,0,100);
 	xRot+=movedY/100;
 	yRot+=movedX/100;
-  background(0);
+  	background(0);
 	rotateX(xRot);
 	rotateY(yRot);
-	scale(5.596063232421875);
-	fill(255,255,255,128);
-	stroke(255);
-	sphere(150,20,20);
-	scale(15);
-	fill(100);
+	scale(20);
+	specularMaterial(0,0,255);
 	push();
 	translate(0,-1);
 	model(teapot);
