@@ -17,7 +17,7 @@ function windowResized(){
 var mousePressed =function(){requestPointerLock();fullscreen(true);}
 
 function draw(){
-	pointLight(0,0,255,-250,-250,-250);
+	pointLight(255,255,255,-250,-250,-250);
 	ambientLight(0,0,100);
 	xRot+=movedY/100;
 	yRot+=movedX/100;
