@@ -29,7 +29,7 @@ function draw(){
   background(0);
 	rotateX(radians(cx));
 	rotateY(radians(cy));
-	pointLight(0, 0, 255, -250, -250, -250);
+	pointLight(255, 255, 255, -250, -250, -250);
 	specularMaterial(0,0,255);
 	push();
 	scale(100);
