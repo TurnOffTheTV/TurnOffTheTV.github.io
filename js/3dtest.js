@@ -29,15 +29,17 @@ function mouseMoved(){
 }
 
 function draw(){
-	if(cx<0){cxspeed+=0.5;}
-	if(cx>0){cxspeed-=0.5;}
-	cyspeed+=0.5;
+	if(cx<0.01){cxspeed+=0.1;}
+	if(cx>0.01){cxspeed-=0.1;}
+	cyspeed+=0.1;
 	noStroke();
 	ambientLight(100);
 	cxspeed+=movedY;
 	cyspeed+=movedX;
 	cx+=cxspeed;
 	cy+=cyspeed;
+	if(cxspeed>2){cxspeed=2;}
+	if(cyspeed>2){cyspeed=2;}
 	background(0);
 	rotateX(radians(cx));
 	rotateY(radians(cy));
