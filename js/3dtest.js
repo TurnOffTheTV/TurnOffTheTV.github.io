@@ -5,6 +5,7 @@ var cx = 0;
 var cy = 0;
 var cxspeed = 0;
 var cyspeed = 0;
+var autoTimeout = 0;
 var teapot;
 
 
@@ -26,12 +27,15 @@ var mousePressed =function(){requestPointerLock();fullscreen(true);}
 function mouseMoved(){
 	cxspeed=0;
 	cyspeed=0;
+	autoTimeout=100;
 }
 
 function draw(){
-	if(cx<0.01){cxspeed+=0.1;}
-	if(cx>0.01){cxspeed-=0.1;}
-	cyspeed+=0.1;
+	autoTimeout-=1;
+	if(cx<0.01 && autoTimeout<0){cxspeed+=0.1;}
+	if(cx>0.01 && autoTimeout<0){cxspeed-=0.1;}
+	if(autoTimeout<0){cyspeed+=0.1;}
+	if(autoTimeout<-1){autoTimeout=-1;}
 	noStroke();
 	ambientLight(100);
 	cxspeed+=movedY;
