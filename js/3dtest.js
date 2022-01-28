@@ -3,9 +3,8 @@ var py = 0;
 var pz = 0;
 var cx = 0;
 var cy = 0;
-var cxspeed = 0;
-var cyspeed = 0;
-var autoTimeout = 0;
+var cz = 0;
+var controlMode = 0;
 var teapot;
 
 
@@ -25,28 +24,25 @@ function windowResized(){
 var mousePressed =function(){requestPointerLock();fullscreen(true);}
 
 function mouseMoved(){
-	cxspeed=0;
-	cyspeed=0;
-	autoTimeout=100;
+	controlMode=1;
 }
 
 function draw(){
-	autoTimeout-=1;
-	if(cx<0.01 && autoTimeout<0){cxspeed+=0.1;}
-	if(cx>0.01 && autoTimeout<0){cxspeed-=0.1;}
-	if(autoTimeout<0){cyspeed+=0.1;}
-	if(autoTimeout<-1){autoTimeout=-1;}
 	noStroke();
 	ambientLight(100);
-	cxspeed+=movedY;
-	cyspeed+=movedX;
-	cx+=cxspeed;
-	cy+=cyspeed;
-	if(cxspeed>2){cxspeed=2;}
-	if(cyspeed>2){cyspeed=2;}
+	if(controlMode===0){
+		cx+=movedY;
+		cy+=movedX;
+	}
+	if(controlMode===1){
+		if(p1.stick.ly>0.2 || p1.stick.ly<-0.2){cx+=2*p1.stick.ly;}
+		if(p1.stick.lx>0.2 || p1.stick.lx<-0.2){cy+=2*p1.stick.lx;}
+		if(p1.stick.rx>0.2 || p1.stick.rx<-0.2){cz+=2*p1.stick.rx;}
+	}
 	background(0);
 	rotateX(radians(cx));
 	rotateY(radians(cy));
+	rotateZ(radians(cz));
 	pointLight(255, 255, 255, -250, -250, -250);
 	specularMaterial(0,0,255);
 	push();
@@ -55,4 +51,5 @@ function draw(){
 	rotateZ(radians(180));
 	model(teapot);
 	pop();
+	if(p1.stick.rx>0.2 || p1.stick.rx<-0.2 || p1.stick.lx>0.2 || p1.stick.lx<-0.2 || p1.stick.ly>0.2 || p1.stick.ly<-0.2){controlMode=1;}
 }
