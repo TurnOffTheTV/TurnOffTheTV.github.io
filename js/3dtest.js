@@ -24,7 +24,7 @@ function windowResized(){
 var mousePressed =function(){requestPointerLock();fullscreen(true);}
 
 function mouseMoved(){
-	controlMode=1;
+	controlMode=0;
 }
 
 function draw(){
