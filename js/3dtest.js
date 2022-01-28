@@ -39,6 +39,7 @@ function draw(){
 		if(p1.stick.lx>0.2 || p1.stick.lx<-0.2){cy+=2*p1.stick.lx;}
 		if(p1.stick.rx>0.2 || p1.stick.rx<-0.2){cz+=2*p1.stick.rx;}
 	}
+	if(p1.button.options){cx=0;cy=0;cz=0;}
 	background(0);
 	rotateX(radians(cx));
 	rotateY(radians(cy));
