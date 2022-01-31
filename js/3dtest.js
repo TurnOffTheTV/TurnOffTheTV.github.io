@@ -21,11 +21,11 @@ function windowResized(){
 	resizeCanvas(windowWidth,windowHeight);
 }
 
-var mousePressed =function(){requestPointerLock();fullscreen(true);}
-
 function mouseMoved(){
 	controlMode=0;
 }
+
+var mousePressed =function(){requestPointerLock();fullscreen(true);}
 
 function draw(){
 	noStroke();
@@ -44,12 +44,12 @@ function draw(){
 	rotateX(-radians(cx));
 	rotateY(radians(cy));
 	rotateZ(radians(cz));
-	pointLight(255, 255, 255, -250, -250, -250);
 	specularMaterial(0,0,255);
 	push();
 	scale(100);
 	translate(0,1);
 	rotateZ(radians(180));
+	pointLight(255, 255, 100, -250, -250, -250);
 	model(teapot);
 	pop();
 	if(p1.stick.rx>0.2 || p1.stick.rx<-0.2 || p1.stick.lx>0.2 || p1.stick.lx<-0.2 || p1.stick.ly>0.2 || p1.stick.ly<-0.2){controlMode=1;}
