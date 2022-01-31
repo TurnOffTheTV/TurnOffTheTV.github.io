@@ -41,7 +41,7 @@ function draw(){
 	}
 	if(p1.button.options){cx=0;cy=0;cz=0;}
 	background(0);
-	rotateX(radians(cx));
+	rotateX(-radians(cx));
 	rotateY(radians(cy));
 	rotateZ(radians(cz));
 	pointLight(255, 255, 255, -250, -250, -250);
