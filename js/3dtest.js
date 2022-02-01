@@ -49,7 +49,7 @@ function draw(){
 	scale(100);
 	translate(0,1);
 	rotateZ(radians(180));
-	pointLight(255, 255, 100, -250, -250, -250);
+	pointLight(100, 100, 255, -250, -250, -250);
 	model(teapot);
 	pop();
 	if(p1.stick.rx>0.2 || p1.stick.rx<-0.2 || p1.stick.lx>0.2 || p1.stick.lx<-0.2 || p1.stick.ly>0.2 || p1.stick.ly<-0.2){controlMode=1;}
