@@ -131,11 +131,15 @@ var score4 = {
 var font;
 var cloudX=0;
 var clouds = [];
-var music = 0;
-var sfx = 0;
+var music = 1;
+var sfx = 1;
 var isDark = false;
 var cursorTimeout = false;
 var maxLevel = 0;
+var inWater1 = false;
+var inWater2 = false;
+var inWater3 = false;
+var inWater4 = false;
 
 function preload(){
   sounds = {
@@ -192,8 +196,8 @@ function setup(){
 	describe('Snooty Scooty and the Frowns');
   createCanvas(windowWidth,windowHeight);
 	textFont(font);
-	if(getItem("music")>-1){music=getItem("music");}
-	if(getItem("sfx")>-1){sfx=getItem("sfx");}
+	/*if(getItem("music")>-1){music=getItem("music");}
+	if(getItem("sfx")>-1){sfx=getItem("sfx");}*/
 }
 
 function getCookie(cname) {
@@ -459,8 +463,11 @@ function controlinator(player){
     if(keyIsDown(27) && keyIsDown(16)===false){paused=true;}
     }
 
-    if(keyp1.l){px1-=2;}
-    if(keyp1.r){px1+=2;}
+    if(keyp1.l && inWater1===false){px1-=2;}
+    if(keyp1.r && inWater1===false){px1+=2;}
+
+		if(keyp1.l && inWater1){px1-=1.5;}
+    if(keyp1.r && inWater1){px1+=1.5;}
 
     if(keyp1.l && onFloor1){dir1="left";}
     if(keyp1.r && onFloor1){dir1="right";}
@@ -520,11 +527,13 @@ function controlinator(player){
     doLegRot1=false;
 	}else{doLegRot1=true;}
 
-  if(keyp1.u && onFloor1){jump1=5;onFloor1=false;fall1=0;}
+  if(keyp1.u && onFloor1 && inWater1===false){jump1=5;onFloor1=false;fall1=0;}
+	if(keyp1.u && onFloor1 && inWater1){jump1=2.5;onFloor1=false;fall1=0;}
 
   if(onFloor1 && keyp1.u===false){fall1=0;jump1=0;}
 
-  if(onFloor1===false){fall1+=0.1}
+  if(onFloor1===false && inWater1===false){fall1+=0.1}
+	if(onFloor1===false && inWater1){fall1+=0.02;if(fall1>0.5){fall1=0.5;}}
 
   py1+=fall1;
   py1-=jump1;
@@ -1046,6 +1055,52 @@ function spikes(x,y,w){
 	}
 }
 
+function water(x,y,w,h){
+	fill(0,0,255,128);
+	rectMode(CORNER)
+	rect(x+cx,y+cy,w,h);
+	if(px1>x+cx && py1>y+cy && px1>x+w+cx && py1>y+h+cy){
+		inWater1=true;
+		onFloor1=true;
+		fall1=0.5;
+		background(255);
+	} else {
+		inWater1=false;
+		onFloor1=false;
+	}
+	if(px2>x+cx && py2>y+cy && px2>x+w+cx && py2>y+h+cy){
+		inWater2=true;
+		onFloor2=true;
+		fall2=0.5;
+	} else {
+		inWater2=false;
+		onFloor2=false;
+	}
+	if(px3>x+cx && py3>y+cy && px3>x+w+cx && py3>y+h+cy){
+		inWater3=true;
+		onFloor3=true;
+		fall3=0.5;
+	} else {
+		inWater3=false;
+		onFloor3=false;
+	}
+	if(px4>x+cx && py4>y+cy && px4>x+w+cx && py4>y+h+cy){
+		inWater4=true;
+		onFloor4=true;
+		fall4=0.5;
+	} else {
+		inWater4=false;
+		onFloor4=false;
+	}
+	for(var i = 0;i<enemies.length;i++){
+		if(enemies[i].x>x+cx && enemies[i].y>y+cx && enemies[i].x>x+w+cx && enemies[i].y>y+h+cx){
+			enemies[i].inWater=true;
+		} else {
+			enemies[i].inWater=false;
+		}
+	}
+}
+
 function door(x,y){
 	fill(255);
 	rect(x+cx-5,y+cy-5,70,85);
@@ -1152,7 +1207,7 @@ function assets(){
 			point(-25/3,-25*1.25+25);
 			point(25/3,-25*1.25+25);
 			pop();
-			if(paused===false){if(enemies[i].onFloor===false){enemies[i].dir+=1;enemies[i].fall+=0.1;}
+			if(paused===false){if(enemies[i].onFloor===false && enemies[i].inWater){enemies[i].fall+=0.01;}else{enemies[i].fall+=0.1;}
 			if(enemies[i].onFloor){enemies[i].fall=0;}
 			enemies[i].x-=1.5;
 			enemies[i].y+=enemies[i].fall;
@@ -1175,7 +1230,7 @@ function assets(){
 			point(-25/3,-25*1.25+25);
 			point(25/3,-25*1.25+25);
 			pop();
-			if(paused===false){if(enemies[i].onFloor===false){enemies[i].dir+=1;enemies[i].fall+=0.1;}
+			if(paused===false){if(enemies[i].onFloor===false && enemies[i].inWater){enemies[i].fall+=0.01;}else{enemies[i].fall+=0.1;}
 			if(enemies[i].onFloor){enemies[i].fall=0;}
 			enemies[i].x+=1.5;
 			enemies[i].y+=enemies[i].fall;
@@ -1198,15 +1253,16 @@ function assets(){
 			point(-25/3,-25*1.25+25);
 			point(25/3,-25*1.25+25);
 			pop();
-			if(paused===false){if(enemies[i].onFloor===false){enemies[i].fall+=0.1;}
-			if(enemies[i].onFloor){enemies[i].fall=0;}
-			enemies[i].y+=enemies[i].fall;
-			if(enemies[i].dir===0){enemies[i].x+=1.5;}
-			if(enemies[i].dir===1){enemies[i].x-=1.5;}
-			if(enemies[i].x<enemies[i].trigger.left || enemies[i].x>enemies[i].trigger.right){enemies[i].dir+=1;}
-			if(enemies[i].dir>1){enemies[i].dir=0;}
-			if(enemies[i].dir===0){enemies[i].rot+=2;}
-			if(enemies[i].dir===1){enemies[i].rot-=2;}}
+			if(paused===false){if(enemies[i].onFloor===false && enemies[i].inWater===false){enemies[i].fall+=0.1;}else{enemies[i].fall+=0.01}
+				if(enemies[i].onFloor){enemies[i].fall=0;}
+				enemies[i].y+=enemies[i].fall;
+				if(enemies[i].dir===0){enemies[i].x+=1.5;}
+				if(enemies[i].dir===1){enemies[i].x-=1.5;}
+				if(enemies[i].x<enemies[i].trigger.left || enemies[i].x>enemies[i].trigger.right){enemies[i].dir+=1;}
+				if(enemies[i].dir>1){enemies[i].dir=0;}
+				if(enemies[i].dir===0){enemies[i].rot+=2;}
+				if(enemies[i].dir===1){enemies[i].rot-=2;}
+			}
 		}
 
 		if(enemies[i].dead===false){
@@ -2230,7 +2286,6 @@ function level1(){
 
 //Among the Clouds
 function level2(){
-	//background(0);
 	sounds.cave.stop();
   if(init){
     if(music===0){
@@ -2317,16 +2372,16 @@ function level2(){
 
 //The Atlantis Trench
 function level3(){
-	//background(0);
-	sounds.clouds.stop();
+	if(py1>500){sounds.clouds.stop();}
   if(init){
     if(music===0){
-		sounds.water.play();
+		if(py1>500 && music===1){sounds.water.play();
 		sounds.water.loop();}
     init=false;
 		coins=[{x:1450,y:800,visible:true,collected:false,type:"blue"},
 		      {x:900,y:-75,visible:true,collected:false,type:"yellow"},
 		      {x:1050,y:800,visible:true,collected:false,type:"yellow"}]
+				}
   }
   if(maxLevel<4){maxLevel=4;}
 	level=4;
@@ -2344,6 +2399,8 @@ function level3(){
 	if(controlMode2!==-1){drawSnooty(1);}
 	if(controlMode3!==-1){drawSnooty(2);}
 	if(controlMode4!==-1){drawSnooty(3);}
+	//platform();
+	water(-1000,500,2000,1000);
 }
 
 //The Volcano Caves
@@ -2351,8 +2408,8 @@ function level4(){
 	sounds.water.stop();
   if(init){
     if(music===0){
-		sounds.lava.play();
-		sounds.lava.loop();}
+		/*sounds.lava.play();
+		sounds.lava.loop();*/}
     init=false;
 		coins=[{x:1450,y:800,visible:true,collected:false,type:"blue"},
 		      {x:1250,y:800,visible:true,collected:false,type:"yellow"},
@@ -2374,6 +2431,7 @@ function level4(){
 	if(controlMode2!==-1){drawSnooty(1);}
 	if(controlMode3!==-1){drawSnooty(2);}
 	if(controlMode4!==-1){drawSnooty(3);}
+	background(0);
 }
 
 //Boss

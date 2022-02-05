@@ -35,15 +35,13 @@ function draw(){
 		cy+=movedX;
 	}
 	if(controlMode===1){
-		if(p1.stick.ly>0.2 || p1.stick.ly<-0.2){cx+=3*p1.stick.ly;}
-		if(p1.stick.lx>0.2 || p1.stick.lx<-0.2){cy+=3*p1.stick.lx;}
-		if(p1.stick.rx>0.2 || p1.stick.rx<-0.2){cz+=3*p1.stick.rx;}
+		if(p1.stick.ry>0.2 || p1.stick.ry<-0.2){cx+=3*p1.stick.ry;}
+		if(p1.stick.rx>0.2 || p1.stick.rx<-0.2){cy+=3*p1.stick.rx;}
 	}
 	if(p1.button.options){cx=0;cy=0;cz=0;}
 	background(0);
 	rotateX(-radians(cx));
 	rotateY(radians(cy));
-	rotateZ(radians(cz));
 	specularMaterial(0,0,255);
 	push();
 	scale(100);
