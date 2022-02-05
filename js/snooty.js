@@ -76,7 +76,7 @@ var blink1 = 0;
 var blink2 = 0;
 var blink3 = 0;
 var blink4 = 0;
-var scene = 0;
+var scene = 2;
 var jumpRand1 = 0;
 var jumpRand2 = 0;
 var jumpRand3 = 0;
@@ -2205,7 +2205,9 @@ function level1(){
 			{x:1300,y:550,visible:true,collected:false,type:"yellow"},
 		       {x:-600,y:0,visible:true,collected:false,type:"blue"}
 		]
-		enemies=[];
+		enemies=[
+			{type:"patrol",x:-300,y:1000,onFloor:false,fall:0,dir:0,dead:false,trigger:{left:-400,right:-200},rot:0,collected:false,killer:0}
+		];
   }
   if(maxLevel<2){maxLevel=2;}
 	level=2;
@@ -2252,7 +2254,7 @@ function level1(){
   platform(900,600,600);
 	platform(-200,900,200);
 	wall(-100,900,900)
-	platform(-400,1100,200);
+	platform(-400,1100,200);//frowns partrol
 	platform(-500,1300,400);
 	platform(-700,1300,400);
 	spikes(-100,1800,2500);
