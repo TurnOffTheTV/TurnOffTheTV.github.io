@@ -1059,45 +1059,12 @@ function water(x,y,w,h){
 	fill(0,0,255,128);
 	rectMode(CORNER)
 	rect(x+cx,y+cy,w,h);
-	if(px1>x+cx && py1>y+cy && px1>x+w+cx && py1>y+h+cy){
+	if(px1+cx>x+cx && py1+cy>y+cy && px1+cx<x+w+cx && py1+cy<y+h+cy){
 		inWater1=true;
 		onFloor1=true;
-		fall1=0.5;
-		background(255);
 	} else {
 		inWater1=false;
 		onFloor1=false;
-	}
-	if(px2>x+cx && py2>y+cy && px2>x+w+cx && py2>y+h+cy){
-		inWater2=true;
-		onFloor2=true;
-		fall2=0.5;
-	} else {
-		inWater2=false;
-		onFloor2=false;
-	}
-	if(px3>x+cx && py3>y+cy && px3>x+w+cx && py3>y+h+cy){
-		inWater3=true;
-		onFloor3=true;
-		fall3=0.5;
-	} else {
-		inWater3=false;
-		onFloor3=false;
-	}
-	if(px4>x+cx && py4>y+cy && px4>x+w+cx && py4>y+h+cy){
-		inWater4=true;
-		onFloor4=true;
-		fall4=0.5;
-	} else {
-		inWater4=false;
-		onFloor4=false;
-	}
-	for(var i = 0;i<enemies.length;i++){
-		if(enemies[i].x>x+cx && enemies[i].y>y+cx && enemies[i].x>x+w+cx && enemies[i].y>y+h+cx){
-			enemies[i].inWater=true;
-		} else {
-			enemies[i].inWater=false;
-		}
 	}
 }
 
@@ -1124,7 +1091,6 @@ function door(x,y){
 	score3.levelScore=score3.score;
 	score4.levelScore=score4.score;
   }
-	//if(getCookie("dev")==="true"){rectMode(CORNERS);fill(0,255,0,128);stroke(0,255,0);rect(x+cx,y+cy,x+60+cx,y+80+cy);}
 }
 
 function assets(){
