@@ -58,12 +58,12 @@ function draw(){
 		pr+=movedX;
 
 		//forward/backward
-		if(keys[87]){px+=5*-sin(radians(-cy));pz+=5*-cos(radians(-cy));}
-		if(keys[83]){px+=5*sin(radians(-cy));pz+=5*cos(radians(-cy));}
+		if(keys[87]){px+=5*-sin(radians(-cy));pz+=5*-cos(radians(-cy));pr=-90;}
+		if(keys[83]){px+=5*sin(radians(-cy));pz+=5*cos(radians(-cy));pr=90;}
 
 		//left/right
-		if(keys[65]){px+=5*cos(radians(cy));pz+=5*sin(radians(cy));}
-		if(keys[68]){px+=5*-cos(radians(cy));pz+=5*-sin(radians(cy));}
+		if(keys[65]){px+=5*cos(radians(cy));pz+=5*sin(radians(cy));pr=180;}
+		if(keys[68]){px+=5*-cos(radians(cy));pz+=5*-sin(radians(cy));pr=0;}
 
 		//jump
 		if(keys[32]){jump=10;}
@@ -74,12 +74,12 @@ function draw(){
 		if(p1.stick.rx>0.2 || p1.stick.rx<-0.2){cy+=3*p1.stick.rx;pr+=3*p1.stick.rx;}
 
 		//forward/backward
-		if(p1.stick.ly<-0.2){px+=abs(5*p1.stick.ly)*-sin(radians(-cy));pz+=5*-cos(radians(-cy));pr=90;}
-		if(p1.stick.ly>0.2){px+=abs(5*p1.stick.ly)*sin(radians(-cy));pz+=5*cos(radians(-cy));pr=-90;}
+		if(p1.stick.ly<-0.2){px+=abs(5*p1.stick.ly)*-sin(radians(-cy));pz+=5*-cos(radians(-cy));pr=-90;}
+		if(p1.stick.ly>0.2){px+=abs(5*p1.stick.ly)*sin(radians(-cy));pz+=5*cos(radians(-cy));pr=90;}
 
 		//left/right
-		if(p1.stick.lx<-0.2){px+=5*cos(radians(cy));pz+=5*sin(radians(cy));pr=0;}
-		if(p1.stick.lx>0.2){px+=5*-cos(radians(cy));pz+=5*-sin(radians(cy));pr=180;}
+		if(p1.stick.lx<-0.2){px+=5*cos(radians(cy));pz+=5*sin(radians(cy));pr=180;}
+		if(p1.stick.lx>0.2){px+=5*-cos(radians(cy));pz+=5*-sin(radians(cy));pr=0;}
 
 		//jump
 		if(p1.button.cross){jump=10;}
