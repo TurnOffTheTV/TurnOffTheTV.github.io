@@ -40,7 +40,7 @@ function draw(){
 
 	//physics
 	sinceJump+=1;
-	py+=16*sinceJump/60;
+	py+=16*(sinceJump/60)**2;
 	py-=jump;
 
 	//collision code
