@@ -45,15 +45,18 @@ function draw(){
 
 	//collision code
 
-	//platform bottom
+	//lower platform
 	if(py>0){py=0;sinceJump=0;jump=0;}
+
+	//upper platform
+	if(py<250 && px>250){py=-250;sinceJump=0;jump=0;}
 
 	if(controlMode===0){
 		//camera
 		cx+=movedY;
 		cy+=movedX;
 		pr+=movedX;
-		
+
 		//forward/backward
 		if(keys[87]){px+=5*-sin(radians(-cy));pz+=5*-cos(radians(-cy));}
 		if(keys[83]){px+=5*sin(radians(-cy));pz+=5*cos(radians(-cy));}
@@ -103,10 +106,19 @@ function draw(){
 	rotateX(radians(90));
 	normalMaterial(0,255,0);
   plane(500, 500);
-	rotateX(radians(-90));
-	rotateY(radians(45));
-	translate(-250,125,0)
-	//plane(500,250);
+	pop();
+
+	push();
+	translate(px,py,pz);
+	rotateY(radians(90));
+	translate(0,125,-250)
+	plane(500,250);
+	pop();
+
+	push();
+	translate(px-500,py+250,pz);
+	rotateX(radians(90));
+	plane(500,500);
 	pop();
 
 	//teapot
