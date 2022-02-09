@@ -52,7 +52,8 @@ function draw(){
 		//camera
 		cx+=movedY;
 		cy+=movedX;
-
+		pr+=movedX;
+		
 		//forward/backward
 		if(keys[87]){px+=5*-sin(radians(-cy));pz+=5*-cos(radians(-cy));}
 		if(keys[83]){px+=5*sin(radians(-cy));pz+=5*cos(radians(-cy));}
@@ -67,15 +68,15 @@ function draw(){
 	if(controlMode===1){
 		//camera
 		if(p1.stick.ry>0.2 || p1.stick.ry<-0.2){cx+=3*p1.stick.ry;}
-		if(p1.stick.rx>0.2 || p1.stick.rx<-0.2){cy+=3*p1.stick.rx;}
+		if(p1.stick.rx>0.2 || p1.stick.rx<-0.2){cy+=3*p1.stick.rx;pr+=3*p1.stick.rx;}
 
 		//forward/backward
-		if(p1.stick.ly<-0.2){px+=abs(5*p1.stick.ly)*-sin(radians(-cy));pz+=5*-cos(radians(-cy));}
-		if(p1.stick.ly>0.2){px+=abs(5*p1.stick.ly)*sin(radians(-cy));pz+=5*cos(radians(-cy));}
+		if(p1.stick.ly<-0.2){px+=abs(5*p1.stick.ly)*-sin(radians(-cy));pz+=5*-cos(radians(-cy));pr=90;}
+		if(p1.stick.ly>0.2){px+=abs(5*p1.stick.ly)*sin(radians(-cy));pz+=5*cos(radians(-cy));pr=-90;}
 
 		//left/right
-		if(p1.stick.lx<-0.2){px+=5*cos(radians(cy));pz+=5*sin(radians(cy));pr=-90;}
-		if(p1.stick.lx>0.2){px+=5*-cos(radians(cy));pz+=5*-sin(radians(cy));pr=90;}
+		if(p1.stick.lx<-0.2){px+=5*cos(radians(cy));pz+=5*sin(radians(cy));pr=0;}
+		if(p1.stick.lx>0.2){px+=5*-cos(radians(cy));pz+=5*-sin(radians(cy));pr=180;}
 
 		//jump
 		if(p1.button.cross){jump=10;}
@@ -111,6 +112,8 @@ function draw(){
 	//teapot
 	push();
 	scale(75);
+	rotateY(-radians(cy));
+	rotateY(radians(pr));
 	specularMaterial(0,0,255);//teapot material
 	model(teapot);
 	pop();
