@@ -7,12 +7,14 @@ var cy = 0;
 var cz = 0;
 var controlMode = 0;
 var teapot;
+var checker;
 var keys = [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false];
 var jump = 0;
 var sinceJump = 0;
 
 function preload(){
 	teapot = loadModel("teapot.obj");
+	checker = loadImage("https://turnoffthetv.github.io/images/checker.png");
 }
 
 function setup(){
@@ -124,22 +126,33 @@ function draw(){
 	//lights
 	pointLight(100, 100, 255, -250+px, -250+py, -250+pz);
 
-	//map
+	//floor
+	push();
+	translate(px,py-1000,pz);
+	rotateX(radians(90));
+	texture(checker);
+	plane(15000, 15000);
+	pop();
+
+	//lower
 	push();
 	translate(px,py,pz);
 	rotateX(radians(90));
 	normalMaterial(0,255,0);
-  plane(500, 500);
+	plane(500, 500);
 	pop();
 
+	//wall
 	push();
 	translate(px,py,pz);
 	rotateY(radians(90));
-	translate(0,125,-250)
-	normalMaterial(0,255,0);
+	translate(0,125,-250);
+	ambientMaterial(255,255,255);
+	texture(checker);
 	plane(500,250);
 	pop();
 
+	//upper
 	push();
 	translate(px-500,py+250,pz);
 	rotateX(radians(90));
