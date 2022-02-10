@@ -22,6 +22,18 @@ function setup(){
 	//debugMode();
 }
 
+//from https://attacomsian.com/blog/javascript-detect-mobile-device
+const deviceType = () => {
+    const ua = navigator.userAgent;
+    if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
+        return "tablet";
+    }
+    else if (/Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(ua)) {
+        return "mobile";
+    }
+    return "desktop";
+};
+
 function windowResized(){
 	resizeCanvas(windowWidth,windowHeight);
 }
@@ -34,7 +46,7 @@ var keyPressed =function(){controlMode===0;keys[keyCode]=true;}
 
 var keyReleased =function(){keys[keyCode]=false;}
 
-function mousePressed(){requestPointerLock();fullscreen(true);}
+function mousePressed(){if(deviceType()==="desktop"){requestPointerLock();fullscreen(true);}}
 
 function draw(){
 
@@ -46,10 +58,10 @@ function draw(){
 	//collision code
 
 	//lower platform
-	if(py>0){py=0;sinceJump=0;jump=0;}
+	if(py>0 && px>-250 && px<250 && pz>-250 && pz<250){py=0;sinceJump=0;jump=0;}
 
 	//upper platform
-	if(py<250 && px>250){py=-250;sinceJump=0;jump=0;}
+	if(py>-250 && px>250 && pz>-250 && pz<250){py=-250;sinceJump=0;jump=0;}
 
 	if(controlMode===0){
 		//camera
@@ -58,12 +70,24 @@ function draw(){
 		pr+=movedX;
 
 		//forward/backward
-		if(keys[87]){px+=5*-sin(radians(-cy));pz+=5*-cos(radians(-cy));pr=-90;}
-		if(keys[83]){px+=5*sin(radians(-cy));pz+=5*cos(radians(-cy));pr=90;}
+		if(keys[87]){px+=5*-sin(radians(-cy));pz+=5*-cos(radians(-cy));}
+		if(keys[83]){px+=5*sin(radians(-cy));pz+=5*cos(radians(-cy));}
 
 		//left/right
-		if(keys[65]){px+=5*cos(radians(cy));pz+=5*sin(radians(cy));pr=180;}
-		if(keys[68]){px+=5*-cos(radians(cy));pz+=5*-sin(radians(cy));pr=0;}
+		if(keys[65]){px+=5*cos(radians(cy));pz+=5*sin(radians(cy));}
+		if(keys[68]){px+=5*-cos(radians(cy));pz+=5*-sin(radians(cy));}
+
+		//rotation
+		if(sinceJump===0){
+			if(keys[87]){pr=-90;}
+			if(keys[83]){pr=90;}
+			if(keys[65]){pr=180;}
+			if(keys[68]){pr=0;}
+			if(keys[87] && keys[65]){pr=270-45;}
+			if(keys[87] && keys[68]){pr=-45;}
+			if(keys[83] && keys[65]){pr=180-45;}
+			if(keys[83] && keys[68]){pr=45;}
+			}
 
 		//jump
 		if(keys[32]){jump=10;}
@@ -112,12 +136,14 @@ function draw(){
 	translate(px,py,pz);
 	rotateY(radians(90));
 	translate(0,125,-250)
+	normalMaterial(0,255,0);
 	plane(500,250);
 	pop();
 
 	push();
 	translate(px-500,py+250,pz);
 	rotateX(radians(90));
+	normalMaterial(0,255,0);
 	plane(500,500);
 	pop();
 
@@ -129,4 +155,8 @@ function draw(){
 	specularMaterial(0,0,255);//teapot material
 	model(teapot);
 	pop();
+
+	fill(255);
+	textSize(25);
+	text(px+",\n"+py+",\n"+pz,0,0);
 }
