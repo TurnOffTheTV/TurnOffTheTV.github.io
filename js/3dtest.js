@@ -85,7 +85,7 @@ function draw(){
 	if(px>100 && px<250 && py>-220 && pz>-250 && pz<250){px=100;}
 
 	//upper platform
-	if(py>-250 && px>250 && pz>-250 && pz<250){py=-250;sinceJump=0;jump=0;}
+	if(py>-250 && px>250 && px<750 && pz>-250 && pz<250){py=-250;sinceJump=0;jump=0;}
 
 	if(controlMode===0){
 		//camera
