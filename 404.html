@@ -15,7 +15,7 @@
 	<p>Page not found. Restarting...</p>
 	<p>Either a link didn't work or this page doesn't exist.</p>
 	<p><a href="https://turnoffthetv.github.io" style="color:lightblue;">Try visiting the homepage</a></p>
-	<p><span style="color:rgb(0,255,0)">user@turnoffthetv.github.io:</span><span style="color:rgb(0,0,255)">~ / </span><span id="user-input"></span><span id="cursor">_</span></p>
+	<p><span style="color:rgb(0,255,0)">user@turnoffthetv.github.io:</span><span style="color:rgb(0,0,255)">~ / </span><span contenteditable="true">error</span><span id="cursor">_</span></p>
 </body>
 <script>
 function getCookie(cname) {
@@ -36,8 +36,6 @@ function getCookie(cname) {
 	var cursor = document.getElementById("cursor");
 	var page = document.getElementById("page");
 	var on = true;
-	var user = document.getElementById("user");
-	var text = [];
 
 	//if(getCookie("useCookies")==="true"){page.innerText=getCookie("lastPage");}
 	page.innerText=window.location.pathname;
@@ -49,9 +47,5 @@ function getCookie(cname) {
 			cursor.innerText=" ";
 			on=true;
 		}
-		user.innerText=text;
 	},500);
-	window.addEventListener("keyup",function(event){
-		text.push(event.key);
-	});
 </script>
