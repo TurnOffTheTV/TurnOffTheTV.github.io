@@ -33,7 +33,7 @@ var init = true;
 var settings;
 var group = 0;
 var slide = 0;
-var button;
+var button = {};
 var scroll = 0;
 var x = 0;
 var y = 0;
@@ -41,10 +41,12 @@ var egroup = 0;
 var eslide = 0;
 var click = false;
 var doubleClick = false;
+var dlpssom;
 
 function preload(){
 	tahoma=loadFont("https://turnoffthetv.github.io/fonts/tahoma.ttf");
 	highway_gothic=loadFont("https://turnoffthetv.github.io/fonts/highway.ttf");
+	dlpssom=loadJSON("examples/Pour Some Sugar On Me (script).json");
 }
 
 function setup(){
@@ -216,10 +218,13 @@ function draw(){
 			presenterButton.mousePressed(openPresenter);
 			presenterButton.size(100);
 			init=false;
-			button = createButton("Create New");
-			button.position(width/2-50,height/2+75);
-			button.mousePressed(function(){scene=3;
+			button.new = createButton("Create New");
+			button.new.position(width/2-50,height/2+75);
+			button.new.mousePressed(function(){scene=3;
 			init=true;});
+			button.example = createButton("Example 1");
+			button.example.position(width/2-50,height*2/3+75);
+			button.example.mousePressed(function(){script=dlpssom;scene=2;init=true;});
 		}
 		if(isDark){fill(255);}else{fill(0);}
 		textSize(25);
