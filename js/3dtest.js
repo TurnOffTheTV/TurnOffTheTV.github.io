@@ -17,6 +17,7 @@ var sfxRandom = 0;
 var keys = [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false];
 var jump = 0;
 var sinceJump = 0;
+var scene = 0;
 
 function preload(){
 	teapot = loadModel("teapot.obj");
@@ -63,7 +64,67 @@ function mousePressed(){if(deviceType()==="desktop"){requestPointerLock();fullsc
 
 function draw(){
 
-	sfxRandom=floor(random(0,2));
+	if(scene===0){
+		background(0);
+		ambientLight(255);
+
+		rotateX(-radians(213.75));
+		rotateY(radians(45));
+
+		pointLight(100, 100, 255, -250+px, -250+py, -250+pz);
+
+		//floor
+		push();
+		translate(px,py-1000,pz);
+		rotateX(radians(90));
+		texture(checker);
+		plane(10000, 10000);
+		pop();
+
+		//walls
+		push();
+		translate(px-5000,py+15000/2-1000,pz);
+		rotateY(radians(90));
+		rotateZ(radians(180));
+		texture(wall);
+		plane(15000, 15000);
+		pop();
+
+		push();
+		translate(px+5000,py+15000/2-1000,pz);
+		rotateY(radians(90));
+		rotateZ(radians(180));
+		texture(wall);
+		plane(15000, 15000);
+		pop();
+
+		push();
+		translate(px,py+15000/2-1000,pz-5000);
+		//rotateY(radians(90));
+		rotateZ(radians(180));
+		texture(wall);
+		plane(15000, 15000);
+		pop();
+
+		push();
+		translate(px,py+15000/2-1000,pz+5000);
+		//rotateY(radians(90));
+		rotateZ(radians(180));
+		texture(wall);
+		plane(15000, 15000);
+		pop();
+
+		//teapot
+		push();
+		scale(75);
+		specularMaterial(0,0,255);//teapot material
+		model(teapot);
+		pop();
+	}
+
+
+
+	if(scene===1){sfxRandom=floor(random(0,2));
 
 	//physics
 	sinceJump+=1;
@@ -227,5 +288,5 @@ function draw(){
 	rotateY(radians(pr));
 	specularMaterial(0,0,255);//teapot material
 	model(teapot);
-	pop();
+	pop();}
 }

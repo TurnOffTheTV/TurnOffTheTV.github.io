@@ -1,14 +1,17 @@
 var params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,
 width=600,height=300,left=100,top=100`;
-var isDark = false;
-var presenter;
+var isDark = true;
+var presenter = {
+	value:0,
+	window:0
+};
 var presenterButton;
 var tahoma;
 var highway_gothic;
 var file;
 var fileSave;
 var script = {
-	name:"",
+	name:false,
 	groups:[
 		{
 			name:"[blank]",
@@ -31,6 +34,13 @@ var settings;
 var group = 0;
 var slide = 0;
 var button;
+var scroll = 0;
+var x = 0;
+var y = 0;
+var egroup = 0;
+var eslide = 0;
+var click = false;
+var doubleClick = false;
 
 function preload(){
 	tahoma=loadFont("https://turnoffthetv.github.io/fonts/tahoma.ttf");
@@ -65,8 +75,8 @@ function windowResized(){
 		button.position(width/2-50,height/2+75);
 	}
 	if(scene===3){
-		file.position(width/2-100,height/2);
-		button.position(width/2-50,height/2+75);
+		file.position(width/2-75,height/2+25);
+		button.position(width/2-20,height/2-25);
 	}
 }
 
@@ -116,17 +126,6 @@ function mouseMoved(){
 	updatePresenter();
 }
 
-function cnew(){
-	scene=3;
-	init=true;
-}
-
-function saveName(){
-	script.name=file.value();
-	scene=2;
-	init=true;
-}
-
 var keyPressed =function(){
 	if(keyCode===32 || keyCode===39){
 		if(slide===script.groups[script.groups.length-1].slides.length-1 && group===script.groups.length-1){}else{
@@ -139,14 +138,19 @@ var keyPressed =function(){
 	}
 }
 
+function mouseWheel(scrollEvent){
+	scroll += scrollEvent.delta;
+}
+
 function viewer(x,y,w,g,s){
 	for(var i = 0;i<script.groups[g].slides[s].elements.length;i++){
 		push();
 		translate(x,y);
-		scale(1920/1920*w);
+		scale(w/1920);
 		fill(script.groups[g].slides[s].background[0],script.groups[g].slides[s].background[1],script.groups[g].slides[s].background[2]);
 		rect(0,0,1920,1080);
 		if(script.groups[g].slides[s].elements[i].type==="textbox"){
+			strokeWeight(script.groups[g].slides[s].elements[i].strokeWeight);
 			stroke(script.groups[g].slides[s].elements[i].stroke[0],script.groups[g].slides[s].elements[i].stroke[1],script.groups[g].slides[s].elements[i].stroke[2],script.groups[g].slides[s].elements[i].stroke[3]);
 			fill(script.groups[g].slides[s].elements[i].fill[0],script.groups[g].slides[s].elements[i].fill[1],script.groups[g].slides[s].elements[i].fill[2]);
 			textAlign(script.groups[g].slides[s].elements[i].align[0],script.groups[g].slides[s].elements[i].align[1]);
@@ -156,28 +160,33 @@ function viewer(x,y,w,g,s){
 		if(script.groups[g].slides[s].elements[i].type==="rect"){
 			stroke(script.groups[g].slides[s].elements[i].stroke[0],script.groups[g].slides[s].elements[i].stroke[1],script.groups[g].slides[s].elements[i].stroke[2],script.groups[g].slides[s].elements[i].stroke[3]);
 			fill(script.groups[g].slides[s].elements[i].fill[0],script.groups[g].slides[s].elements[i].fill[1],script.groups[g].slides[s].elements[i].fill[2],script.groups[g].slides[s].elements[i].fill[3]);
+			rectMode(script.groups[g].slides[s].elements[i].align);
 			rect(script.groups[g].slides[s].elements[i].x,script.groups[g].slides[s].elements[i].y,script.groups[g].slides[s].elements[i].w,script.groups[g].slides[s].elements[i].h);
 		}
 		if(script.groups[g].slides[s].elements[i].type==="ellipse"){
 			stroke(script.groups[g].slides[s].elements[i].stroke[0],script.groups[g].slides[s].elements[i].stroke[1],script.groups[g].slides[s].elements[i].stroke[2],script.groups[g].slides[s].elements[i].stroke[3]);
 			fill(script.groups[g].slides[s].elements[i].fill[0],script.groups[g].slides[s].elements[i].fill[1],script.groups[g].slides[s].elements[i].fill[2],script.groups[g].slides[s].elements[i].fill[3]);
+			ellipseMode(script.groups[g].slides[s].elements[i].align);
 			ellipse(script.groups[g].slides[s].elements[i].x,script.groups[g].slides[s].elements[i].y,script.groups[g].slides[s].elements[i].w,script.groups[g].slides[s].elements[i].h);
 		}
 		pop();
 	}
 }
 
+/*if(fileIn.data.type==="group"){
+	script.groups.push(fileIn.data);
+	console.log("Added group "+fileIn.data.name)
+}*/
+
 function draw(){
+	click=false;
+	doubleClick=false;
+	function mousePressed(){click=true;}
+	function doubleClicked(){doubleClick=true;}
 	cursor(ARROW);
-	if(isDark){
+	if(scroll>0){scroll=0;}
 		background(40,40,50);
 		fill(255);
-		document.body.style="body {margin:0px;border:0px;background:rgb(40,40,50);}";
-	}else{
-		background(195,195,205)
-		fill(0);
-		document.body.style="body {margin:0px;border:0px;background:rgb(195,195,205);}";
-	}
 	//logo
 	if(scene===0){
 		textSize(width/10);
@@ -197,7 +206,10 @@ function draw(){
 	if(scene===1){
 		if(init){
 			titleTimeout=255;
-			file = createFileInput(handleFile);
+			file = createFileInput(function(fileIn){
+	if(scene===1 && fileIn.data.type!=="script" || fileIn.type!=="application"){alert("That is not a script, silly, I've foolproofed this system! Try again with a different .json file.");console.log(fileIn.type);}
+	if(fileIn.data.type==="script"){scene=2;init=true;script=fileIn.data;}
+});
 			file.position(width/2-100,height/2);
 			presenterButton = createButton("Open Presenter");
 			presenterButton.position(width-100, height-40);
@@ -206,7 +218,8 @@ function draw(){
 			init=false;
 			button = createButton("Create New");
 			button.position(width/2-50,height/2+75);
-			button.mousePressed(cnew);
+			button.mousePressed(function(){scene=3;
+			init=true;});
 		}
 		if(isDark){fill(255);}else{fill(0);}
 		textSize(25);
@@ -218,7 +231,7 @@ function draw(){
 		textAlign(CENTER,CENTER);
 		text("Load a script",width/2,height/3);
 		text("or create a new one",width/2,height/2+50);
-		//titlescreen to fade out
+		//fakeish titlescreen to fade out
 		if(isDark){fill(40,40,50,titleTimeout);}else{fill(195,195,205,titleTimeout);}
 		rectMode(CORNER);
 		rect(0,0,width,height);
@@ -235,7 +248,7 @@ function draw(){
 		titleTimeout-=10;
 		text("Now Loading...",width/2,height/2+width/15+30);
 	}
-	//edit
+	//presenting slides view
 	if(scene===2){
 		if(init){
 			removeElements();
@@ -245,17 +258,60 @@ function draw(){
 			presenterButton.size(100);
 			init=false;
 		}
+		y=30;
+		x=10;
+		for(var i = 0;i<script.groups.length;i++){
+			fill(255);
+			textAlign(LEFT,TOP);
+			textSize(25);
+			text(script.groups[i].name,10,scroll+y);
+			y+=45;
+			for(var j = 0;j<script.groups[i].slides.length;j++){
+				if(group===i && slide===j){stroke(0,0,255);}else{noStroke();}
+				strokeWeight(5);
+				rect(x,y+scroll,200,112.5);
+				noStroke();
+				fill(255);
+				textSize(10);
+				text(script.groups[i].slides[j].name,x,y-15+scroll);
+				viewer(x,y+scroll,200,i,j);
+				if(mouseX>x && mouseY>y+scroll && mouseX<x+200 && mouseY<y+112.5+scroll){cursor(HAND);
+					function doubleClicked(){
+						scene=4;
+						egroup=i;
+						eslide=j;
+						alert(i+", "+j);
+					}
+				}
+				x+=210;
+				if(x+200>width-10){
+					x=10;
+					y+=140;
+				}
+			}
+			y+=150;
+			x=10;
+		}
+		fill(0,0,0,50);
+		rect(10,y+scroll,200,112.5);
+		stroke(255);
+		line(110,y+scroll+25,110,y+scroll+112.5-25);
+		line(68.75,y+scroll+112.5/2,146.25,y+scroll+112.5/2);
+		if(mouseX>10 && mouseY>y+scroll && mouseX<210 && mouseY<y+112.5+scroll){}
+		noStroke();
+		fill(40,40,50);
+		rect(0,0,width,30);
+		fill(255);
+		textSize(25);
 		textAlign(LEFT,TOP);
 		textFont(highway_gothic);
 		text("JSON Presentations | Settings",0,0);
 		if(mouseX>textWidth("JSON Presentations | ") && mouseX<textWidth("JSON Presentations | Settings") && mouseY<25){cursor(HAND);}
 		textFont(tahoma);
 		textAlign(CENTER,CENTER);
-		//text(script.name,width/2,height/2);
 		window.onbeforeunload = function() {
-  		return "guess what? this string is useless!";
+  		return "the broken product";
 		}
-		viewer(0,0,0.5,group,slide);
 	}
 
 	//new script name entry
@@ -263,10 +319,12 @@ function draw(){
 		if(init){
 			removeElements();
 			file = createInput("");
-			file.position(width/2,height/2);
+			file.position(width/2-75,height/2+25);
 			button = createButton("OK");
-			button.position(width/2,height/2-50);
-			button.mousePressed(saveName);
+			button.position(width/2-20,height/2-25);
+			button.mousePressed(function(){script.name=file.value();
+			scene=2;
+			init=true;});
 			init=false;
 		}
 		if(isDark){fill(255);}else{fill(0);}
@@ -274,8 +332,34 @@ function draw(){
 		textAlign(LEFT,TOP);
 		textFont(highway_gothic);
 		text("JSON Presentations | Settings",0,0);
-		if(mouseX>textWidth("JSON Presentations | ") && mouseX<textWidth("JSON Presentations | Settings") && mouseY<25){cursor(HAND);}
+		if(mouseX>textWidth("JSON Presentations | ") && mouseX<textWidth("JSON Presentations | Settings") && mouseY<25){cursor(HAND);if(click){openSettings();}}
 		textFont(tahoma);
+		textAlign(CENTER,CENTER);
+		text("Enter a name for this script (you can change it later).",width/2,height/2-50);
 	}
-	isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+	if(scene===4){
+		if(init){
+			removeElements();
+			file = createFileInput(function(fileIn){
+				if(fileIn.data.type==="slide"){
+					script.groups[egroup].slides[eslide]=fileIn.data;
+					scene=2;
+					init=true;
+				}
+				if(fileIn.type==="image"){}
+			});
+			file.position(width/2,height/2);
+			init=false;
+		}
+		if(isDark){fill(255);}else{fill(0);}
+		textSize(25);
+		textAlign(LEFT,TOP);
+		textFont(highway_gothic);
+		text("JSON Presentations | Settings",0,0);
+		if(mouseX>textWidth("JSON Presentations | ") && mouseX<textWidth("JSON Presentations | Settings") && mouseY<25){cursor(HAND);if(click){window.open("127.0.0.1:8887/programs/json-presentations/settings/", params);}}
+	}
+	/*stroke(0);
+	strokeWeight(10);
+	point(width/2,height/2);
+	noStroke();*/
 }
