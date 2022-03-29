@@ -2344,11 +2344,11 @@ function level2(){
 
 //The Atlantis Trench
 function level3(){
-	if(py1>500){sounds.clouds.stop();}
+	sounds.clouds.stop();
   if(init){
     if(music===0){
-		if(py1>500 && music===1){sounds.water.play();
-		sounds.water.loop();}
+		sounds.water.play();
+		sounds.water.loop();
     init=false;
 		coins=[{x:250,y:1250,visible:true,collected:false,type:"blue"},
 		      {x:400,y:1400,visible:true,collected:false,type:"yellow"},
@@ -2381,8 +2381,8 @@ function level3(){
 	platform(200,1000,350);
 	wall(200,900,100);
 	platform(100,900,100);
-
-	wall(150,1100,100);
+  wall(50,700,450);
+	wall(150,1100,200);
 	platform(50,1150,100);
 	platform(150,1200,200);
 	wall(350,1250,50);
