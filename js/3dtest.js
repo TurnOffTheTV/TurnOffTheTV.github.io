@@ -17,7 +17,7 @@ var sfxRandom = 0;
 var keys = [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false];
 var jump = 0;
 var sinceJump = 0;
-var scene = 0;
+var scene = 1;
 
 function preload(){
 	teapot = loadModel("teapot.obj");
