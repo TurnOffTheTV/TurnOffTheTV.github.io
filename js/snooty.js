@@ -52,7 +52,7 @@ r:false,
 u:false,
 d:false
 };
-var onFloor1 = false;
+var onFloor1 = true;
 var onFloor2 = false;
 var onFloor3 = false;
 var onFloor4 = false;
@@ -131,8 +131,8 @@ var score4 = {
 var font;
 var cloudX=0;
 var clouds = [];
-var music = 1;
-var sfx = 1;
+var music = 0;
+var sfx = 0;
 var isDark = false;
 var cursorTimeout = false;
 var maxLevel = 0;
@@ -1233,16 +1233,16 @@ function assets(){
 
 		if(enemies[i].dead===false){
 			if(px1>enemies[i].x+cx-25 && px1<enemies[i].x+cx+25 && py1>enemies[i].y+cy-30 && py1<enemies[i].y+cy+30){scene=-1;}
-			if(px1>enemies[i].x+cx-25 && px1<enemies[i].x+cx+25 && py1>enemies[i].y+cy-40 && py1<enemies[i].y+cy-30){enemies[i].dead=true;enemies[i].killer=1;}
+			if(px1>enemies[i].x+cx-25 && px1<enemies[i].x+cx+25 && py1>enemies[i].y+cy-40 && py1<enemies[i].y+cy-30){enemies[i].dead=true;score1.score+=50;jump1=2.5;fall1=0;onFloor1=false;enemies[i].collected=true;}
 
 			if(px2>enemies[i].x+cx-25 && px2<enemies[i].x+cx+25 && py2>enemies[i].y+cy-30 && py2<enemies[i].y+cy+30 && controlMode2!==-1){px2=px1;py2=py1;fall2=0;jump2=0;onFloor2=false;}
-			if(px2>enemies[i].x+cx-25 && px2<enemies[i].x+cx+25 && py2>enemies[i].y+cy-40 && py2<enemies[i].y+cy-30 && controlMode2!==-1){enemies[i].dead=true;enemies[i].killer=2;}
+			if(px2>enemies[i].x+cx-25 && px2<enemies[i].x+cx+25 && py2>enemies[i].y+cy-40 && py2<enemies[i].y+cy-30 && controlMode2!==-1){enemies[i].dead=true;score2.score+=50;jump2=2.5;fall2=0;onFloor2=false;enemies[i].collected=true;}
 
 			if(px3>enemies[i].x+cx-25 && px3<enemies[i].x+cx+25 && py3>enemies[i].y+cy-30 && py3<enemies[i].y+cy+30 && controlMode2!==-1){px3=px1;py3=py1;fall3=0;jump3=0;onFloor3=false;}
-			if(px3>enemies[i].x+cx-25 && px3<enemies[i].x+cx+25 && py3>enemies[i].y+cy-40 && py3<enemies[i].y+cy-30 && controlMode2!==-1){enemies[i].dead=true;enemies[i].killer=3;}
+			if(px3>enemies[i].x+cx-25 && px3<enemies[i].x+cx+25 && py3>enemies[i].y+cy-40 && py3<enemies[i].y+cy-30 && controlMode2!==-1){enemies[i].dead=true;score3.score+=50;jump3=2.5;fall3=0;onFloor3=false;enemies[i].collected=true;}
 
 			if(px4>enemies[i].x+cx-25 && px4<enemies[i].x+cx+25 && py4>enemies[i].y+cy-30 && py4<enemies[i].y+cy+30 && controlMode2!==-1){px4=px1;py4=py1;fall4=0;jump4=0;onFloor4=false;}
-			if(px4>enemies[i].x+cx-25 && px4<enemies[i].x+cx+25 && py4>enemies[i].y+cy-40 && py4<enemies[i].y+cy-30 && controlMode2!==-1){enemies[i].dead=true;enemies[i].killer=4;}
+			if(px4>enemies[i].x+cx-25 && px4<enemies[i].x+cx+25 && py4>enemies[i].y+cy-40 && py4<enemies[i].y+cy-30 && controlMode2!==-1){enemies[i].dead=true;score4.score+=50;jump4=2.5;fall4=0;onFloor4=false;enemies[i].collected=true;}
 
 			if(getCookie("dev")==="true"){
 				rectMode(CORNERS);
@@ -1256,11 +1256,10 @@ function assets(){
 		}
 
 		if(enemies[i].dead && enemies[i].collected===false){
-			if(enemies[i].killer===1){score1.score+=50;jump1=2.5;fall1=0;onFloor1=false;}
+			if(enemies[i].killer===1){}
 			if(enemies[i].killer===2){score2.score+=50;jump2=2.5;fall2=0;onFloor2=false;}
 			if(enemies[i].killer===3){score3.score+=50;jump3=2.5;fall3=0;onFloor3=false;}
 			if(enemies[i].killer===4){score4.score+=50;jump4=2.5;fall4=0;onFloor4=false;}
-			enemies[i].collected=true;
 		}
 	}
 }
@@ -1475,6 +1474,10 @@ function menu(){
 				onFloor3=false;
 				onFloor4=false;
 				init=true;
+				score1.score=0;
+				score2.score=0;
+				score3.score=0;
+				score4.score=0;
 			}
 	    selectedButton=0;
 	  }
@@ -1992,6 +1995,7 @@ function pause(){
 		}
 		if(mouseX>width/2-50 && mouseX<width/2+50 && mouseY>height*2/3-75/2 && mouseY<height*2/3+75/2){
 			if(mouseIsPressed){
+				selectedButton=0;
 				scene=0;
 				cx=0;
 				cy=0;
@@ -2008,9 +2012,9 @@ function pause(){
 				dir3="right";
 				dir4s="right";
 				paused=false;
-				selectedButton=0;
 			}
 			cursor(HAND);
+			selectedbutton=4;
 		}
 
 	}
@@ -2331,7 +2335,7 @@ function level2(){
 	platform(800,-150,200);
 	wall(800,-150,150);
 	platform(1800,200,150);
-	if(py1>height+100){scene=-1;}
+	if(py1>height+250){scene=-1;}
 	if(isDark){fill(25);} else {fill(50);}
 	rect(cx*1.25-100,800+cy*1.25,700,height);
 	rect(cx*1.25-200,600+cy*1.25*1.25,700,height);
@@ -2346,9 +2350,9 @@ function level3(){
 		if(py1>500 && music===1){sounds.water.play();
 		sounds.water.loop();}
     init=false;
-		coins=[{x:1450,y:800,visible:true,collected:false,type:"blue"},
-		      {x:900,y:-75,visible:true,collected:false,type:"yellow"},
-		      {x:1050,y:800,visible:true,collected:false,type:"yellow"}]
+		coins=[{x:250,y:1250,visible:true,collected:false,type:"blue"},
+		      {x:400,y:1400,visible:true,collected:false,type:"yellow"},
+		      {x:1000,y:750,visible:true,collected:false,type:"yellow"}]
 				}
   }
   if(maxLevel<4){maxLevel=4;}
@@ -2362,13 +2366,39 @@ function level3(){
 		style.innerHTML="body {margin:0px;border:0px;background:rgb(0,0,0);}";
 	}
 	assets();
+	rectMode(CORNER);
+	door(75,1420);
   if(paused===false){controlinator(0);controlinator(1);controlinator(2);controlinator(3);}
 	drawSnooty(0);
 	if(controlMode2!==-1){drawSnooty(1);}
 	if(controlMode3!==-1){drawSnooty(2);}
 	if(controlMode4!==-1){drawSnooty(3);}
-	//platform();
-	water(-1000,500,2000,1000);
+	platform(500,750,100);
+	wall(500,450,300);
+	platform(600,800,200);
+	platform(900,800,200);
+	platform(400,875,150);
+	platform(200,1000,350);
+	wall(200,900,100);
+	platform(100,900,100);
+
+	wall(150,1100,100);
+	platform(50,1150,100);
+	platform(150,1200,200);
+	wall(350,1250,50);
+	platform(350,1250,100);
+	wall(450,1200,50);
+	platform(450,1200,150);
+	platform(150,1300,200);
+	platform(600,1300,200);
+	platform(600,1400,200);
+	platform(600,1500,200);
+	platform(300,1500,200);
+	platform(0,1500,200);
+	fill(0,0,255,128);
+	rectMode(CORNERS);
+	rect(0,500+cy,width,height);
+	if(py1>height+200){scene=-1;}
 }
 
 //The Volcano Caves
@@ -2470,9 +2500,9 @@ function debug(){
   text("level="+level+", scene="+scene,100,100);
   text("mouseX="+mouseX+", mouseY="+mouseY,100,120);
   text("px1="+px1+", py1="+py1,100,140);
-  text("controlMode1="+controlMode1,100,160);
-  text("width="+width+"height="+height,100,180);
-  text("soundRand="+soundRand,100,200);
+	text("px2="+px2+", py2="+py2,100,160);
+	text("px3="+px3+", py3="+py3,100,180);
+	text("px4="+px4+", py4="+py4,100,200);
 }
 
 function draw(){
@@ -2545,10 +2575,10 @@ function draw(){
 	if(music<0){music=1;}
 	if(sfx>1){sfx=0;}
 	if(sfx<0){sfx=1;}
-	if(getCookie("useCookies")==="true"){
+	/*if(getCookie("useCookies")==="true"){
 		storeItem("music",music);
 		storeItem("sfx",sfx);
-	}
+	}*/
 	isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 	if(month()===10&&day()===31){isDark=true;}
 	if(getCookie("dev")==="true"){debug();stroke(255,0,0);strokeWeight(5);point(px1,py1);point(px2,py2);point(px3,py3);point(px4,py4);noStroke();strokeWeight(2);}
