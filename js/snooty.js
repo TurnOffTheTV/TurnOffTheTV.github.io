@@ -2351,7 +2351,7 @@ function level3(){
 		sounds.water.loop();
     init=false;
 		coins=[{x:250,y:1250,visible:true,collected:false,type:"blue"},
-		      {x:400,y:1400,visible:true,collected:false,type:"yellow"},
+		      {x:400,y:1550,visible:true,collected:false,type:"yellow"},
 		      {x:1000,y:750,visible:true,collected:false,type:"yellow"}]
 				}
   }
@@ -2393,7 +2393,9 @@ function level3(){
 	platform(600,1300,200);
 	platform(600,1400,200);
 	platform(600,1500,200);
+	platform(600,1600,200);
 	platform(300,1500,200);
+	platform(300,1600,200);
 	platform(0,1500,200);
 	fill(0,0,255,128);
 	rectMode(CORNERS);
