@@ -76,7 +76,7 @@ var blink1 = 0;
 var blink2 = 0;
 var blink3 = 0;
 var blink4 = 0;
-var scene = 0;
+var scene = 4;
 var jumpRand1 = 0;
 var jumpRand2 = 0;
 var jumpRand3 = 0;
@@ -2096,8 +2096,8 @@ function level0(){
 			{x:1050,y:450,visible:true,collected:false,type:"blue"}
 		]
 		enemies=[
-			{type:"right",x:200,y:125,onFloor:false,fall:0,dead:false,rot:0,collected:false,killer:0},
-			{type:"patrol",x:400,y:400,onFloor:false,fall:0,dir:0,dead:false,trigger:{left:300,right:495},rot:0,collected:false,killer:0}
+			{type:"right",x:200,y:125,onFloor:false,fall:0,dead:false,rot:0,collected:false},
+			{type:"patrol",x:400,y:400,onFloor:false,fall:0,dir:0,dead:false,trigger:{left:300,right:495},rot:0,collected:false}
 		];
   }
   rectMode(CORNER);
@@ -2176,7 +2176,8 @@ function level1(){
 		       {x:-600,y:0,visible:true,collected:false,type:"blue"}
 		]
 		enemies=[
-			{type:"patrol",x:-300,y:1000,onFloor:false,fall:0,dir:0,dead:false,trigger:{left:-400,right:-200},rot:0,collected:false,killer:0}
+			{type:"patrol",x:-300,y:1000,onFloor:false,fall:0,dir:0,dead:false,trigger:{left:-400,right:-200},rot:0,collected:false},
+			{type:"patrol",x:-800,y:2000,onFloor:false,fall:0,dir:0,dead:false,trigger:{left:-900,right:-700},rot:0,collected:false}
 		];
   }
   if(maxLevel<2){maxLevel=2;}
@@ -2224,7 +2225,7 @@ function level1(){
   platform(900,600,600);
 	platform(-200,900,200);
 	wall(-100,900,900)
-	platform(-400,1100,200);//frowns partrol
+	platform(-400,1100,200);//frowns partrol 0
 	platform(-500,1300,400);
 	platform(-700,1300,400);
 	spikes(-100,1800,2500);
@@ -2247,7 +2248,7 @@ function level1(){
 	spikes(-1400,2002,500);
 	platform(-1300,1900,200);
 	platform(-1100,1950,200);
-	platform(-900,2100,200);
+	platform(-900,2100,200);//frowns patrol 1
 	platform(-700,2300,200);
   if(py1<0){
       fill(0,0,0,(py1-py1*2)*2);
@@ -2267,7 +2268,10 @@ function level2(){
 		coins=[{x:1450,y:800,visible:true,collected:false,type:"blue"},
 		      {x:900,y:-75,visible:true,collected:false,type:"yellow"},
 		      {x:1875,y:150,visible:true,collected:false,type:"yellow"}]
-		//enemies=[{type:"right",x:10,y:0,onFloor:false,fall:0,dir:0,dead:false}]
+		enemies=[
+			{type:"patrol",x:800,y:-200,onFloor:false,fall:0,dir:0,dead:false,trigger:{left:800,right:1000},rot:0,collected:false},
+			{type:"patrol",x:1800,y:500,onFloor:false,fall:0,dir:0,dead:false,trigger:{left:1800,right:1950},rot:0,collected:false}
+		];
 		clouds.push({x:random(0,width),y:random(0,400),layer:random(0,3)});
 		clouds.push({x:random(0,width),y:random(0,400),layer:random(0,3)});
 		clouds.push({x:random(0,width),y:random(0,400),layer:random(0,3)});
@@ -2325,14 +2329,14 @@ function level2(){
 	platform(1400,700,250);
 	platform(1400,850,230);
 	platform(1650,600,150);
-	platform(1800,500,150);
+	platform(1800,500,150);//frown patrol 0
 	platform(1650,350,150);
 	wall(1650,300,200);
 	platform(1450,200,150);
 	platform(1200,100,150);
 	platform(1050,0,150);
 	platform(800,0,200);
-	platform(800,-150,200);
+	platform(800,-150,200);//frown patrol 1
 	wall(800,-150,150);
 	platform(1800,200,150);
 	if(py1>height+250){scene=-1;}
@@ -2353,7 +2357,11 @@ function level3(){
 		coins=[{x:250,y:1250,visible:true,collected:false,type:"blue"},
 		      {x:400,y:1550,visible:true,collected:false,type:"yellow"},
 		      {x:1000,y:750,visible:true,collected:false,type:"yellow"}]
-				}
+		}
+		enemies=[
+			{type:"patrol",x:700,y:1350,onFloor:false,fall:0,dir:0,dead:false,trigger:{left:600,right:800},rot:0,collected:false},
+			{type:"patrol",x:375,y:900,onFloor:false,fall:0,dir:0,dead:false,trigger:{left:225,right:550},rot:0,collected:false}
+		]
   }
   if(maxLevel<4){maxLevel=4;}
 	level=4;
@@ -2365,6 +2373,18 @@ function level3(){
 		background(0,0,139);
 		style.innerHTML="body {margin:0px;border:0px;background:rgb(0,0,0);}";
 	}
+
+	if(isDark){fill(0,0,50);} else {fill(0,0,100);}
+  rect(1000+cx/3,1300+(cy/3),300+(cx/3),height);
+  rect(1600+(cx/3),1200+(cy/3),400+(cx/3),height);
+	rect(1600+(cx/3),1200+(cy/3),400+(cx/3),height);
+	rect(900+(cx/3),1600+(cy/3),(cx/3),height);
+	rect(500+(cx/3),500+(cy/3),300+(cx/3),height);
+
+  if(isDark){fill(0,0,35)} else {fill(0,0,70);}
+  rect(1000+cx/2-300,1000+(cy/2),300+(cx/2),height);
+  rect(1000+cx/2,900+(cy/2),350+(cx/2),height);
+
 	assets();
 	rectMode(CORNER);
 	door(75,1420);
@@ -2378,7 +2398,7 @@ function level3(){
 	platform(600,800,200);
 	platform(900,800,200);
 	platform(400,875,150);
-	platform(200,1000,350);
+	platform(200,1000,350);//frown patrol 0
 	wall(200,900,100);
 	platform(100,900,100);
   wall(50,700,450);
@@ -2391,7 +2411,7 @@ function level3(){
 	platform(450,1200,150);
 	platform(150,1300,200);
 	platform(600,1300,200);
-	platform(600,1400,200);
+	platform(600,1400,200);//frown patrol 1
 	platform(600,1500,200);
 	platform(600,1600,200);
 	platform(300,1500,200);
@@ -2549,6 +2569,7 @@ function draw(){
   if(scene===2){level1();}
 	if(scene===3){level2();}
 	if(scene===4){level3();}
+	if(scene===5){level4();}
   if(paused){pause();}
 	if(scene>0.5){
 		score1.size=textWidth(score1.score)+5;
