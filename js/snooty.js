@@ -76,7 +76,7 @@ var blink1 = 0;
 var blink2 = 0;
 var blink3 = 0;
 var blink4 = 0;
-var scene = 4;
+var scene = 0;
 var jumpRand1 = 0;
 var jumpRand2 = 0;
 var jumpRand3 = 0;
@@ -149,6 +149,7 @@ function preload(){
     cave:loadSound("https://turnoffthetv.github.io/audio/ssatf-cave.mp3"),
 		clouds:loadSound("https://turnoffthetv.github.io/audio/ssatf-clouds.mp3"),
 		water:loadSound("https://turnoffthetv.github.io/audio/ssatf-ocean.mp3"),
+		//lava:loadSound("https://turnoffthetv.github.io/audio/ssatf-lava.mp3"),
 		boss:loadSound("https://turnoffthetv.github.io/audio/ssatf-boss.mp3"),
 		space:loadSound("https://turnoffthetv.github.io/audio/ssatf-space.mp3"),
 		kill:{
@@ -234,7 +235,7 @@ function hitbox(x,y,w,h){
 	if(px2>x+cx && px2<x+w+cx && py2>y+cy && py2<y+h+cy){returnValue.p2=true;}
 	if(px3>x+cx && px3<x+w+cx && py3>y+cy && py3<y+h+cy){returnValue.p3=true;}
 	if(px4>x+cx && px4<x+w+cx && py4>y+cy && py4<y+h+cy){returnValue.p4=true;}
-	return(returnValue);
+	return returnValue;
 }
 
 function drawSnooty(player){
@@ -255,9 +256,9 @@ function drawSnooty(player){
     translate(px1,py1);
     rotate(radians(rot1));
     scale(2);
-    triangle(0,-40,-10,10,10,10);
-    triangle(-10,9,-5,20,0,10);
-    triangle(0,9,5,20,10,10);
+    triangle(0,-39,-10,10,10,10);
+    triangle(-10,10,-5,20,0,10);
+    triangle(0,10,5,20,10,10);
     stroke(0);
     strokeWeight(2);
     line(rot1/30,-3,rot1/12,-5);
@@ -313,6 +314,7 @@ function drawSnooty(player){
     //leg
     push();
     stroke(0);
+		strokeWeight(3);
     translate(px2-rot2/12,py2);
     rotate(radians(legRot2-legRot2*2));
     line(0,0,0,35);
@@ -353,6 +355,7 @@ function drawSnooty(player){
     //leg
     push();
     stroke(0);
+		strokeWeight(3);
     translate(px3-rot3/12,py3);
     rotate(radians(legRot3-legRot3*2));
     line(0,0,0,35);
@@ -393,6 +396,7 @@ function drawSnooty(player){
     //leg
     push();
     stroke(0);
+		strokeWeight(3);
     translate(px4-rot4/12,py4);
     rotate(radians(legRot4-legRot4*2));
     line(0,0,0,35);
@@ -533,7 +537,6 @@ function controlinator(player){
   if(onFloor1 && keyp1.u===false){fall1=0;jump1=0;}
 
   if(onFloor1===false && inWater1===false){fall1+=0.1}
-	if(onFloor1===false && inWater1){fall1+=0.02;if(fall1>0.5){fall1=0.5;}}
 
   py1+=fall1;
   py1-=jump1;
@@ -1069,6 +1072,8 @@ function water(x,y,w,h){
 }
 
 function door(x,y){
+	noStroke();
+	rectMode(CORNER);
 	fill(255);
 	rect(x+cx-5,y+cy-5,70,85);
 	fill(99, 36, 36);
@@ -2371,7 +2376,7 @@ function level3(){
 		background(0,0,75);
 	} else{
 		background(0,0,139);
-		style.innerHTML="body {margin:0px;border:0px;background:rgb(0,0,0);}";
+		style.innerHTML="body {margin:0px;border:0px;background:rgb(0,0,139);}";
 	}
 
 	if(isDark){fill(0,0,50);} else {fill(0,0,100);}
@@ -2428,35 +2433,58 @@ function level4(){
 	sounds.water.stop();
   if(init){
     if(music===0){
-		/*sounds.lava.play();
-		sounds.lava.loop();*/}
+		//sounds.lava.play();
+	/*sounds.lava.loop();*/}
     init=false;
-		coins=[{x:1450,y:800,visible:true,collected:false,type:"blue"},
-		      {x:1250,y:800,visible:true,collected:false,type:"yellow"},
-		      {x:1050,y:800,visible:true,collected:false,type:"yellow"}]
+		coins=[{x:650,y:800,visible:true,collected:false,type:"yellow"},
+		      {x:1050,y:1450,visible:true,collected:false,type:"blue"},
+		      {x:100,y:0,visible:true,collected:false,type:"yellow"}]
+
+		enemies=[
+			{type:"patrol",x:75,y:125,onFloor:false,fall:0,dir:0,dead:false,trigger:{left:25,right:175},rot:0,collected:false},
+			{type:"patrol",x:1400,y:1400,onFloor:false,fall:0,dir:0,dead:false,trigger:{left:1250,right:1650},rot:0,collected:false}
+		]
   }
   if(maxLevel<5){maxLevel=5;}
 	level=5;
 	if(music===1){sounds.clouds.stop();}
 	if(isDark){
-		style.innerHTML="body {margin:0px;border:0px;background:rgb(75,0,0);}";
+		style.innerHTML="body {margin:0px;border:0px;background:rgb(0,0,75);}";
 		background(75,0,0);
 	} else{
 		background(139,0,0);
-		style.innerHTML="body {margin:0px;border:0px;background:rgb(139,0,0);}";
+		style.innerHTML="body {margin:0px;border:0px;background:rgb(0,0,139);}";
 	}
 	assets();
+	door(1000,1620);
   if(paused===false){controlinator(0);controlinator(1);controlinator(2);controlinator(3);}
 	drawSnooty(0);
 	if(controlMode2!==-1){drawSnooty(1);}
 	if(controlMode3!==-1){drawSnooty(2);}
 	if(controlMode4!==-1){drawSnooty(3);}
-	background(0);
+	platform(50,50,100);
+	platform(25,150,150);
+	platform(50,250,100);
+	platform(150,350,100);
+	platform(250,450,100);
+	platform(350,550,100);
+	platform(450,650,100);
+	platform(550,750,200);
+	platform(450,850,300);
+	platform(450,950,400);
+	wall(750,500,350);
+	wall(850,950,200);
+	wall(950,500,650);
+	platform(850,1300,400);
+	platform(1250,1400,400);
+	platform(850,1500,400);
+	platform(850,1700,800);
+	if(py1>height+200){scene=-1;}
 }
 
 //Boss
 function level5(){
-	sounds.lava.stop();
+	//sounds.lava.stop();
   if(init){
     if(music===0){
 		sounds.boss.play();
@@ -2467,13 +2495,12 @@ function level5(){
 		      {x:1050,y:800,visible:true,collected:false,type:"yellow"}]
   }
   level=6;
-	if(music===1){sounds.clouds.stop();}
 	if(isDark){
-		style.innerHTML="body {margin:0px;border:0px;background:rgb(75,0,0);}";
+		style.innerHTML="body {margin:0px;border:0px;background:rgb(0,0,75);}";
 		background(75,0,0);
 	} else{
 		background(139,0,0);
-		style.innerHTML="body {margin:0px;border:0px;background:rgb(139,0,0);}";
+		style.innerHTML="body {margin:0px;border:0px;background:rgb(0,0,139);}";
 	}
 	assets();
   if(paused===false){controlinator(0);controlinator(1);controlinator(2);controlinator(3);}
@@ -2481,9 +2508,10 @@ function level5(){
 	if(controlMode2!==-1){drawSnooty(1);}
 	if(controlMode3!==-1){drawSnooty(2);}
 	if(controlMode4!==-1){drawSnooty(3);}
+	background(0);
 }
 
-//About Space
+//About Space (Secret)
 function level6(){
   if(init){
     if(music===0){
@@ -2570,6 +2598,7 @@ function draw(){
 	if(scene===3){level2();}
 	if(scene===4){level3();}
 	if(scene===5){level4();}
+	if(scene===6){level5();}
   if(paused){pause();}
 	if(scene>0.5){
 		score1.size=textWidth(score1.score)+5;
