@@ -149,7 +149,7 @@ function preload(){
     cave:loadSound("https://turnoffthetv.github.io/audio/ssatf-cave.mp3"),
 		clouds:loadSound("https://turnoffthetv.github.io/audio/ssatf-clouds.mp3"),
 		water:loadSound("https://turnoffthetv.github.io/audio/ssatf-ocean.mp3"),
-		//lava:loadSound("https://turnoffthetv.github.io/audio/ssatf-lava.mp3"),
+		lava:loadSound("https://turnoffthetv.github.io/audio/ssatf-lava.mp3"),
 		boss:loadSound("https://turnoffthetv.github.io/audio/ssatf-boss.mp3"),
 		space:loadSound("https://turnoffthetv.github.io/audio/ssatf-space.mp3"),
 		kill:{
@@ -2111,7 +2111,7 @@ function level0(){
 	if(music===1){sounds.overworld.stop();}
 	if(isDark){
 		style.innerHTML="body {margin:0px;border:0px;background:rgb(0,0,139);}";
-		image(images.stars,cx/6,0,width*3,height*3)
+		image(images.stars,cx/6,0,width*3,height*3);
 	} else{
 		background(0, 219, 255);
 		style.innerHTML="body {margin:0px;border:0px;background:rgb(0,219,255);}";
@@ -2121,7 +2121,7 @@ function level0(){
   rect((cx/3)-75,(cy/3)+300,600,height);
   rect((cx/3)+500,(cy/3)+400,600,height);
   rect((cx/3)+1000,(cy/3)+300,800,height);
-    rect((cx/3)+1500,(cy/3)+250,600,height);
+  rect((cx/3)+1500,(cy/3)+250,600,height);
   if(isDark){fill(0, 130, 0);} else {fill(0, 230, 0);}
   rect((cx/2)-100,(cy/2)+400,600,height);
   rect((cx/2)+500,(cy/2)+500,600,height);
@@ -2433,8 +2433,7 @@ function level4(){
 	sounds.water.stop();
   if(init){
     if(music===0){
-		//sounds.lava.play();
-	/*sounds.lava.loop();*/}
+		sounds.lava.play();}
     init=false;
 		coins=[{x:650,y:800,visible:true,collected:false,type:"yellow"},
 		      {x:1050,y:1450,visible:true,collected:false,type:"blue"},
