@@ -1224,7 +1224,7 @@ function assets(){
 			point(-25/3,-25*1.25+25);
 			point(25/3,-25*1.25+25);
 			pop();
-			if(paused===false){if(enemies[i].onFloor===false && enemies[i].inWater===false){enemies[i].fall+=0.1;}else{enemies[i].fall+=0.01}
+			if(paused===false){if(enemies[i].onFloor===false){enemies[i].fall+=0.1;}
 				if(enemies[i].onFloor){enemies[i].fall=0;}
 				enemies[i].y+=enemies[i].fall;
 				if(enemies[i].dir===0){enemies[i].x+=1.5;}
@@ -1258,13 +1258,6 @@ function assets(){
 				fill(0,0,255,128);
 				rect(enemies[i].x+cx-25,enemies[i].y+cy-40,enemies[i].x+cx+25,enemies[i].y+cy-30);
 			}
-		}
-
-		if(enemies[i].dead && enemies[i].collected===false){
-			if(enemies[i].killer===1){}
-			if(enemies[i].killer===2){score2.score+=50;jump2=2.5;fall2=0;onFloor2=false;}
-			if(enemies[i].killer===3){score3.score+=50;jump3=2.5;fall3=0;onFloor3=false;}
-			if(enemies[i].killer===4){score4.score+=50;jump4=2.5;fall4=0;onFloor4=false;}
 		}
 	}
 }
@@ -2382,7 +2375,6 @@ function level3(){
 	if(isDark){fill(0,0,50);} else {fill(0,0,100);}
   rect(1000+cx/3,1300+(cy/3),300+(cx/3),height);
   rect(1600+(cx/3),1200+(cy/3),400+(cx/3),height);
-	rect(1600+(cx/3),1200+(cy/3),400+(cx/3),height);
 	rect(900+(cx/3),1600+(cy/3),(cx/3),height);
 	rect(500+(cx/3),500+(cy/3),300+(cx/3),height);
 
