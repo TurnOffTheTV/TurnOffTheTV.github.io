@@ -143,45 +143,45 @@ var inWater4 = false;
 
 function preload(){
   sounds = {
-		level:loadSound("https://turnoffthetv.github.io/audio/ssatf-overworld.mp3"),
-    menu:loadSound("https://turnoffthetv.github.io/audio/ssatf-menu.mp3"),
-    overworld:loadSound("https://turnoffthetv.github.io/audio/ssatf-overworld.mp3"),
-    cave:loadSound("https://turnoffthetv.github.io/audio/ssatf-cave.mp3"),
-		clouds:loadSound("https://turnoffthetv.github.io/audio/ssatf-clouds.mp3"),
-		water:loadSound("https://turnoffthetv.github.io/audio/ssatf-ocean.mp3"),
-		lava:loadSound("https://turnoffthetv.github.io/audio/ssatf-lava.mp3"),
-		boss:loadSound("https://turnoffthetv.github.io/audio/ssatf-boss.mp3"),
-		space:loadSound("https://turnoffthetv.github.io/audio/ssatf-space.mp3"),
+		level:new Howl({src:["https://turnoffthetv.github.io/audio/ssatf-overworld.mp3"],loop:true}),
+    menu:new Howl({src:["https://turnoffthetv.github.io/audio/ssatf-menu.mp3"],loop:true}),
+    overworld:new Howl({src:["https://turnoffthetv.github.io/audio/ssatf-overworld.mp3"],loop:true}),
+    cave:new Howl({src:["https://turnoffthetv.github.io/audio/ssatf-cave.mp3"],loop:true}),
+		clouds:new Howl({src:["https://turnoffthetv.github.io/audio/ssatf-clouds.mp3"],loop:true}),
+		water:new Howl({src:["https://turnoffthetv.github.io/audio/ssatf-ocean.mp3"],loop:true}),
+		lava:new Howl({src:["https://turnoffthetv.github.io/audio/ssatf-lava.mp3"],loop:true}),
+		boss:new Howl({src:["https://turnoffthetv.github.io/audio/ssatf-boss.mp3"],loop:true}),
+		space:new Howl({src:["https://turnoffthetv.github.io/audio/ssatf-space.mp3"],loop:true}),
 		kill:{
-			spike0:loadSound("https://turnoffthetv.github.io/audio/SSatF/spike-0.mp3"),
-			spike1:loadSound("https://turnoffthetv.github.io/audio/SSatF/spike-1.mp3"),
-			spike2:loadSound("https://turnoffthetv.github.io/audio/SSatF/spike-2.mp3")
+			spike0:new Howl({src:["https://turnoffthetv.github.io/audio/SSatF/spike-0.mp3"]}),
+			spike1:new Howl({src:["https://turnoffthetv.github.io/audio/SSatF/spike-1.mp3"]}),
+			spike2:new Howl({src:["https://turnoffthetv.github.io/audio/SSatF/spike-2.mp3"]})
 		},
 		fall:{
-			cave0:loadSound("https://turnoffthetv.github.io/audio/SSatF/cave-fall-0.mp3"),
-			cave1:loadSound("https://turnoffthetv.github.io/audio/SSatF/cave-fall-1.mp3"),
-			cave2:loadSound("https://turnoffthetv.github.io/audio/SSatF/cave-fall-2.mp3"),
-			grass0:loadSound("https://turnoffthetv.github.io/audio/SSatF/grass-fall-1.mp3"),
-			grass1:loadSound("https://turnoffthetv.github.io/audio/SSatF/grass-fall-1.mp3"),
-			grass2:loadSound("https://turnoffthetv.github.io/audio/SSatF/grass-fall-2.mp3"),
-			cloud0:loadSound("https://turnoffthetv.github.io/audio/SSatF/cloud-fall-0.mp3"),
-			cloud1:loadSound("https://turnoffthetv.github.io/audio/SSatF/cloud-fall-1.mp3"),
-			cloud2:loadSound("https://turnoffthetv.github.io/audio/SSatF/cloud-fall-2.mp3")
+			cave0:new Howl({src:["https://turnoffthetv.github.io/audio/SSatF/cave-fall-0.mp3"]}),
+			cave1:new Howl({src:["https://turnoffthetv.github.io/audio/SSatF/cave-fall-1.mp3"]}),
+			cave2:new Howl({src:["https://turnoffthetv.github.io/audio/SSatF/cave-fall-2.mp3"]}),
+			grass0:new Howl({src:["https://turnoffthetv.github.io/audio/SSatF/grass-fall-1.mp3"]}),
+			grass1:new Howl({src:["https://turnoffthetv.github.io/audio/SSatF/grass-fall-1.mp3"]}),
+			grass2:new Howl({src:["https://turnoffthetv.github.io/audio/SSatF/grass-fall-2.mp3"]}),
+			cloud0:new Howl({src:["https://turnoffthetv.github.io/audio/SSatF/cloud-fall-0.mp3"]}),
+			cloud1:new Howl({src:["https://turnoffthetv.github.io/audio/SSatF/cave-fall-1.mp3"]}),
+			cloud2:new Howl({src:["https://turnoffthetv.github.io/audio/SSatF/cave-fall-2.mp3"]})
 		},
 		footstep:{
-			cave0:loadSound("https://turnoffthetv.github.io/audio/SSatF/cave-footstep-0.mp3"),
-			cave1:loadSound("https://turnoffthetv.github.io/audio/SSatF/cave-footstep-1.mp3"),
-			cave2:loadSound("https://turnoffthetv.github.io/audio/SSatF/cave-footstep-2.mp3"),
-			grass0:loadSound("https://turnoffthetv.github.io/audio/SSatF/grass-footstep-0.mp3"),
-			grass1:loadSound("https://turnoffthetv.github.io/audio/SSatF/grass-footstep-1.mp3"),
-			grass2:loadSound("https://turnoffthetv.github.io/audio/SSatF/grass-footstep-2.mp3"),
-			cloud0:loadSound("https://turnoffthetv.github.io/audio/SSatF/cloud-footstep-0.mp3"),
-			cloud1:loadSound("https://turnoffthetv.github.io/audio/SSatF/cloud-footstep-1.mp3"),
-			cloud2:loadSound("https://turnoffthetv.github.io/audio/SSatF/cloud-footstep-2.mp3")
+			cave0:new Howl({src:["https://turnoffthetv.github.io/audio/SSatF/cave-footstep-0.mp3"]}),
+			cave1:new Howl({src:["https://turnoffthetv.github.io/audio/SSatF/cave-footstep-1.mp3"]}),
+			cave2:new Howl({src:["https://turnoffthetv.github.io/audio/SSatF/cave-footstep-2.mp3"]}),
+			grass0:new Howl({src:["https://turnoffthetv.github.io/audio/SSatF/grass-footstep-1.mp3"]}),
+			grass1:new Howl({src:["https://turnoffthetv.github.io/audio/SSatF/grass-footstep-1.mp3"]}),
+			grass2:new Howl({src:["https://turnoffthetv.github.io/audio/SSatF/grass-footstep-2.mp3"]}),
+			cloud0:new Howl({src:["https://turnoffthetv.github.io/audio/SSatF/cloud-footstep-0.mp3"]}),
+			cloud1:new Howl({src:["https://turnoffthetv.github.io/audio/SSatF/cave-footstep-1.mp3"]}),
+			cloud2:new Howl({src:["https://turnoffthetv.github.io/audio/SSatF/cave-footstep-2.mp3"]})
 		},
-		thud:loadSound("https://turnoffthetv.github.io/audio/SSatF/thud.mp3"),
-		blue:loadSound("https://turnoffthetv.github.io/audio/Crystal-sounds/General Sounds/Coins/sfx_coin_cluster1.wav"),
-		yellow:loadSound("https://turnoffthetv.github.io/audio/Crystal-sounds/General Sounds/Coins/sfx_coin_double1.wav")
+		thud:new Howl({src:["https://turnoffthetv.github.io/audio/SSatF/thud.mp3"]}),
+		blue:new Howl({src:["https://turnoffthetv.github.io/audio/Crystal-sounds/General Sounds/Coins/sfx_coin_cluster1.wav"]}),
+		yellow:new Howl({src:["https://turnoffthetv.github.io/audio/Crystal-sounds/General Sounds/Coins/sfx_coin_double1.wav"]})
   };
 
   images = {
@@ -1264,8 +1264,7 @@ function assets(){
 
 function menu(){
   if(init){
-    if(music===0){sounds.menu.play();
-    sounds.menu.loop();}
+    if(music===0){sounds.menu.play();}
     init=false;
 		px1=83;
 		py1=91;
@@ -2086,7 +2085,6 @@ function level0(){
   if(init){
     if(music===0){
 			sounds.overworld.play();
-	    sounds.overworld.loop();
 		}
     init=false;
 		coins=[{x:100,y:350,visible:true,collected:false,type:"yellow"},
@@ -2166,7 +2164,6 @@ function level1(){
     sounds.overworld.stop();
     if(music===0){
 			sounds.cave.play();
-    	sounds.cave.loop();
 	}
     init=false;
 		coins=[{x:-295,y:1250,visible:true,collected:false,type:"yellow"},
@@ -2259,9 +2256,7 @@ function level1(){
 function level2(){
 	sounds.cave.stop();
   if(init){
-    if(music===0){
-		sounds.clouds.play();
-		sounds.clouds.loop();}
+    if(music===0){sounds.clouds.play();}
     init=false;
 		coins=[{x:1450,y:800,visible:true,collected:false,type:"blue"},
 		      {x:900,y:-75,visible:true,collected:false,type:"yellow"},
@@ -2349,8 +2344,7 @@ function level3(){
 	sounds.clouds.stop();
   if(init){
     if(music===0){
-		sounds.water.play();
-		sounds.water.loop();
+		sounds.water.play();}
     init=false;
 		coins=[{x:250,y:1250,visible:true,collected:false,type:"blue"},
 		      {x:400,y:1550,visible:true,collected:false,type:"yellow"},
@@ -2478,8 +2472,7 @@ function level5(){
 	//sounds.lava.stop();
   if(init){
     if(music===0){
-		sounds.boss.play();
-		sounds.boss.loop();}
+		sounds.boss.play();}
     init=false;
 		coins=[{x:1450,y:800,visible:true,collected:false,type:"blue"},
 		      {x:1250,y:800,visible:true,collected:false,type:"yellow"},
@@ -2505,9 +2498,7 @@ function level5(){
 //About Space (Secret)
 function level6(){
   if(init){
-    if(music===0){
-		sounds.space.play();
-		sounds.space.loop();}
+    if(music===0){sounds.space.play();}
     init=false;
 		coins=[{x:1450,y:800,visible:true,collected:false,type:"blue"},
 		      {x:1250,y:800,visible:true,collected:false,type:"yellow"},
