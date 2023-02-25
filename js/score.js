@@ -16,26 +16,17 @@ var displayTimeout = 0;
 var display = true;
 
 function preload(){
-	check=loadImage("../../../images/check.png");
-	cross=loadImage("../../../images/cross.png");
-	correct = new Howl({src:["../../../audio/correct.mp3"]});
-	incorrect = new Howl({src:["../../../audio/incorrect.mp3"]});
+	check=loadImage("https://turnoffthetv.github.io/images/check.png");
+	cross=loadImage("https://turnoffthetv.github.io/images/cross.png");
+	correct = new Howl({src:["https://turnoffthetv.github.io/audio/correct.mp3"]});
+	incorrect = new Howl({src:["https://turnoffthetv.github.io/audio/incorrect.mp3"]});
 }
 
 function setup(){
 	createCanvas(windowWidth,windowHeight);
-}
-
-function windowResized(){
-	resizeCanvas(windowWidth,windowHeight);
-}
-
-mousePressed =function(){
-	fullscreen(!fullscreen());
-};
-
-function draw(){
-	if(fullscreen()){cursor("none");}else{cursor();}
+	rectMode(CORNER);
+	textAlign(CENTER,CENTER);
+	imageMode(CENTER);
 	channel.onmessage = function(event){
 		if(event.data.left!==undefined){
 			score=event.data;
@@ -49,10 +40,22 @@ function draw(){
 			incorrect.play();
 		}else{
 			console.log(event.data);
-			//bg=createVideo(event.data,function(){bg.loop();bg.hide();bg.volume(0);bgNow="video";})
+			bg=loadImage(event.delta.bg,function(){bgNow=1;})
 		}
 	}
-	if(bgNow===0){background(0);}else{image(bg);}
+}
+
+function windowResized(){
+	resizeCanvas(windowWidth,windowHeight);
+}
+
+mousePressed =function(){
+	fullscreen(!fullscreen());
+};
+
+function draw(){
+	if(fullscreen()){cursor("none");}else{cursor();}
+	background(0);
 	noStroke();
 	fill(255);
 	rect(10,height-210,200,200,2);
@@ -60,14 +63,12 @@ function draw(){
 	rect(10,height-185,400,150,2);
 	rect(width-410,height-185,400,150,2);
 	fill(0,0,50);
-	textAlign(CENTER,CENTER);
 	textSize(150);
 	text(score.left,110,height-110);
 	text(score.right,width-110,height-110);
 	textSize(40);
 	text(score.leftName,310,height-110);
 	text(score.rightName,width-310,height-110);
-	imageMode(CENTER);
 	if(displayTimeout>0){
 		displayTimeout-=1;
 		if(display){image(check,width/2,height/2);}else{image(cross,width/2,height/2);}

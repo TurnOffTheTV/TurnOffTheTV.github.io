@@ -15,7 +15,7 @@
 		<p>Checks and Crosses</p>
 		<input type="button" value="Display Check" onclick="channel.postMessage('check')"><input type="button" value="Display Cross" onclick="channel.postMessage('cross')">
 		<p>Upload background image</p>
-		<input type="file" id="bg-image" accept="image/jpeg,image/png">
+		<input type="file" id="bg-image" accept="image/jpeg,image/png" onclick="setBgImg();">
 	</body>
 	<script src="../../../js/score-controller.js"></script>
 </html>
